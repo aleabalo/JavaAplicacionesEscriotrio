@@ -12,16 +12,16 @@ import java.util.logging.Logger;
  * @author ale
  */
 public class Empresa {
-    private String Rut;
+    private int Rut;
     private String Nombre;
     private String Direccion;
     private String Telefono;
 
-    public String getRut() {
+    public int getRut() {
         return Rut;
     }
 
-    public void setRut(String Rut) {
+    public void setRut(int Rut) {
         this.Rut = Rut;
     }
 
@@ -50,7 +50,7 @@ public class Empresa {
     }
 
     
-    public Empresa(String Rut, String Nombre, String Direccion, String Telefono) {
+    public Empresa(int Rut, String Nombre, String Direccion, String Telefono) {
         this.Rut = Rut;
         this.Nombre = Nombre;
         this.Direccion = Direccion;
