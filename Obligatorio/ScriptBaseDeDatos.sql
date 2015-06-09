@@ -91,7 +91,8 @@ DROP PROCEDURE IF EXISTS buscarEmpresa;
 DELIMITER $$
 
 CREATE PROCEDURE buscarEmpresa(
-IN _Rut int )
+IN _Rut int,
+ )
 BEGIN
 select Nombre,Direccion,Telefono from empresa where Rut = _Rut;
 END $$
