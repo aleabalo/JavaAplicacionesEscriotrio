@@ -1,4 +1,4 @@
-buscarEmpresadrop database if exists Obli_RRHH;
+drop database if exists Obli_RRHH;
 create database if not exists Obli_RRHH;
 
 use Obli_RRHH;
@@ -91,8 +91,7 @@ DROP PROCEDURE IF EXISTS buscarEmpresa;
 DELIMITER $$
 
 CREATE PROCEDURE buscarEmpresa(
-IN _Rut int,
- )
+IN _Rut int)
 BEGIN
 select Nombre,Direccion,Telefono from empresa where Rut = _Rut;
 END $$

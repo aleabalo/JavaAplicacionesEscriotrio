@@ -5,7 +5,7 @@
  */
 package Persistencia;
 
-import EntidadesCompartidas.Empresa;
+import Logica.Empresa;
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.util.logging.Level;
@@ -17,9 +17,10 @@ import java.sql.*;
  * @author ale
  */
 public class persistenciaEmpresa {
-    
+
+    // este main es solo para probar que todo funcione bien, se borra despues
     public static void main(String[] args) {
-        
+
         Empresa em = new Empresa(12, "Juan", "pablo", "maria");
         try {
 //            persistenciaEmpresa.agregarEmpresa(em);
@@ -31,14 +32,12 @@ public class persistenciaEmpresa {
         } catch (Exception ex) {
             System.out.println("Error" + ex.getMessage());
         }
-        
-        
+
     }
-    
-    
-    public static void agregarEmpresa (Empresa e) throws Exception {
-    
-        try{
+
+    public static void agregarEmpresa(Empresa e) throws Exception {
+
+        try {
             Connection con = iniciarConexion.getConection();
             CallableStatement ps;
             ps = con.prepareCall("{call altaEmpresa (?,?,?,?)}");
@@ -49,34 +48,34 @@ public class persistenciaEmpresa {
             ps.execute();
         } catch (Exception ex) {
             throw ex;
-  
+
         }
-        
-        
+
     }
-    
-    public static Empresa buscarEmpresa (int rut) throws Exception {
-    
-        try{
+
+    public static Empresa buscarEmpresa(int rut) throws Exception {
+
+        try {
             Connection con = iniciarConexion.getConection();
             CallableStatement ps;
             ps = con.prepareCall("{call buscarEmpresa (?)}");
             ps.setInt(1, rut);
-            ps.registerOutParameter(2, java.sql.Types.VARCHAR);
-            ps.registerOutParameter(3, java.sql.Types.VARCHAR);
-            ps.registerOutParameter(4, java.sql.Types.VARCHAR);
-            ps.execute();
-            String nomre = ps.getString(2);
-            String direccion = ps.getString(3);
-            String telefono = ps.getString(4);
-            Empresa em = new Empresa(rut, nomre, direccion, telefono);
+            ResultSet rs;
+            rs = ps.executeQuery();
+            Empresa em = null;
+
+            if (rs.first()) {
+                String nomre = rs.getString(1);
+                String direccion = rs.getString(2);
+                String telefono = rs.getString(3);
+                em = new Empresa(rut, nomre, direccion, telefono);
+            }
+
             return em;
         } catch (Exception ex) {
             throw ex;
-  
+
         }
     }
-        
-    
-}  
 
+}
