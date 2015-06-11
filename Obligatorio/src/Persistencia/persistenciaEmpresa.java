@@ -11,6 +11,8 @@ import java.sql.Connection;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -18,29 +20,30 @@ import java.sql.*;
  */
 public class persistenciaEmpresa {
 
-    // este main es solo para probar que todo funcione bien, se borra despues
-    public static void main(String[] args) {
-
-        Empresa em = new Empresa(12, "Juan", "pablo", "maria");
-        try {
-//            persistenciaEmpresa.agregarEmpresa(em);
-            Empresa em2 = null;
-            em2 = persistenciaEmpresa.buscarEmpresa(12);
-            System.out.println("nombre de la empresa es " + em2.getNombre());
-            System.out.println("la direccion es  " + em2.getDireccion());
-            System.out.println("telefono de la empresa es " + em2.getTelefono());
-        } catch (Exception ex) {
-            System.out.println("Error" + ex.getMessage());
-        }
-
-    }
-
     public static void agregarEmpresa(Empresa e) throws Exception {
 
         try {
             Connection con = iniciarConexion.getConection();
             CallableStatement ps;
             ps = con.prepareCall("{call altaEmpresa (?,?,?,?)}");
+            ps.setInt(1, e.getRut());
+            ps.setString(2, e.getNombre());
+            ps.setString(3, e.getDireccion());
+            ps.setString(4, e.getTelefono());
+            ps.execute();
+        } catch (Exception ex) {
+            throw ex;
+
+        }
+
+    }
+
+    public static void modificarEmpresa(Empresa e) throws Exception {
+
+        try {
+            Connection con = iniciarConexion.getConection();
+            CallableStatement ps;
+            ps = con.prepareCall("{call modificarEmpresa (?,?,?,?)}");
             ps.setInt(1, e.getRut());
             ps.setString(2, e.getNombre());
             ps.setString(3, e.getDireccion());
@@ -72,6 +75,51 @@ public class persistenciaEmpresa {
             }
 
             return em;
+        } catch (Exception ex) {
+            throw ex;
+
+        }
+    }
+
+    public static void eliminarEmpresa(int rut) throws Exception {
+
+        try {
+            Connection con = iniciarConexion.getConection();
+            CallableStatement ps;
+            ps = con.prepareCall("{call borrarEmpresa (?)}");
+            ps.setInt(1, rut);
+            ps.execute();
+
+        } catch (Exception ex) {
+            throw ex;
+
+        }
+    }
+
+    public static ArrayList<Empresa> ListEmpresa() throws Exception {
+
+        try {
+            Connection con = iniciarConexion.getConection();
+            CallableStatement ps;
+            ps = con.prepareCall("{call listarEmpresa}");
+            ResultSet rs;
+            rs = ps.executeQuery();
+            ArrayList<Empresa> empersas = new ArrayList<>();
+
+            if (rs.first()) {
+                do {
+                    Empresa em = null;
+                    int rut = rs.getInt(1);
+                    String nomre = rs.getString(2);
+                    String direccion = rs.getString(3);
+                    String telefono = rs.getString(4);
+                    em = new Empresa(rut, nomre, direccion, telefono);
+                    empersas.add(em);
+
+                } while (rs.next());
+
+            }
+            return empersas;
         } catch (Exception ex) {
             throw ex;
 

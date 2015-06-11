@@ -98,3 +98,48 @@ END $$
 
 
 DELIMITER ;
+
+
+DROP PROCEDURE IF EXISTS borrarEmpresa;
+
+DELIMITER $$
+
+CREATE PROCEDURE borrarEmpresa(
+IN _Rut int)
+BEGIN
+delete empresa where Rut = _Rut;
+END $$
+
+
+DELIMITER ;
+
+
+
+DROP PROCEDURE IF EXISTS modificarEmpresa;
+
+DELIMITER $$
+
+CREATE PROCEDURE modificarEmpresa(
+IN _Rut int ,
+IN _Nombre char(40),
+IN _Direccion char(50),
+IN _Telefono char(12))
+BEGIN
+update empresa set Nombre = _Nombre,Direccion = _Direccion, Telefono = _Telefono where Rut = _Rut;
+END $$
+
+
+DELIMITER ;
+
+
+DROP PROCEDURE IF EXISTS listarEmpresa;
+
+DELIMITER $$
+
+CREATE PROCEDURE listarEmpresa()
+BEGIN
+select * from empresa;
+END $$
+
+
+DELIMITER ;
