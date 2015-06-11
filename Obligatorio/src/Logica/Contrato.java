@@ -20,6 +20,7 @@ public class Contrato {
     private double sueldo;
     private Date fechaInicio;
     private Date fechaCaducidad;
+    private Entrevista entrev;
 
     public int getNumero() {
         return numero;
@@ -52,6 +53,16 @@ public class Contrato {
     public void setFechaCaducidad(Date fechaCaducidad) {
         this.fechaCaducidad = fechaCaducidad;
     }
+
+    public Entrevista getEntrev() {
+        return entrev;
+    }
+
+    public void setEntrev(Entrevista entrev) {
+        this.entrev = entrev;
+    }
+    
+    
 
     /**
     * Devuelve la comision que se va a cobrar
@@ -95,11 +106,12 @@ public class Contrato {
         return sueldoFinal;
     }
     
-    public Contrato(int numero, double sueldo, Date fechaInicio, Date fechaCaducidad) {
+    public Contrato(int numero, double sueldo, Date fechaInicio, Date fechaCaducidad, Entrevista _entrevista) {
         this.numero = numero;
         this.sueldo = sueldo;
         this.fechaInicio = fechaInicio;
         this.fechaCaducidad = fechaCaducidad;
+        this.entrev = _entrevista;
     }
 
     public Contrato() {

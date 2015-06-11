@@ -24,8 +24,8 @@ public class ContratoTermino extends Contrato {
         return !fehainicio.before(fechafin);
     }
 
-    public ContratoTermino(int numero, double sueldo, Date fechaInicio, Date fechaCaducidad) {
-        super(numero, sueldo, fechaInicio, fechaCaducidad);
+    public ContratoTermino(int numero, double sueldo, Date fechaInicio, Date fechaCaducidad, Entrevista _entrevista) {
+        super(numero, sueldo, fechaInicio, fechaCaducidad, _entrevista);
     }
 
     public ContratoTermino() {

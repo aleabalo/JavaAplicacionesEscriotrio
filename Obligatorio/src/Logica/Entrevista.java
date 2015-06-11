@@ -12,8 +12,7 @@ import java.util.Date;
  * @author ale
  */
 public class Entrevista {
-     private Date fechaEntrevista;
-     private Contrato contrato;
+     private Date fechaEntrevista;     
      private Oferta oferta;
      private Aspirante aspirante;
 
@@ -23,14 +22,6 @@ public class Entrevista {
 
     public void setFechaEntrevista(Date fechaEntrevista) {
         this.fechaEntrevista = fechaEntrevista;
-    }
-
-    public Contrato getContrato() {
-        return contrato;
-    }
-
-    public void setContrato(Contrato contrato) {
-        this.contrato = contrato;
     }
 
     public Oferta getOferta() {
@@ -49,9 +40,8 @@ public class Entrevista {
         this.aspirante = aspirante;
     }
 
-    public Entrevista(Date fechaEntrevista, Contrato contrato, Oferta oferta, Aspirante aspirante) {
-        this.fechaEntrevista = fechaEntrevista;
-        this.contrato = contrato;
+    public Entrevista(Date fechaEntrevista, Oferta oferta, Aspirante aspirante) {
+        this.fechaEntrevista = fechaEntrevista;        
         this.oferta = oferta;
         this.aspirante = aspirante;
     }
