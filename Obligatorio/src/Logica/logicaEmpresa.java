@@ -22,7 +22,7 @@ public class logicaEmpresa {
     public logicaEmpresa() {
     }
 
-    public logicaEmpresa getInstance() {
+    public static logicaEmpresa getInstance() {
         if (lg == null) {
             lg = new logicaEmpresa();
         }
