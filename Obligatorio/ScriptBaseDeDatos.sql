@@ -408,6 +408,21 @@ END $$
 DELIMITER ;
 
 
+-- Buscar Oferta
+
+DROP PROCEDURE IF EXISTS buscarOferta;
+
+DELIMITER $$
+
+CREATE PROCEDURE buscarOferta(
+_Id int
+)
+BEGIN Select * from Oferta where IdOferta=_Id;
+END $$
+
+DELIMITER ;
+
+
 -- Desactivar Oferta
 DROP PROCEDURE IF EXISTS desactivarOferta;
 
