@@ -1,4 +1,4 @@
-drop database if exists Obli_RRHH;
+﻿drop database if exists Obli_RRHH;
 create database if not exists Obli_RRHH;
 
 use Obli_RRHH;
@@ -11,7 +11,7 @@ Telefono char(12) not null,
 Primary Key(Rut)
 );
 
-Create table Area( 
+Create table Area(
 IdArea smallint not null auto_increment, 
 DescArea char(100) not null,
 Primary Key(IdArea)
@@ -29,7 +29,7 @@ IdArea int not null references Area(IdArea),
 Primary Key(IdOferta)
 );
 
-Create table Aspirante( 
+Create table Aspirante(
 Cedula char(10) not null, 
 Nombre char(50) not null,
 Apellido char(50) not null,
@@ -184,6 +184,21 @@ Select * from Aspirante where Cedula = _Cedula;
 END $$
 
 DELIMITER ;
+
+
+-- listar Aspirante
+DROP PROCEDURE IF EXISTS listarAspirante;
+
+DELIMITER $$
+
+CREATE PROCEDURE listarAspirante()
+)
+BEGIN
+Select * from Aspirante;
+END $$
+
+DELIMITER ;
+
 
 -- Modificar Aspirante
 DROP PROCEDURE IF EXISTS modAspirante;
@@ -495,7 +510,6 @@ Insert into Contrato values(_IdEntrevista,_Sueldo,_Inicio,_Tipo,_Fin);
 END $$
 
 DELIMITER ;
-
 
 
 
