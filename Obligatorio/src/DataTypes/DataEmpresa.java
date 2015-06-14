@@ -12,48 +12,41 @@ package DataTypes;
  */
 public class DataEmpresa {
     
-    private int RutEmp;
-    private String NomEmp;
-    private String DirEmp;
-    private String TelEmp;
+    private int Rut;
+    private String Nombre;
+    private String Direccion;
+    private String Telefono;
 
-    public int getRutEmp() {
-        return RutEmp;
+    public int getRut() {
+        return Rut;
     }
 
-    public void setRutEmp(int RutEmp) {
-        this.RutEmp = RutEmp;
+    public void setRut(int Rut) {
+        this.Rut = Rut;
     }
 
-    public String getNomEmp() {
-        return NomEmp;
+    public String getNombre() {
+        return Nombre;
     }
 
-    public void setNomEmp(String NomEmp) {
-        this.NomEmp = NomEmp;
+    public void setNombre(String Nombre) {
+        this.Nombre = Nombre;
     }
 
-    public String getDirEmp() {
-        return DirEmp;
+    public String getDireccion() {
+        return Direccion;
     }
 
-    public void setDirEmp(String DirEmp) {
-        this.DirEmp = DirEmp;
+    public void setDireccion(String Direccion) {
+        this.Direccion = Direccion;
     }
 
-    public String getTelEmp() {
-        return TelEmp;
+    public String getTelefono() {
+        return Telefono;
     }
 
-    public void setTelEmp(String TelEmp) {
-        this.TelEmp = TelEmp;
-    }
-
-    public DataEmpresa(int RutEmp, String NomEmp, String DirEmp, String TelEmp) {
-        this.RutEmp = RutEmp;
-        this.NomEmp = NomEmp;
-        this.DirEmp = DirEmp;
-        this.TelEmp = TelEmp;
+    public void setTelefono(String Telefono) {
+        this.Telefono = Telefono;
     }
 
     public DataEmpresa() {

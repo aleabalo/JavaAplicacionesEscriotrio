@@ -14,49 +14,51 @@ import java.util.Date;
  */
 public class DataContrato {
     
-    private int NumCont;
-    private double SdoCont;
-    private Date IniCont;
-    private Date FinCont;
+    private int numero;
+    private double sueldo;
+    private Date fechaInicio;
+    private Date fechaCaducidad;
+    private DataEntrevista entrev;
 
-    public int getNumCont() {
-        return NumCont;
+    public int getNumero() {
+        return numero;
     }
 
-    public void setNumCont(int NumCont) {
-        this.NumCont = NumCont;
+    public void setNumero(int numero) {
+        this.numero = numero;
     }
 
-    public double getSdoCont() {
-        return SdoCont;
+    public double getSueldo() {
+        return sueldo;
     }
 
-    public void setSdoCont(double SdoCont) {
-        this.SdoCont = SdoCont;
+    public void setSueldo(double sueldo) {
+        this.sueldo = sueldo;
     }
 
-    public Date getIniCont() {
-        return IniCont;
+    public Date getFechaInicio() {
+        return fechaInicio;
     }
 
-    public void setIniCont(Date IniCont) {
-        this.IniCont = IniCont;
+    public void setFechaInicio(Date fechaInicio) {
+        this.fechaInicio = fechaInicio;
     }
 
-    public Date getFinCont() {
-        return FinCont;
+    public Date getFechaCaducidad() {
+        return fechaCaducidad;
     }
 
-    public void setFinCont(Date FinCont) {
-        this.FinCont = FinCont;
+    public void setFechaCaducidad(Date fechaCaducidad) {
+        this.fechaCaducidad = fechaCaducidad;
     }
 
-    public DataContrato(int NumCont, double SdoCont, Date IniCont, Date FinCont) {
-        this.NumCont = NumCont;
-        this.SdoCont = SdoCont;
-        this.IniCont = IniCont;
-        this.FinCont = FinCont;
+    public DataEntrevista getEntrev() {
+        return entrev;
     }
+
+    public void setEntrev(DataEntrevista entrev) {
+        this.entrev = entrev;
+    }   
 
     public DataContrato() {
     }

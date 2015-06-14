@@ -12,30 +12,27 @@ package DataTypes;
  */
 public class DataArea {
     
-    private int Id_Area;
-    private String Desc_Area;
+    private int Id;
+    private String Descripcion;
 
-    public int getId_Area() {
-        return Id_Area;
+    public int getId() {
+        return Id;
     }
 
-    public void setId_Area(int Id_Area) {
-        this.Id_Area = Id_Area;
+    public void setId(int Id) {
+        this.Id = Id;
     }
 
-    public String getDesc_Area() {
-        return Desc_Area;
+    public String getDescripcion() {
+        return Descripcion;
     }
 
-    public void setDesc_Area(String Desc_Area) {
-        this.Desc_Area = Desc_Area;
+    public void setDescripcion(String Descripcion) {
+        this.Descripcion = Descripcion;
     }
 
-    public DataArea(int Id_Area, String Desc_Area) {
-        this.Id_Area = Id_Area;
-        this.Desc_Area = Desc_Area;
-    }
-
+    
+    
     public DataArea() {
     }
     

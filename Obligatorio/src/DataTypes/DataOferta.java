@@ -6,6 +6,8 @@
 
 package DataTypes;
 
+import java.util.List;
+
 /**
  *
  * @author Estefanía
@@ -13,79 +15,78 @@ package DataTypes;
 public class DataOferta {
     
     
-    private int IdOferta;
-    private String CargoOf;
-    private int PuestosOf;
-    private String TituloOf;
-    private String ReqOf;
-    private DataEmpresa EmpOf;
-    private DataArea AreaOf;
+    private int id;
+    private String Cargo;
+    private int Puestos;
+    private String Titulo;
+    private String Requerimientos;
+    private DataEmpresa empresa;
+    private DataArea area;
+    private List<DataAspirante> aspirante;
 
-    public int getIdOferta() {
-        return IdOferta;
+    public int getId() {
+        return id;
     }
 
-    public void setIdOferta(int IdOferta) {
-        this.IdOferta = IdOferta;
+    public void setId(int id) {
+        this.id = id;
     }
 
-    public String getCargoOf() {
-        return CargoOf;
+    public String getCargo() {
+        return Cargo;
     }
 
-    public void setCargoOf(String CargoOf) {
-        this.CargoOf = CargoOf;
+    public void setCargo(String Cargo) {
+        this.Cargo = Cargo;
     }
 
-    public int getPuestosOf() {
-        return PuestosOf;
+    public int getPuestos() {
+        return Puestos;
     }
 
-    public void setPuestosOf(int PuestosOf) {
-        this.PuestosOf = PuestosOf;
+    public void setPuestos(int Puestos) {
+        this.Puestos = Puestos;
     }
 
-    public String getTituloOf() {
-        return TituloOf;
+    public String getTitulo() {
+        return Titulo;
     }
 
-    public void setTituloOf(String TituloOf) {
-        this.TituloOf = TituloOf;
+    public void setTitulo(String Titulo) {
+        this.Titulo = Titulo;
     }
 
-    public String getReqOf() {
-        return ReqOf;
+    public String getRequerimientos() {
+        return Requerimientos;
     }
 
-    public void setReqOf(String ReqOf) {
-        this.ReqOf = ReqOf;
+    public void setRequerimientos(String Requerimientos) {
+        this.Requerimientos = Requerimientos;
     }
 
-    public DataEmpresa getEmpOf() {
-        return EmpOf;
+    public DataEmpresa getEmpresa() {
+        return empresa;
     }
 
-    public void setEmpOf(DataEmpresa EmpOf) {
-        this.EmpOf = EmpOf;
+    public void setEmpresa(DataEmpresa empresa) {
+        this.empresa = empresa;
     }
 
-    public DataArea getAreaOf() {
-        return AreaOf;
+    public DataArea getArea() {
+        return area;
     }
 
-    public void setAreaOf(DataArea AreaOf) {
-        this.AreaOf = AreaOf;
+    public void setArea(DataArea area) {
+        this.area = area;
     }
 
-    public DataOferta(int IdOferta, String CargoOf, int PuestosOf, String TituloOf, String ReqOf, DataEmpresa EmpOf, DataArea AreaOf) {
-        this.IdOferta = IdOferta;
-        this.CargoOf = CargoOf;
-        this.PuestosOf = PuestosOf;
-        this.TituloOf = TituloOf;
-        this.ReqOf = ReqOf;
-        this.EmpOf = EmpOf;
-        this.AreaOf = AreaOf;
+    public List<DataAspirante> getAspirante() {
+        return aspirante;
     }
+
+    public void setAspirante(List<DataAspirante> aspirante) {
+        this.aspirante = aspirante;
+    }   
 
     public DataOferta() {
     }

@@ -5,6 +5,8 @@
  */
 package Logica;
 
+import java.util.ArrayList;
+
 /**
  *
  * @author ale
@@ -18,6 +20,7 @@ public class Oferta {
     private String Requerimientos;
     private Empresa empresa;
     private Area area;
+    private ArrayList<Aspirante> aspirante;
 
     public int getId() {
         return id;
@@ -75,7 +78,15 @@ public class Oferta {
         this.area = area;
     }
 
-    public Oferta(int id, String Cargo, int Puestos, String Titulo, String Requerimientos, Empresa empresa, Area area) {
+    public ArrayList<Aspirante> getAspirante() {
+        return aspirante;
+    }
+
+    public void setAspirante(ArrayList<Aspirante> aspirante) {
+        this.aspirante = aspirante;
+    }
+
+    public Oferta(int id, String Cargo, int Puestos, String Titulo, String Requerimientos, Empresa empresa, Area area, ArrayList<Aspirante> aspirante) {
         this.id = id;
         this.Cargo = Cargo;
         this.Puestos = Puestos;
@@ -83,7 +94,8 @@ public class Oferta {
         this.Requerimientos = Requerimientos;
         this.empresa = empresa;
         this.area = area;
-    }
+        this.aspirante = aspirante;
+    }   
 
     public Oferta() {
     }

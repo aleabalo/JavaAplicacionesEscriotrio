@@ -7,76 +7,66 @@
 package DataTypes;
 
 import java.util.List;
-
 /**
  *
  * @author Estefanía
  */
 public class DataAspirante {
     
-    private String CI;
-    private String NomAsp;
-    private String ApAsp;
-    private int EdadAsp;
-    private String CvAsp;
-    private List<DataArea> AreasInteres;
+    private String Cedula;
+    private String Nombre;
+    private String Apellido;
+    private int Edad;
+    private String ArchivoPdf;
+    private List<DataArea> areasDeInteres;
 
-    public String getCI() {
-        return CI;
+    public String getCedula() {
+        return Cedula;
     }
 
-    public void setCI(String CI) {
-        this.CI = CI;
+    public void setCedula(String Cedula) {
+        this.Cedula = Cedula;
     }
 
-    public String getNomAsp() {
-        return NomAsp;
+    public String getNombre() {
+        return Nombre;
     }
 
-    public void setNomAsp(String NomAsp) {
-        this.NomAsp = NomAsp;
+    public void setNombre(String Nombre) {
+        this.Nombre = Nombre;
     }
 
-    public String getApAsp() {
-        return ApAsp;
+    public String getApellido() {
+        return Apellido;
     }
 
-    public void setApAsp(String ApAsp) {
-        this.ApAsp = ApAsp;
+    public void setApellido(String Apellido) {
+        this.Apellido = Apellido;
     }
 
-    public int getEdadAsp() {
-        return EdadAsp;
+    public int getEdad() {
+        return Edad;
     }
 
-    public void setEdadAsp(int EdadAsp) {
-        this.EdadAsp = EdadAsp;
+    public void setEdad(int Edad) {
+        this.Edad = Edad;
     }
 
-    public String getCvAsp() {
-        return CvAsp;
+    public String getArchivoPdf() {
+        return ArchivoPdf;
     }
 
-    public void setCvAsp(String CvAsp) {
-        this.CvAsp = CvAsp;
+    public void setArchivoPdf(String ArchivoPdf) {
+        this.ArchivoPdf = ArchivoPdf;
     }
 
-    public List<DataArea> getAreasInteres() {
-        return AreasInteres;
+    public List<DataArea> getAreasDeInteres() {
+        return areasDeInteres;
     }
 
-    public void setAreasInteres(List<DataArea> AreasInteres) {
-        this.AreasInteres = AreasInteres;
-    }
-
-    public DataAspirante(String CI, String NomAsp, String ApAsp, int EdadAsp, String CvAsp, List<DataArea> AreasInteres) {
-        this.CI = CI;
-        this.NomAsp = NomAsp;
-        this.ApAsp = ApAsp;
-        this.EdadAsp = EdadAsp;
-        this.CvAsp = CvAsp;
-        this.AreasInteres = AreasInteres;
-    }
+    public void setAreasDeInteres(List<DataArea> areasDeInteres) {
+        this.areasDeInteres = areasDeInteres;
+    }   
 
     public DataAspirante() {
     }

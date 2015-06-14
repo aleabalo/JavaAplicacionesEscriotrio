@@ -14,10 +14,35 @@ import java.util.Date;
  */
 public class DataEntrevista {
     
-    /**Queda pendente definir como vamos a manejar si la entrevista fue aceptada o no por la empresa */
-    
-    private Date fechaEnt;    
-    private DataOferta ofEnt;
-    private DataAspirante aspEnt;    
+    private Date fechaEntrevista;     
+    private DataOferta oferta;
+    private DataAspirante aspirante;
+
+    public Date getFechaEntrevista() {
+        return fechaEntrevista;
+    }
+
+    public void setFechaEntrevista(Date fechaEntrevista) {
+        this.fechaEntrevista = fechaEntrevista;
+    }
+
+    public DataOferta getOferta() {
+        return oferta;
+    }
+
+    public void setOferta(DataOferta oferta) {
+        this.oferta = oferta;
+    }
+
+    public DataAspirante getAspirante() {
+        return aspirante;
+    }
+
+    public void setAspirante(DataAspirante aspirante) {
+        this.aspirante = aspirante;
+    }
+
+    public DataEntrevista() {
+    } 
     
 }
