@@ -25,7 +25,7 @@ Titulo char(100) not null,
 Requerimientos char(200) not null,
 Activo binary not null default 1,
 Empresa int not null references Empresa(Rut),
-Area int not null references Area(IdArea),
+IdArea int not null references Area(IdArea),
 Primary Key(IdOferta)
 );
 
@@ -64,6 +64,7 @@ Entrevista smallint not null references Entrevista(Id),
 Sueldo double not null,
 Inicio date not null,
 Tipo char(10) not null,
+Fin date,
 Primary key(Id)
 );
 
@@ -321,5 +322,167 @@ Select * from Area;
 END $$
 
 DELIMITER ;
+
+-- Alta de Oferta
+DROP PROCEDURE IF EXISTS altaOferta;
+
+DELIMITER $$
+
+CREATE PROCEDURE altaOferta(
+_Descrip char(200),
+_Puestos int,
+_Titulo char(100),
+_Req char(200),
+_Empresa int,
+_Area int)
+BEGIN
+Insert into Oferta values(_Descrip,_Puestos,_Titulo,_Req,true,_Empresa,_Area);
+END $$
+
+DELIMITER ;
+
+
+-- Lista de ofertas activas
+DROP PROCEDURE IF EXISTS listaOferta;
+
+DELIMITER $$
+
+CREATE PROCEDURE listaOferta()
+BEGIN
+Select * from Oferta where Activa=true;
+END $$
+
+DELIMITER ;
+
+
+-- Modificacion de Oferta
+DROP PROCEDURE IF EXISTS modOferta;
+
+DELIMITER $$
+
+CREATE PROCEDURE modOferta(
+_Id int,
+_Descrip char(200),
+_Puestos int,
+_Titulo char(100),
+_Req char(200),
+_Empresa int,
+_Area int,
+_Activo binary)
+BEGIN
+Update Oferta set DescCargo=_Descrip, Puestos=_Puestos, Titulo=_Titulo, Requerimientos=_Req, Activo=_Activo, Empresa=_Empresa, IdArea=_Area 
+where IdOferta=_Id;
+END $$
+
+DELIMITER ;
+
+
+-- Desactivar Oferta
+DROP PROCEDURE IF EXISTS desactivarOferta;
+
+DELIMITER $$
+
+CREATE PROCEDURE desactivarOferta(
+_Id int)
+BEGIN
+Update Oferta set Activo=0 
+where IdOferta=_Id;
+END $$
+
+DELIMITER ;
+
+
+-- Solicitar Entrevista
+DROP PROCEDURE IF EXISTS solicitarEntrevista;
+
+DELIMITER $$
+
+CREATE PROCEDURE solicitarEntrevista(
+_IdOferta int,
+_Aspirante char(10))
+BEGIN
+Insert into SolicitudEntrevista values(_IdOferta, _Aspirante);
+END $$
+
+DELIMITER ;
+
+-- Lista de Solicitudes de Entrevista para Oferta Dada
+DROP PROCEDURE IF EXISTS listarSolicitudesOferta;
+
+DELIMITER $$
+
+CREATE PROCEDURE listarSolicitudesOferta(
+_IdOferta int)
+BEGIN
+Select * from SolicitudEntrevista where Oferta=_IdOferta;
+END $$
+
+DELIMITER ;
+
+-- Dar de baja solicitud de entrevista para cuando la empresa decide no realizar la entrevista al candidato
+-- De esta forma se puede volver a postular si lo desea
+DROP PROCEDURE IF EXISTS bajaSolicitudEntrevista;
+
+DELIMITER $$
+
+CREATE PROCEDURE bajaSolicitudEntrevista(
+_IdOferta int,
+_Aspirante char(10))
+BEGIN
+Delete from SolicitudEntrevista where Oferta=_IdOferta and Aspirante=_Aspirante;
+END $$
+
+DELIMITER ;
+
+-- Listar Solicitudes de Entrevista para una empresa dada
+DROP PROCEDURE IF EXISTS listarSolicitudesEmpresa;
+
+DELIMITER $$
+
+CREATE PROCEDURE listarSolicitudesEmpresa(
+_Rut int)
+BEGIN
+Select * from SolicitudEntrevista where Oferta in (Select IdOferta from Oferta where Empresa=_Rut);
+END $$
+
+DELIMITER ;
+
+
+-- Agendar Entrevista
+DROP PROCEDURE IF EXISTS agendarEntrevista;
+
+DELIMITER $$
+
+CREATE PROCEDURE agendarEntrevista(
+_IdOferta int,
+_Aspirante char(10),
+_Fecha date)
+BEGIN
+Insert into Entrevista values(_IdOferta,_Aspirante,_Fecha);
+END $$
+
+DELIMITER ;
+
+-- Alta de contrato
+DROP PROCEDURE IF EXISTS altaContrato;
+
+DELIMITER $$
+
+CREATE PROCEDURE altaContrato(
+_IdEntrevista int,
+_Sueldo double,
+_Inicio date,
+_Tipo char(10),
+_Fin date)
+BEGIN
+Insert into Contrato values(_IdEntrevista,_Sueldo,_Inicio,_Tipo,_Fin);
+END $$
+
+DELIMITER ;
+
+
+
+
+
 
 
