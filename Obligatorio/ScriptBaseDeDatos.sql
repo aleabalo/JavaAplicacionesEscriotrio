@@ -40,7 +40,7 @@ Primary Key(Cedula)
 
 Create table AreaAspirante( 
 Cedula char(10) not null references Aspirante(Cedula), 
-Area smallint not null references Area(IdArea),
+IdArea smallint not null references Area(IdArea),
 Primary Key(Cedula, Area)
 );
 
@@ -79,7 +79,7 @@ IN _Nombre char(40),
 IN _Direccion char(50),
 IN Telefono char(12))
 BEGIN
-insert into empresa (Rut, Nombre,Direccion,Telefono) values (_Rut,_Nombre,_Direccion,Telefono);
+insert into Empresa (Rut, Nombre,Direccion,Telefono) values (_Rut,_Nombre,_Direccion,Telefono);
 END $$
 
 
@@ -143,3 +143,183 @@ END $$
 
 
 DELIMITER ;
+
+
+-- Procedimientos para el Aspirante
+-- Crear Aspirante nuevo
+
+DROP PROCEDURE IF EXISTS altaAspirante;
+
+DELIMITER $$
+
+CREATE PROCEDURE altaAspirante(
+_Cedula char(10), 
+_Nombre char(50),
+_Apellido char(50),
+_Edad smallint,
+_Cv char(150)
+)
+BEGIN
+-- consultar si no hay que verificar perviamente como en sql server que no exista ya  un regostro con esa clave????????
+-- if exists(select * from Aspirante where Cedula=_Cedula)
+	-- return -1;
+Insert into Aspirante(Cedula,Nombre,Apellido,Edad,Cv) values(_Cedula,_Nombre,_Apellido,_Edad,_Cv);
+	-- return 1;
+END $$
+
+DELIMITER ;
+
+-- Buscar Aspirante
+DROP PROCEDURE IF EXISTS buscarAspirante;
+
+DELIMITER $$
+
+CREATE PROCEDURE buscarAspirante(
+_Cedula char(10)
+)
+BEGIN
+Select * from Aspirante where Cedula = _Cedula;
+END $$
+
+DELIMITER ;
+
+-- Modificar Aspirante
+DROP PROCEDURE IF EXISTS modAspirante;
+
+DELIMITER $$
+
+CREATE PROCEDURE modAspirante(
+_Cedula char(10), 
+_Nombre char(50),
+_Apellido char(50),
+_Edad smallint,
+_Cv char(150)
+)
+BEGIN
+-- consultar si no hay que verificar perviamente como en sql server que no exista ya  un regostro con esa clave????????
+Update Aspirante set Nombre=_Nombre, Apellido=_Apellido, Edad=_Edad, Cv=_Cv where Cedula=_Cedula;
+END $$
+
+DELIMITER ;
+
+-- Eliminar Aspirante
+
+DROP PROCEDURE IF EXISTS eliminarAspirante;
+
+DELIMITER $$
+
+CREATE PROCEDURE eliminarAspirante(
+_Cedula char(10))
+BEGIN
+-- consultar si no hay que verificar perviamente como en sql server que no exista ya  un regostro con esa clave????????
+Delete from AreaAspirante where Cedula=_Cedula;
+Delete from Aspirante where Cedula=_Cedula;
+END $$
+
+DELIMITER ;
+
+
+-- Dar de alta las relaciones entre Asoirante y Area
+
+DROP PROCEDURE IF EXISTS AltaAreaAspirante;
+
+DELIMITER $$
+
+CREATE PROCEDURE AltaAreaAspirante(
+_Cedula char(10),
+_IdArea int)
+BEGIN
+-- consultar si no hay que verificar perviamente como en sql server que no exista ya  un regostro con esa clave????????
+Insert into AreaAspirante values(_Cedula,_IdArea);
+END $$
+
+DELIMITER ;
+
+-- Dar de baja relacion entre Area y Aspirante
+
+DROP PROCEDURE IF EXISTS bajaAreaAspirante;
+
+DELIMITER $$
+
+CREATE PROCEDURE bajaAreaAspirante(
+_Cedula char(10),
+_IdArea int)
+BEGIN
+-- consultar si no hay que verificar perviamente como en sql server que no exista ya  un regostro con esa clave????????
+Delete from AreaAspirante where Cedula=_Cedula and IdArea=_IdArea;
+END $$
+
+DELIMITER ;
+
+
+-- Buscar Areas para un Aspirante dado
+
+DROP PROCEDURE IF EXISTS buscarAreaAspirante;
+
+DELIMITER $$
+
+CREATE PROCEDURE buscarAreaAspirante(
+_Cedula char(10))
+BEGIN
+-- consultar si no hay que verificar perviamente como en sql server que no exista ya  un regostro con esa clave????????
+Select * from Area where IdArea in (Select IdArea from AreaAspirante where Cedula=_Cedula);
+END $$
+
+DELIMITER ;
+
+
+-- Procedimientos para el ABM de Area
+-- Alta de Area
+DROP PROCEDURE IF EXISTS altaArea;
+
+DELIMITER $$
+
+CREATE PROCEDURE altaArea(
+_Descripcion char(100))
+BEGIN
+Insert into Area values(_Descripcion);
+END $$
+
+DELIMITER ;
+
+-- Modificacion de Area
+DROP PROCEDURE IF EXISTS modArea;
+
+DELIMITER $$
+
+CREATE PROCEDURE modArea(
+_IdArea int,
+_Descripcion char(100))
+BEGIN
+Update Area set DescArea=_Descripcion where IdArea=_IdArea;
+END $$
+
+DELIMITER ;
+
+
+-- Eliminar Area
+DROP PROCEDURE IF EXISTS eliminarArea;
+
+DELIMITER $$
+
+CREATE PROCEDURE eliminarArea(
+_IdArea int)
+BEGIN
+Delete from Area where IdArea=_IdArea;
+END $$
+
+DELIMITER ;
+
+-- Listar Areas
+DROP PROCEDURE IF EXISTS listarArea;
+
+DELIMITER $$
+
+CREATE PROCEDURE listarArea()
+BEGIN
+Select * from Area;
+END $$
+
+DELIMITER ;
+
+
