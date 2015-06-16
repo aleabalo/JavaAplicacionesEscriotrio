@@ -106,9 +106,10 @@ DROP PROCEDURE IF EXISTS borrarEmpresa;
 DELIMITER $$
 
 CREATE PROCEDURE borrarEmpresa(
-IN _Rut int)
+IN _Rut int
+)
 BEGIN
-delete empresa where Rut = _Rut;
+delete from empresa where Rut = _Rut;
 END $$
 
 
@@ -126,7 +127,7 @@ IN _Nombre char(40),
 IN _Direccion char(50),
 IN _Telefono char(12))
 BEGIN
-update empresa set Nombre = _Nombre,Direccion = _Direccion, Telefono = _Telefono where Rut = _Rut;
+update empresa set Nombre = _Nombre, Direccion = _Direccion , Telefono = _Telefono where Rut = _Rut;
 END $$
 
 
