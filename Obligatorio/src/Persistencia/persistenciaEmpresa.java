@@ -5,6 +5,7 @@
  */
 package Persistencia;
 
+import DataTypes.DataEmpresa;
 import Logica.Empresa;
 import java.sql.CallableStatement;
 import java.sql.Connection;
@@ -20,7 +21,19 @@ import java.util.List;
  */
 public class persistenciaEmpresa {
 
-    public static void agregarEmpresa(Empresa e) throws Exception {
+    private  persistenciaEmpresa() {
+    }
+    
+    private static persistenciaEmpresa emp = null;
+
+    public static persistenciaEmpresa getInstance() {
+        if (emp == null)
+            emp = new persistenciaEmpresa();
+                
+        return emp;
+    }
+    
+    public void agregarEmpresa(DataEmpresa e) throws Exception {
 
         try {
             Connection con = iniciarConexion.getConection();
@@ -38,7 +51,7 @@ public class persistenciaEmpresa {
 
     }
 
-    public static void modificarEmpresa(Empresa e) throws Exception {
+    public  void modificarEmpresa(DataEmpresa e) throws Exception {
 
         try {
             Connection con = iniciarConexion.getConection();
@@ -56,7 +69,7 @@ public class persistenciaEmpresa {
 
     }
 
-    public static Empresa buscarEmpresa(int rut) throws Exception {
+    public  DataEmpresa buscarEmpresa(int rut) throws Exception {
 
         try {
             Connection con = iniciarConexion.getConection();
@@ -65,13 +78,17 @@ public class persistenciaEmpresa {
             ps.setInt(1, rut);
             ResultSet rs;
             rs = ps.executeQuery();
-            Empresa em = null;
+            DataEmpresa em  = null;
 
             if (rs.first()) {
+                em = new DataEmpresa();
                 String nomre = rs.getString(1);
                 String direccion = rs.getString(2);
                 String telefono = rs.getString(3);
-                em = new Empresa(rut, nomre, direccion, telefono);
+                em.setDireccion(direccion);
+                em.setNombre(nomre);
+                em.setRut(rut);
+                em.setTelefono(telefono);
             }
 
             return em;
@@ -81,7 +98,7 @@ public class persistenciaEmpresa {
         }
     }
 
-    public static void eliminarEmpresa(int rut) throws Exception {
+    public void eliminarEmpresa(int rut) throws Exception {
 
         try {
             Connection con = iniciarConexion.getConection();
@@ -96,7 +113,7 @@ public class persistenciaEmpresa {
         }
     }
 
-    public static ArrayList<Empresa> ListEmpresa() throws Exception {
+    public ArrayList<DataEmpresa> ListEmpresa() throws Exception {
 
         try {
             Connection con = iniciarConexion.getConection();
@@ -104,16 +121,19 @@ public class persistenciaEmpresa {
             ps = con.prepareCall("{call listarEmpresa}");
             ResultSet rs;
             rs = ps.executeQuery();
-            ArrayList<Empresa> empersas = new ArrayList<>();
+            ArrayList<DataEmpresa> empersas = new ArrayList<>();
 
             if (rs.first()) {
                 do {
-                    Empresa em = null;
+                    DataEmpresa em = new DataEmpresa();
                     int rut = rs.getInt(1);
                     String nomre = rs.getString(2);
                     String direccion = rs.getString(3);
                     String telefono = rs.getString(4);
-                    em = new Empresa(rut, nomre, direccion, telefono);
+                    em.setDireccion(direccion);
+                    em.setNombre(nomre);
+                    em.setRut(rut);
+                    em.setTelefono(telefono);
                     empersas.add(em);
 
                 } while (rs.next());
