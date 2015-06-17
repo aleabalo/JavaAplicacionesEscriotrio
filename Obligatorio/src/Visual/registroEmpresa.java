@@ -20,6 +20,7 @@ public class registroEmpresa extends javax.swing.JFrame {
     public registroEmpresa() {
         initComponents();
         iniciarMensajesDeError();
+        iniciarBotonoes();
 
     }
 
@@ -44,9 +45,6 @@ public class registroEmpresa extends javax.swing.JFrame {
         txtTelefono = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
         lblErrorRUt = new javax.swing.JLabel();
-        lblErrorNOmbre = new javax.swing.JLabel();
-        lblErrorDireccion = new javax.swing.JLabel();
-        lblErrorTelefono = new javax.swing.JLabel();
         lblError = new javax.swing.JLabel();
         btnBuscar = new javax.swing.JButton();
         btnModificar = new javax.swing.JButton();
@@ -77,12 +75,6 @@ public class registroEmpresa extends javax.swing.JFrame {
         lblErrorRUt.setForeground(new java.awt.Color(153, 0, 0));
         lblErrorRUt.setText("sadsd");
 
-        lblErrorNOmbre.setText("jLabel8");
-
-        lblErrorDireccion.setText("jLabel9");
-
-        lblErrorTelefono.setText("jLabel10");
-
         lblError.setText("jLabel11");
 
         btnBuscar.setText("Buscar");
@@ -93,8 +85,18 @@ public class registroEmpresa extends javax.swing.JFrame {
         });
 
         btnModificar.setText("Modificar");
+        btnModificar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnModificarActionPerformed(evt);
+            }
+        });
 
         btnElminar.setText("Eliminar");
+        btnElminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnElminarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -109,12 +111,7 @@ public class registroEmpresa extends javax.swing.JFrame {
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabel5)
                                 .addGap(12, 12, 12)
-                                .addGap(javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(lblErrorDireccion)
-                                        .addGap(0, 0, Short.MAX_VALUE))
-                                    .addComponent(txtDireccion)))
+                                .addComponent(txtDireccion))
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel3)
@@ -126,10 +123,7 @@ public class registroEmpresa extends javax.swing.JFrame {
                                     .addComponent(txtNombre, javax.swing.GroupLayout.Alignment.TRAILING)
                                     .addComponent(txtRut)
                                     .addGroup(layout.createSequentialGroup()
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(lblErrorTelefono)
-                                            .addComponent(lblErrorNOmbre)
-                                            .addComponent(lblErrorRUt))
+                                        .addComponent(lblErrorRUt)
                                         .addGap(0, 0, Short.MAX_VALUE))))))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -164,21 +158,15 @@ public class registroEmpresa extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
                     .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(4, 4, 4)
-                .addComponent(lblErrorNOmbre)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(24, 24, 24)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5)
                     .addComponent(txtDireccion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(4, 4, 4)
-                .addComponent(lblErrorDireccion)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(29, 29, 29)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel6)
                     .addComponent(txtTelefono, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(lblErrorTelefono)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(26, 26, 26)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblError)
                     .addComponent(jButton1))
@@ -194,75 +182,136 @@ public class registroEmpresa extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
 
         try {
-            int rut = -1;
-            String nombre, direccion, telefono;
-            try {
-                rut = Integer.parseInt(txtRut.getText());
-            } catch (Exception e) {
-                lblErrorRUt.setVisible(true);
-                lblErrorRUt.setText("El rut debe ser numerico");
-                throw new Exception("Error");
-
-            }
-            try {
-                nombre = txtNombre.getText();
-            } catch (Exception e) {
-                lblErrorNOmbre.setVisible(true);
-                lblErrorNOmbre.setText("Error en el nombre");
-                throw new Exception("Error");
-            }
-
-            try {
-                direccion = txtDireccion.getText();
-            } catch (Exception e) {
-                lblErrorDireccion.setVisible(true);
-                lblErrorDireccion.setText("Error en la direccion");
-                throw new Exception("Error");
-            }
-
-            try {
-                telefono = txtTelefono.getText();
-            } catch (Exception e) {
-                lblErrorTelefono.setText("Error en el telefono");
-                throw new Exception("Error");
-            }
-
+            iniciarMensajesDeError();
+            validarDatos();
             DataEmpresa e = new DataEmpresa();
-            e.setDireccion(direccion);
-            e.setNombre(nombre);
-            e.setRut(rut);
-            e.setTelefono(telefono);
+            e.setDireccion(txtDireccion.getText());
+            e.setNombre(txtNombre.getText());
+            e.setRut(Integer.parseInt(txtRut.getText()));
+            e.setTelefono(txtTelefono.getText());
             logicaEmpresa.getInstance().agregarEmpresa(e);
             iniciarMensajesDeError();
             lblError.setText("Empresa creada");
             lblError.setVisible(true);
+            iniciarTextos();
 
         } catch (Exception ex) {
             lblError.setText(ex.getMessage());
             lblError.setVisible(true);
         }
-
-       
-        
-
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
-        // TODO add your handling code here:
+        try {
+            iniciarMensajesDeError();
+            validarDatos();
+            DataEmpresa e = logicaEmpresa.getInstance().buscarEmpresa(Integer.parseInt(txtRut.getText()));
+            txtRut.setText(String.valueOf(e.getRut()));
+            txtRut.setEditable(false);
+            txtNombre.setText(e.getNombre());
+            txtDireccion.setText(e.getDireccion());
+            txtTelefono.setText(e.getTelefono());
+            iniciarBotonoesModificarEliminar();
+        } catch (Exception e) {
+            lblError.setVisible(true);
+            lblError.setText(e.getMessage());
+        }
     }//GEN-LAST:event_btnBuscarActionPerformed
+
+    private void btnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarActionPerformed
+        try {
+            iniciarMensajesDeError();
+            validarDatos();
+            DataEmpresa e = new DataEmpresa();
+            e.setDireccion(txtDireccion.getText());
+            e.setNombre(txtNombre.getText());
+            e.setRut(Integer.parseInt(txtRut.getText()));
+            e.setTelefono(txtTelefono.getText());
+            logicaEmpresa.getInstance().modificarEmpresa(e);
+            iniciarMensajesDeError();
+            lblError.setText("Empresa modificada con exito");
+            lblError.setVisible(true);
+            iniciarTextos();
+            iniciarBotonoes();
+
+        } catch (Exception ex) {
+            lblError.setText(ex.getMessage());
+            lblError.setVisible(true);
+        }
+    }//GEN-LAST:event_btnModificarActionPerformed
+
+    private void btnElminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnElminarActionPerformed
+        try {
+            logicaEmpresa.getInstance().eliminarEmpresa(Integer.parseInt(txtRut.getText()));
+            lblError.setText("Empresa Eliminada");
+            lblError.setVisible(true);
+            iniciarTextos();
+            iniciarBotonoes();
+        } catch (Exception e) {
+            lblError.setText(e.getMessage());
+            lblError.setVisible(true);
+        }
+    }//GEN-LAST:event_btnElminarActionPerformed
 
     private void iniciarMensajesDeError() {
         lblError.setVisible(false);
-        lblErrorDireccion.setVisible(false);
-        lblErrorNOmbre.setVisible(false);
         lblErrorRUt.setVisible(false);
-        lblErrorTelefono.setVisible(false);
-
         lblError.setText("");
-        lblErrorDireccion.setText("");
-        lblErrorNOmbre.setText("");
         lblErrorRUt.setText("");
-        lblErrorTelefono.setText("");
+    }
+
+    private void iniciarTextos() {
+
+        txtDireccion.setText("");
+        txtRut.setText("");
+        txtNombre.setText("");
+        txtTelefono.setText("");
+        txtRut.setEditable(true);
+    }
+
+    private void validarDatos() throws Exception {
+        int rut = -1;
+        String nombre, direccion, telefono;
+        try {
+            rut = Integer.parseInt(txtRut.getText());
+        } catch (Exception e) {
+            lblErrorRUt.setVisible(true);
+            lblErrorRUt.setText("El rut debe ser numerico");
+
+        }
+        try {
+            nombre = txtNombre.getText();
+        } catch (Exception e) {
+            lblError.setText("error en el nombre");
+            lblError.setVisible(true);
+        }
+
+        try {
+            direccion = txtDireccion.getText();
+        } catch (Exception e) {
+            lblError.setText("error en la direccion");
+            lblError.setVisible(true);
+        }
+
+        try {
+            telefono = txtTelefono.getText();
+        } catch (Exception e) {
+            lblError.setText("error en el telefono");
+            lblError.setVisible(true);
+        }
+
+    }
+
+    private void iniciarBotonoes() {
+        btnElminar.setVisible(false);
+        btnModificar.setVisible(false);
+        jButton1.setVisible(true);
+    }
+
+    private void iniciarBotonoesModificarEliminar() {
+        btnElminar.setVisible(true);
+        btnModificar.setVisible(true);
+        jButton1.setVisible(false);
     }
 
     /**
@@ -312,10 +361,7 @@ public class registroEmpresa extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel lblError;
-    private javax.swing.JLabel lblErrorDireccion;
-    private javax.swing.JLabel lblErrorNOmbre;
     private javax.swing.JLabel lblErrorRUt;
-    private javax.swing.JLabel lblErrorTelefono;
     private javax.swing.JTextField txtDireccion;
     private javax.swing.JTextField txtNombre;
     private javax.swing.JTextField txtRut;

@@ -82,8 +82,10 @@ public class logicaEmpresa {
 
     public DataEmpresa buscarEmpresa(int rut) throws Exception {
         try {
-            validateModificarElminar(rut);
-            return persistenciaEmpresa.getInstance().buscarEmpresa(rut);
+            DataEmpresa e = persistenciaEmpresa.getInstance().buscarEmpresa(rut);
+            if (e == null)
+                throw new EmpresaNoExisteException();
+            return e;
         } catch (Exception ex) {
             throw ex;
         }
