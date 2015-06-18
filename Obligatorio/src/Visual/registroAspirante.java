@@ -14,6 +14,7 @@ import java.io.DataInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.List;
@@ -310,7 +311,8 @@ public class registroAspirante extends javax.swing.JFrame {
                         fis.close();
                         bis.close();
                         dis.close();
-
+                        FileOutputStream ou = new FileOutputStream("c:\\ "+ guarda.getName());
+                        ou.write(cont2);
                     } catch (FileNotFoundException e) {
                         throw e;
                     } catch (IOException ex) {
