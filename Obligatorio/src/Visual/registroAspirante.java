@@ -9,8 +9,13 @@ import DataTypes.DataArea;
 import DataTypes.DataAspirante;
 import Logica.logicaArea;
 import Logica.logicaAspirante;
+import java.io.BufferedInputStream;
+import java.io.DataInputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileWriter;
+import java.io.IOException;
 import java.util.List;
 import javax.swing.DefaultListModel;
 import javax.swing.JFileChooser;
@@ -48,6 +53,7 @@ public class registroAspirante extends javax.swing.JFrame {
     }
 
     private void cargarEdad() {
+        jcbEdad.removeAllItems();
         for (int i = 0; i < 99; i++) {
             jcbEdad.addItem(i);
         }
@@ -128,6 +134,11 @@ public class registroAspirante extends javax.swing.JFrame {
 
         btnSubeArchivo.setText("Subir Archivo");
         btnSubeArchivo.setToolTipText("");
+        btnSubeArchivo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSubeArchivoActionPerformed(evt);
+            }
+        });
 
         listAreas.setModel(new javax.swing.AbstractListModel() {
             String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
@@ -276,8 +287,32 @@ public class registroAspirante extends javax.swing.JFrame {
             }
 
             if (guarda != null) {
-                FileWriter guardador = new FileWriter(guarda);
-                guardador.flush();
+                
+                File file = guarda;
+                    FileInputStream fis = null;
+                    BufferedInputStream bis = null;
+                    DataInputStream dis = null;
+                    byte cont2[] = new byte[(int)file.length()];
+                    int bites=0;
+                    try {
+                        fis = new FileInputStream(file);
+
+                        // Here BufferedInputStream is added for fast reading.
+                        bis = new BufferedInputStream(fis);
+                        dis = new DataInputStream(bis);
+                        
+                        bites = dis.read(cont2);
+                        // dispose all the resources after using them.
+                        fis.close();
+                        bis.close();
+                        dis.close();
+
+                    } catch (FileNotFoundException e) {
+                        throw e;
+                    } catch (IOException ex) {
+                        throw ex;
+                    }
+
 
 
             }
@@ -285,6 +320,10 @@ public class registroAspirante extends javax.swing.JFrame {
         } catch (Exception e) {
         }
     }//GEN-LAST:event_btnAgregarActionPerformed
+
+    private void btnSubeArchivoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSubeArchivoActionPerformed
+        guardarArchivo();
+    }//GEN-LAST:event_btnSubeArchivoActionPerformed
 
     /**
      * @param args the command line arguments

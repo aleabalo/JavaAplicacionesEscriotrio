@@ -10,8 +10,6 @@ import DataTypes.DataAspirante;
 import Expecioneas.AspiranteExisteExcepcion;
 import Expecioneas.AspiranteNoExisteExcepcion;
 import Persistencia.persistenciaAspirante;
-import com.sun.org.apache.xalan.internal.xsltc.compiler.util.Type;
-import com.sun.xml.internal.ws.util.StringUtils;
 import java.util.ArrayList;
 
 /**

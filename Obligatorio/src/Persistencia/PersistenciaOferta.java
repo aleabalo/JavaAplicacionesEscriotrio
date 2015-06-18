@@ -10,6 +10,8 @@ import com.mysql.jdbc.CallableStatement;
 import com.mysql.jdbc.Connection;
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -30,7 +32,7 @@ public class PersistenciaOferta {
     }
 
     //Alta de Oferta
-    public void altaOferta(DataOferta o) throws Exception {
+    public static void altaOferta(DataOferta o) throws Exception {
         try {
             Connection con = (Connection) iniciarConexion.getConection();
             CallableStatement ps;

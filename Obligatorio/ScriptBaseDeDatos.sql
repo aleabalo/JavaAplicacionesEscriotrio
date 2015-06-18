@@ -1,4 +1,4 @@
-drop database if exists Obli_RRHH;
+﻿drop database if exists Obli_RRHH;
 create database if not exists Obli_RRHH;
 
 use Obli_RRHH;
@@ -534,7 +534,7 @@ CREATE PROCEDURE entrevistasCandidato(
 _Cedula char(10)
 )
 BEGIN
-Select * form Entrevista where Aspirante = _Cedula;
+Select * from Entrevista where Aspirante = _Cedula;
 END $$
 
 DELIMITER ;
@@ -553,7 +553,6 @@ select * from Entrevista where Oferta = _IdOferta and Aspirante = _Cedula;
 END $$
 
 DELIMITER ;
-
 
 
 
