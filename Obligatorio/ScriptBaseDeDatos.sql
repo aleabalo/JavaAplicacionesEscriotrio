@@ -41,7 +41,7 @@ Primary Key(Cedula)
 Create table AreaAspirante( 
 Cedula char(10) not null references Aspirante(Cedula), 
 IdArea smallint not null references Area(IdArea),
-Primary Key(Cedula, Area)
+Primary Key(Cedula, IdArea)
 );
 
 Create table SolicitudEntrevista( 
@@ -279,7 +279,7 @@ DELIMITER $$
 CREATE PROCEDURE altaArea(
 _Descripcion char(100))
 BEGIN
-Insert into Area values(_Descripcion);
+Insert into Area (DescArea) values(_Descripcion);
 END $$
 
 DELIMITER ;
@@ -297,6 +297,21 @@ Update Area set DescArea=_Descripcion where IdArea=_IdArea;
 END $$
 
 DELIMITER ;
+
+
+-- buscar de Area
+DROP PROCEDURE IF EXISTS buscarArea;
+
+DELIMITER $$
+
+CREATE PROCEDURE buscarArea(
+_IdArea int)
+BEGIN
+select * from area where area.IdArea = _Idarea;
+END $$
+
+DELIMITER ;
+
 
 
 -- Eliminar Area

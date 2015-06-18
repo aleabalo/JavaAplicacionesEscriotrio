@@ -5,6 +5,9 @@
  */
 package Visual;
 
+import DataTypes.DataArea;
+import Logica.logicaArea;
+
 /**
  *
  * @author sistemas
@@ -62,8 +65,18 @@ public class registroArea extends javax.swing.JFrame {
         });
 
         btnModificar.setText("Modificar");
+        btnModificar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnModificarActionPerformed(evt);
+            }
+        });
 
         btnElimar.setText("Eliminar");
+        btnElimar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnElimarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -71,6 +84,9 @@ public class registroArea extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(23, 23, 23)
+                        .addComponent(lblError, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
@@ -79,7 +95,6 @@ public class registroArea extends javax.swing.JFrame {
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(23, 23, 23)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(lblError, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(btnElimar)
                                     .addComponent(jLabel2))))
                         .addGap(18, 18, 18)
@@ -89,16 +104,17 @@ public class registroArea extends javax.swing.JFrame {
                                 .addGap(18, 18, 18)
                                 .addComponent(btnBuscar)
                                 .addGap(0, 0, Short.MAX_VALUE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(34, 34, 34)
-                                .addComponent(btnModificar)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 64, Short.MAX_VALUE)
-                                .addComponent(btnGuardar))
                             .addComponent(txtDescripcion)))
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                         .addGap(55, 55, 55)
-                        .addComponent(jLabel1)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(jLabel1)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                        .addGap(144, 144, 144)
+                        .addComponent(btnModificar)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 52, Short.MAX_VALUE)
+                        .addComponent(btnGuardar)))
+                .addGap(22, 22, 22))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -120,34 +136,118 @@ public class registroArea extends javax.swing.JFrame {
                     .addComponent(btnModificar)
                     .addComponent(btnElimar))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(lblError, javax.swing.GroupLayout.DEFAULT_SIZE, 14, Short.MAX_VALUE)
-                .addContainerGap())
+                .addComponent(lblError, javax.swing.GroupLayout.DEFAULT_SIZE, 21, Short.MAX_VALUE)
+                .addGap(4, 4, 4))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
-        // TODO add your handling code here:
+        try {
+            lblError.setText("");
+            String descripcion = txtDescripcion.getText();
+            if (descripcion.isEmpty()) {
+                throw new Exception("Debe completar la descipcion");
+            }
+
+            DataArea area = new DataArea();
+            area.setDescripcion(descripcion);
+            logicaArea.getInstance().altaArea(area);
+            lblError.setVisible(true);
+            lblError.setText("Area creada");
+            limpiarCampos();
+            inicarBotones();
+        } catch (Exception e) {
+            lblError.setVisible(true);
+            lblError.setText(e.getMessage());
+            inicarBotones();
+        }
     }//GEN-LAST:event_btnGuardarActionPerformed
 
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
         try {
-            
+            lblError.setText("");
+            validarId();
+            int a = Integer.parseInt(txtBuscar.getText());
+            DataArea area = logicaArea.getInstance().buscarArea(a);
+            txtDescripcion.setText(area.getDescripcion());
+            inicarBotonesModificar();
+
         } catch (Exception e) {
+            lblError.setVisible(true);
+            lblError.setText(e.getMessage());
+            inicarBotones();
+            limpiarCampos();
         }
     }//GEN-LAST:event_btnBuscarActionPerformed
 
+    private void btnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarActionPerformed
+        try {
+
+            lblError.setText("");
+            String descripcion = txtDescripcion.getText();
+            if (descripcion.isEmpty()) {
+                throw new Exception("Debe completar la descipcion");
+            }
+
+            DataArea area = new DataArea();
+            area.setDescripcion(descripcion);
+            logicaArea.getInstance().altaArea(area);
+            lblError.setVisible(true);
+            lblError.setText("Area modificada");
+            inicarBotones();
+            limpiarCampos();
+
+        } catch (Exception e) {
+            lblError.setVisible(true);
+            lblError.setText(e.getMessage());
+            inicarBotones();
+            limpiarCampos();
+        }
+    }//GEN-LAST:event_btnModificarActionPerformed
+
+    private void btnElimarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnElimarActionPerformed
+        try {
+            validarId();
+            logicaArea.getInstance().eliminarArea(Integer.parseInt(txtBuscar.getText()));
+            lblError.setText("Area elimnada");
+            inicarBotones();
+            limpiarCampos();
+        } catch (Exception e) {
+            lblError.setText(e.getMessage());
+            inicarBotones();
+            limpiarCampos();
+        }
+
+    }//GEN-LAST:event_btnElimarActionPerformed
+
     private void inicarBotones() {
+        txtBuscar.setEditable(true);
         btnElimar.setVisible(false);
         btnModificar.setVisible(false);
         btnGuardar.setVisible(true);
     }
 
     private void inicarBotonesModificar() {
-        btnElimar.setVisible(false);
-        btnModificar.setVisible(false);
-        btnGuardar.setVisible(true);
+        txtBuscar.setEditable(false);
+        btnElimar.setVisible(true);
+        btnModificar.setVisible(true);
+        btnGuardar.setVisible(false);
+    }
+
+    private void limpiarCampos() {
+        txtBuscar.setText("");
+        txtDescripcion.setText("");
+    }
+
+    private void validarId() {
+        try {
+            int a = Integer.parseInt(txtBuscar.getText());
+        } catch (Exception e) {
+            lblError.setVisible(true);
+            lblError.setText("El id debe ser numerico");
+        }
     }
 
     /**

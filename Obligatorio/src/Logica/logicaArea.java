@@ -20,7 +20,7 @@ public class logicaArea {
     private static logicaArea lg = null;
     public logicaArea() {
     }
-    public logicaArea getInstance() {
+    public static logicaArea getInstance() {
         if (lg == null) {
             lg = new logicaArea();
         }
@@ -95,9 +95,9 @@ public class logicaArea {
     }
     
     //Eliminar Area
-    public void eliminarArea(DataArea a) throws Exception{
+    public void eliminarArea(int a) throws Exception{
         try{
-            validaModificarElminar(a.getId());
+            validaModificarElminar(a);
             persistenciaArea.getInstance().eliminarArea(a);
         } catch (Exception ex) {
             throw ex;

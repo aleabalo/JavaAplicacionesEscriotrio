@@ -59,13 +59,13 @@ public class persistenciaArea {
     }
     
     //Eliminar Area
-    public  void eliminarArea(DataArea a) throws Exception {
+    public  void eliminarArea(int a) throws Exception {
 
         try {
             Connection con = (Connection) iniciarConexion.getConection();
             CallableStatement ps;
             ps = (CallableStatement) con.prepareCall("{call eliminarArea (?)}");
-            ps.setInt(1, a.getId());            
+            ps.setInt(1, a);            
             ps.execute();
         } catch (Exception ex) {
             throw ex;
