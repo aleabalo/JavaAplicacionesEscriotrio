@@ -20,7 +20,6 @@ public class persistenciaAspirante {
 
     private persistenciaAspirante() {
     }
-
     private static persistenciaAspirante aspirante = null;
 
     public static persistenciaAspirante getInstance() {
@@ -33,10 +32,10 @@ public class persistenciaAspirante {
 
     //Alta de Aspirante
     public void altaAspirante(DataAspirante a) throws Exception {
-
+        Connection con = null;
+        CallableStatement ps = null;
         try {
-            Connection con = (Connection) iniciarConexion.getConection();
-            CallableStatement ps;
+            con = (Connection) iniciarConexion.getConection();
             con.setAutoCommit(false);
 //            Cedula,Nombre,Apellido,Edad,Cv
             ps = (CallableStatement) con.prepareCall("{call altaAspirante (?,?,?,?,?)}");
@@ -52,15 +51,18 @@ public class persistenciaAspirante {
             con.commit();
 
         } catch (Exception ex) {
-
             throw ex;
+        } finally {
+            ps.close();
+            con.close();
         }
     }
 
     public DataAspirante buscarAspirante(String cedula) throws Exception {
+        Connection con = null;
+        CallableStatement ps = null;
         try {
-            Connection con = (Connection) iniciarConexion.getConection();
-            CallableStatement ps;
+            con = (Connection) iniciarConexion.getConection();
             ps = (CallableStatement) con.prepareCall("{call buscarAspirante (?)}");
             ps.setString(1, cedula);
             ResultSet rs;
@@ -82,31 +84,37 @@ public class persistenciaAspirante {
             if (a != null) {
                 a.setAreasDeInteres(persistenciaArea.getInstance().ListarAreasAspirante(a));
             }
-
+            rs.close();
             return a;
         } catch (Exception ex) {
             throw ex;
+        } finally {
+            ps.close();
+            con.close();
         }
     }
 
     public void eliminarAspirante(String cedula) throws Exception {
-
+        Connection con = null;
+        CallableStatement ps = null;
         try {
-            Connection con = (Connection) iniciarConexion.getConection();
-            CallableStatement ps;
+            con = (Connection) iniciarConexion.getConection();
             ps = (CallableStatement) con.prepareCall("{call eliminarAspirante (?)}");
             ps.setString(1, cedula);
             ps.execute();
         } catch (Exception ex) {
             throw ex;
+        } finally {
+            ps.close();
+            con.close();
         }
     }
 
     public void modAspirante(DataAspirante a) throws Exception {
-
+        Connection con = null;
+        CallableStatement ps = null;
         try {
-            Connection con = (Connection) iniciarConexion.getConection();
-            CallableStatement ps;
+            con = (Connection) iniciarConexion.getConection();
             ps = (CallableStatement) con.prepareCall("{call modAspirante (?,?,?,?,?)}");
             ps.setString(1, a.getCedula());
             ps.setString(2, a.getNombre());
@@ -116,13 +124,17 @@ public class persistenciaAspirante {
             ps.execute();
         } catch (Exception ex) {
             throw ex;
+        } finally {
+            ps.close();
+            con.close();
         }
     }
 
     public ArrayList<DataAspirante> ListarAspirantes() throws Exception {
+        Connection con = null;
+        CallableStatement ps = null;
         try {
-            Connection con = (Connection) iniciarConexion.getConection();
-            CallableStatement ps;
+            con = (Connection) iniciarConexion.getConection();
             ps = (CallableStatement) con.prepareCall("{call listarAspirante}");
             ResultSet rs;
             rs = ps.executeQuery();
@@ -140,10 +152,13 @@ public class persistenciaAspirante {
                     aspirantes.add(a);
                 } while (rs.next());
             }
+            rs.close();
             return aspirantes;
         } catch (Exception ex) {
             throw ex;
+        } finally {
+            ps.close();
+            con.close();
         }
     }
-
 }

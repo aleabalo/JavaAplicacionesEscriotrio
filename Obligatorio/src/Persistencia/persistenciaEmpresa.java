@@ -34,10 +34,11 @@ public class persistenciaEmpresa {
     }
     
     public void agregarEmpresa(DataEmpresa e) throws Exception {
-
+        
+        Connection con = null;
+        CallableStatement ps = null;
         try {
-            Connection con = iniciarConexion.getConection();
-            CallableStatement ps;
+            con = (Connection) iniciarConexion.getConection();
             ps = con.prepareCall("{call altaEmpresa (?,?,?,?)}");
             ps.setInt(1, e.getRut());
             ps.setString(2, e.getNombre());
@@ -46,16 +47,19 @@ public class persistenciaEmpresa {
             ps.execute();
         } catch (Exception ex) {
             throw ex;
-
+        } finally {
+            ps.close();
+            con.close();
         }
 
     }
 
     public  void modificarEmpresa(DataEmpresa e) throws Exception {
 
+        Connection con = null;
+        CallableStatement ps = null;
         try {
-            Connection con = iniciarConexion.getConection();
-            CallableStatement ps;
+            con = (Connection) iniciarConexion.getConection();
             ps = con.prepareCall("{call modificarEmpresa (?,?,?,?)}");
             ps.setInt(1, e.getRut());
             ps.setString(2, e.getNombre());
@@ -64,16 +68,18 @@ public class persistenciaEmpresa {
             ps.execute();
         } catch (Exception ex) {
             throw ex;
-
+        } finally {
+            ps.close();
+            con.close();
         }
-
     }
 
     public  DataEmpresa buscarEmpresa(int rut) throws Exception {
 
+        Connection con = null;
+        CallableStatement ps = null;
         try {
-            Connection con = iniciarConexion.getConection();
-            CallableStatement ps;
+            con = (Connection) iniciarConexion.getConection();
             ps = con.prepareCall("{call buscarEmpresa (?)}");
             ps.setInt(1, rut);
             ResultSet rs;
@@ -90,11 +96,13 @@ public class persistenciaEmpresa {
                 em.setRut(rut);
                 em.setTelefono(telefono);
             }
-
+            rs.close();
             return em;
         } catch (Exception ex) {
             throw ex;
-
+        } finally {
+            ps.close();
+            con.close();
         }
     }
 

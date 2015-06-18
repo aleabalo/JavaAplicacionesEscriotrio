@@ -29,9 +29,7 @@ public class DataArea {
 
     public void setDescripcion(String Descripcion) {
         this.Descripcion = Descripcion;
-    }
-
-    
+    }    
     
     public DataArea() {
     }
