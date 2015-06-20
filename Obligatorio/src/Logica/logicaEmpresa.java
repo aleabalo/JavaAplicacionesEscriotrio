@@ -30,7 +30,7 @@ public class logicaEmpresa {
         return lg;
     }
 
-    private DataEmpresa convertirEmpresaEnDatatype(Empresa e) {
+    public DataEmpresa convertirEmpresaEnDatatype(Empresa e) {
         DataEmpresa em = new DataEmpresa();
         em.setDireccion(e.getDireccion());
         em.setNombre(e.getNombre());
@@ -40,7 +40,7 @@ public class logicaEmpresa {
         return em;
     }
 
-    private Empresa convertirDatatypeEnEmpresa(DataEmpresa e) {
+    public Empresa convertirDatatypeEnEmpresa(DataEmpresa e) {
         Empresa em = new Empresa();
         em.setDireccion(e.getDireccion());
         em.setNombre(e.getNombre());

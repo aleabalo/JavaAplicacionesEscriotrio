@@ -27,7 +27,7 @@ public class logicaArea {
         return lg;
     }
     
-    private DataArea convertirAreaEnDatatype(Area a) {
+    public DataArea convertirAreaEnDatatype(Area a) {
         DataArea ar = new DataArea();
         ar.setId(a.getId());
         ar.setDescripcion(a.getDescripcion());
@@ -35,7 +35,7 @@ public class logicaArea {
         return ar;
     }
     
-    private Area convertirDatatypeEnArea(DataArea a) {
+    public Area convertirDatatypeEnArea(DataArea a) {
         Area ar = new Area();
         ar.setId(a.getId());
         ar.setDescripcion(a.getDescripcion());
