@@ -150,7 +150,7 @@ public class PersistenciaOferta {
             if (rs.first()) {
                 do {
                     DataAspirante as = new DataAspirante();
-                    as=persistenciaAspirante.getInstance().buscarAspirante(rs.getInt(2));                    
+                    as = persistenciaAspirante.getInstance().buscarAspirante(rs.getString(2));                    
                     aspirantes.add(as);
                 } while (rs.next());
             }

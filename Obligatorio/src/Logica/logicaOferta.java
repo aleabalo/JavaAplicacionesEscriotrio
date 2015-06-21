@@ -31,7 +31,7 @@ public class logicaOferta {
     }
     
     
-    private DataOferta convertirOfertaEnDatatype(Oferta o) {
+    public DataOferta convertirOfertaEnDatatype(Oferta o) {
         DataOferta of = new DataOferta();
         of.setArea(logicaArea.getInstance().convertirAreaEnDatatype(o.getArea()));
         ArrayList<DataAspirante> lista = new ArrayList<DataAspirante>();
@@ -50,7 +50,7 @@ public class logicaOferta {
         return of;
     }
     
-    private Oferta convertirDatatypeEnOferta(DataOferta o) {
+    public Oferta convertirDatatypeEnOferta(DataOferta o) {
         Oferta of = new Oferta();
         of.setArea(logicaArea.getInstance().convertirDatatypeEnArea(o.getArea()));
         ArrayList<Aspirante> lista = new ArrayList<Aspirante>();

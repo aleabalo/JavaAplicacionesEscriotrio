@@ -57,12 +57,12 @@ public class persistenciaAspirante {
         }
     }
 
-    public DataAspirante buscarAspirante(int cedula) throws Exception {
+    public DataAspirante buscarAspirante(String cedula) throws Exception {
         try {
             Connection con = (Connection) iniciarConexion.getConection();
             CallableStatement ps;
             ps = (CallableStatement) con.prepareCall("{call buscarAspirante (?)}");
-            ps.setInt(1, cedula);
+            ps.setString(1, cedula);
             ResultSet rs;
             rs = ps.executeQuery();
             DataAspirante a = null;

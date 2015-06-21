@@ -526,6 +526,20 @@ END $$
 
 DELIMITER ;
 
+-- Listar entrevistas para un candidato
+DROP PROCEDURE IF EXISTS entrevistasCandidato;
+
+DELIMITER $$
+
+CREATE PROCEDURE entrevistasCandidato(
+_Cedula char(10)
+)
+BEGIN
+Select * form Entrevista where Aspirante = _Cedula;
+END $$
+
+DELIMITER ;
+
 
 
 
