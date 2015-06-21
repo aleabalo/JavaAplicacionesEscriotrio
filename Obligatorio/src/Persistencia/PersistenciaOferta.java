@@ -159,4 +159,19 @@ public class PersistenciaOferta {
             throw ex;
         }
     }
+    
+    //Denegar solicitud de entrevista a un Aspirante
+    public void rechazarEntrevista(DataOferta o, DataAspirante a) throws Exception {
+        try {
+            Connection con = (Connection) iniciarConexion.getConection();
+            CallableStatement ps;
+            ps = (CallableStatement) con.prepareCall("{call bajaSolicitudEntrevista (?,?)}");
+            ps.setInt(1, o.getId());
+            ps.setString(2, a.getCedula());
+            ps.execute();
+        } catch (Exception ex) {
+            throw ex;
+        }
+    }
+    
 }
