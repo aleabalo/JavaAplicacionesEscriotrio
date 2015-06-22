@@ -540,6 +540,21 @@ END $$
 
 DELIMITER ;
 
+-- Buscar entrevista para un candidato a una Oferta, se usa para verificar existencia
+DROP PROCEDURE IF EXISTS buscarEntrevista;
+
+DELIMITER $$
+
+CREATE PROCEDURE buscarEntrevista(
+_IdOferta int,
+_Cedula char(10)
+)
+BEGIN
+select * from Entrevista where Oferta = _IdOferta and Aspirante = _Cedula;
+END $$
+
+DELIMITER ;
+
 
 
 

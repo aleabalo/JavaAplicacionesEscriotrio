@@ -50,34 +50,7 @@ public class persistenciaEntrevista {
         }
     }
 
-    //Metodo para verificar que no se solape una entrevista con otra ya existente
-    //En este caso nuestro modelo establece que debe existir al menos una ventana de 2 horas entre el inicio de una entrevista y la siguiente
-    // de forma que el candidato tenga el tiempo suficiente para viajar de un lugar al otro.
-    public boolean verificarSolapamiento(DataEntrevista e) throws Exception {
-        try {
-            boolean solapa = false;
-            DataAspirante a = e.getAspirante();
-            ArrayList<DataEntrevista> entrevistas = persistenciaEntrevista.getInstance().entrevistasCandidato(a);
-            Calendar Inicio = Calendar.getInstance();
-            Inicio.setTime(e.getFechaEntrevista());
-            Inicio.add(Calendar.HOUR, -2);
-            Calendar Fin = Calendar.getInstance();
-            Fin.setTime(e.getFechaEntrevista());
-            Fin.add(Calendar.HOUR, 2);
-            for (DataEntrevista ent : entrevistas) {
-                Calendar fecha = Calendar.getInstance();
-                fecha.setTime(ent.getFechaEntrevista());
-                if(fecha.after(Inicio) && fecha.before(Fin)){
-                    solapa=true;
-                }
-            }
-            return solapa;
-        } catch (Exception ex) {
-            throw ex;
-        }
-    }
-
-    //Lista de Entrevistas solicitadas para una empresa dada
+    //Lista de Entrevistas solicitadas para una empresa dada, no tienen fecha ya que aun no son entrevistas si no solicitudes sin confirmar
     public ArrayList<DataEntrevista> listarSolicitudesEmpresa(DataEmpresa e) throws Exception {
         try {
             Connection con = (Connection) iniciarConexion.getConection();
@@ -90,11 +63,10 @@ public class persistenciaEntrevista {
             if (rs.first()) {
                 do {
                     DataEntrevista en = new DataEntrevista();
-                    DataOferta of = PersistenciaOferta.getInstance().buscarOferta(rs.getInt(2));
+                    DataOferta of = PersistenciaOferta.getInstance().buscarOferta(rs.getInt(1));
                     en.setOferta(of);
-                    DataAspirante as = persistenciaAspirante.getInstance().buscarAspirante(rs.getString(3));
-                    en.setAspirante(as);
-                    en.setFechaEntrevista(rs.getDate(4));
+                    DataAspirante as = persistenciaAspirante.getInstance().buscarAspirante(rs.getString(2));
+                    en.setAspirante(as);                    
                     entrevistas.add(en);
                 } while (rs.next());
             }
@@ -126,6 +98,32 @@ public class persistenciaEntrevista {
                 } while (rs.next());
             }
             return entrevistas;
+        } catch (Exception ex) {
+            throw ex;
+        }
+    }
+
+    //Buscar entrevista para un candidato y una oferta dados
+    public DataEntrevista buscarEntrevista(DataOferta o, DataAspirante a) throws Exception {
+        try {
+            Connection con = (Connection) iniciarConexion.getConection();
+            CallableStatement ps;
+            ps = (CallableStatement) con.prepareCall("{call buscarEntrevista(?,?)}");
+            ps.setInt(1, o.getId());
+            ps.setString(2, a.getCedula());
+            ResultSet rs;
+            rs = ps.executeQuery();
+            DataEntrevista entrev = null;
+
+            if (rs.first()) {                
+                DataOferta of = PersistenciaOferta.getInstance().buscarOferta(rs.getInt(2));
+                entrev.setOferta(of);
+                DataAspirante as = persistenciaAspirante.getInstance().buscarAspirante(rs.getString(3));
+                entrev.setAspirante(as);
+                entrev.setFechaEntrevista(rs.getDate(4)); 
+            }
+            return entrev;
+
         } catch (Exception ex) {
             throw ex;
         }
