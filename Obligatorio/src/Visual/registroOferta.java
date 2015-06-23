@@ -31,50 +31,65 @@ public class registroOferta extends javax.swing.JFrame {
     private void CargarOfertas() {
         try {
             List<DataOferta> lista = logicaOferta.getInstance().listaOferta();
-            if(lista.isEmpty()){
-                throw new Exception("No hay áreas ingresadas en el sistema.");                
-            }
-            else{
-                for(DataOferta o: lista){
+            if (lista.isEmpty()) {
+                throw new Exception("No hay áreas ingresadas en el sistema.");
+            } else {
+                for (DataOferta o : lista) {
                     ComboArea.addItem(o);
                 }
             }
-        } catch (Exception ex) {            
+        } catch (Exception ex) {
             lblError.setText(ex.getMessage());
         }
     }
-    
+
     //Cargo la lista de Empresas en el combo
     private void CargarEmpresas() {
         try {
-            List<DataEmpresa> lista = logicaEmpresa.getInstance().ListEmpresa();            
-            if(lista.isEmpty()){
-                throw new Exception("No hay Empresas ingresadas en el sistema.");                
-            }
-            else{
-                for(DataEmpresa e: lista){
+            List<DataEmpresa> lista = logicaEmpresa.getInstance().ListEmpresa();
+            if (lista.isEmpty()) {
+                throw new Exception("No hay Empresas ingresadas en el sistema.");
+            } else {
+                for (DataEmpresa e : lista) {
                     ComboEmpresa.addItem(e);
                 }
             }
-        } catch (Exception ex) {            
+        } catch (Exception ex) {
             lblError.setText(ex.getMessage());
         }
     }
-    
+
     private void iniciarBotones() {
         BtnRegistrar.setVisible(true);
         BtnDesactivar.setVisible(false);
         BtnModificar.setVisible(false);
-        txtIdOferta.setEditable(true);        
+        txtIdOferta.setEditable(true);
         lblError.setText("");
-    }    
-    
+    }
+
     private void iniciarBotonesEdit() {
         BtnRegistrar.setVisible(false);
         BtnDesactivar.setVisible(true);
         BtnModificar.setVisible(true);
-        txtIdOferta.setEditable(false);        
-        lblError.setText("");        
+        txtIdOferta.setEditable(false);
+        lblError.setText("");
+    }
+
+    private void validarId() {
+        try {
+            int a = Integer.parseInt(txtIdOferta.getText());
+        } catch (Exception e) {
+            lblError.setVisible(true);
+            lblError.setText("El id debe ser numerico");
+        }
+    }
+
+    private void limpiarCampos() {
+        txtTitulo.setText("");
+        txtCargo.setText("");
+        txtReq.setText("");
+        txtPuestos.setText("");
+        //pendiente de ver que dejo seleccionado en el combo area y combo empresa        
     }
 
     /**
@@ -90,7 +105,7 @@ public class registroOferta extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         txtIdOferta = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
+        BtnBuscar = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
         txtTitulo = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
@@ -125,12 +140,12 @@ public class registroOferta extends javax.swing.JFrame {
             }
         });
 
-        jButton1.setText("Buscar");
-        jButton1.setToolTipText("");
-        jButton1.setName("BuscarOferta"); // NOI18N
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        BtnBuscar.setText("Buscar");
+        BtnBuscar.setToolTipText("");
+        BtnBuscar.setName("BuscarOferta"); // NOI18N
+        BtnBuscar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                BtnBuscarActionPerformed(evt);
             }
         });
 
@@ -206,7 +221,7 @@ public class registroOferta extends javax.swing.JFrame {
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(txtIdOferta, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
-                                .addComponent(jButton1))
+                                .addComponent(BtnBuscar))
                             .addComponent(txtTitulo, javax.swing.GroupLayout.PREFERRED_SIZE, 349, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 416, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 416, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -229,7 +244,7 @@ public class registroOferta extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txtIdOferta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton1))
+                    .addComponent(BtnBuscar))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -291,9 +306,26 @@ public class registroOferta extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton1ActionPerformed
+    private void BtnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnBuscarActionPerformed
+        try {
+            lblError.setText("");
+            validarId();
+            int a = Integer.parseInt(txtIdOferta.getText());
+            DataOferta of = logicaOferta.getInstance().buscarOferta(a);
+            txtTitulo.setText(of.getTitulo());
+            txtCargo.setText(of.getCargo());
+            txtReq.setText(of.getRequerimientos());
+            txtPuestos.setText(String.valueOf(of.getPuestos()));
+            ComboArea.setSelectedItem(of.getArea());
+            ComboEmpresa.setSelectedItem(of.getEmpresa());
+            iniciarBotonesEdit();
+
+        } catch (Exception e) {
+            lblError.setText(e.getMessage());
+            iniciarBotones();
+            limpiarCampos();
+        }
+    }//GEN-LAST:event_BtnBuscarActionPerformed
 
     private void txtIdOfertaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtIdOfertaActionPerformed
         // TODO add your handling code here:
@@ -335,12 +367,12 @@ public class registroOferta extends javax.swing.JFrame {
         });
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton BtnBuscar;
     private javax.swing.JButton BtnDesactivar;
     private javax.swing.JButton BtnModificar;
     private javax.swing.JButton BtnRegistrar;
     private javax.swing.JComboBox ComboArea;
     private javax.swing.JComboBox ComboEmpresa;
-    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
