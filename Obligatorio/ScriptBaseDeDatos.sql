@@ -1,4 +1,4 @@
-﻿drop database if exists Obli_RRHH;
+drop database if exists Obli_RRHH;
 create database if not exists Obli_RRHH;
 
 use Obli_RRHH;
@@ -192,7 +192,6 @@ DROP PROCEDURE IF EXISTS listarAspirante;
 DELIMITER $$
 
 CREATE PROCEDURE listarAspirante()
-)
 BEGIN
 Select * from Aspirante;
 END $$

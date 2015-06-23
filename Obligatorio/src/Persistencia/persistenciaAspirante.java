@@ -89,13 +89,13 @@ public class persistenciaAspirante {
         }
     }
 
-    public void eliminarAspirante(int a) throws Exception {
+    public void eliminarAspirante(String cedula) throws Exception {
 
         try {
             Connection con = (Connection) iniciarConexion.getConection();
             CallableStatement ps;
             ps = (CallableStatement) con.prepareCall("{call eliminarAspirante (?)}");
-            ps.setInt(1, a);
+            ps.setString(1, cedula);
             ps.execute();
         } catch (Exception ex) {
             throw ex;

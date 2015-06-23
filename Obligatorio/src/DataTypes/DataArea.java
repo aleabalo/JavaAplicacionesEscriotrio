@@ -35,5 +35,12 @@ public class DataArea {
     
     public DataArea() {
     }
+
+    @Override
+    public String toString() {
+        return Descripcion;
+    }
+    
+    
     
 }
