@@ -108,24 +108,28 @@ public class persistenciaEmpresa {
 
     public void eliminarEmpresa(int rut) throws Exception {
 
+        Connection con = null;
+        CallableStatement ps = null;
         try {
-            Connection con = iniciarConexion.getConection();
-            CallableStatement ps;
+            con = (Connection) iniciarConexion.getConection();
             ps = con.prepareCall("{call borrarEmpresa (?)}");
             ps.setInt(1, rut);
             ps.execute();
 
         } catch (Exception ex) {
             throw ex;
-
+        } finally {
+            ps.close();
+            con.close();
         }
     }
 
     public ArrayList<DataEmpresa> ListEmpresa() throws Exception {
 
+        Connection con = null;
+        CallableStatement ps = null;
         try {
-            Connection con = iniciarConexion.getConection();
-            CallableStatement ps;
+            con = (Connection) iniciarConexion.getConection();
             ps = con.prepareCall("{call listarEmpresa}");
             ResultSet rs;
             rs = ps.executeQuery();
@@ -143,14 +147,15 @@ public class persistenciaEmpresa {
                     em.setRut(rut);
                     em.setTelefono(telefono);
                     empersas.add(em);
-
                 } while (rs.next());
-
             }
+            rs.close();
             return empersas;
         } catch (Exception ex) {
             throw ex;
-
+        } finally {
+            ps.close();
+            con.close();
         }
     }
 

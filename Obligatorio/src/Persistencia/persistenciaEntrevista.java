@@ -37,9 +37,10 @@ public class persistenciaEntrevista {
 
     //Alta de Entrevista    
     public void agendarEntrevista(DataEntrevista e) throws Exception {
+        Connection con = null;
+        CallableStatement ps = null;
         try {
-            Connection con = (Connection) iniciarConexion.getConection();
-            CallableStatement ps;
+            con = (Connection) iniciarConexion.getConection();
             ps = (CallableStatement) con.prepareCall("{call agendarEntrevista (?,?,?)}");
             ps.setInt(1, e.getOferta().getId());
             ps.setString(2, e.getAspirante().getCedula());
@@ -47,14 +48,18 @@ public class persistenciaEntrevista {
             ps.execute();
         } catch (Exception ex) {
             throw ex;
+        } finally {
+            ps.close();
+            con.close();
         }
     }
 
     //Lista de Entrevistas solicitadas para una empresa dada, no tienen fecha ya que aun no son entrevistas si no solicitudes sin confirmar
     public ArrayList<DataEntrevista> listarSolicitudesEmpresa(DataEmpresa e) throws Exception {
+        Connection con = null;
+        CallableStatement ps = null;
         try {
-            Connection con = (Connection) iniciarConexion.getConection();
-            CallableStatement ps;
+            con = (Connection) iniciarConexion.getConection();
             ps = (CallableStatement) con.prepareCall("{call listarSolicitudesEmpresa(?)}");
             ps.setInt(1, e.getRut());
             ResultSet rs;
@@ -70,17 +75,22 @@ public class persistenciaEntrevista {
                     entrevistas.add(en);
                 } while (rs.next());
             }
+            rs.close();
             return entrevistas;
         } catch (Exception ex) {
             throw ex;
+        } finally {
+            ps.close();
+            con.close();
         }
     }
 
     //Lista de Entrevistas para un candidato dado
     public ArrayList<DataEntrevista> entrevistasCandidato(DataAspirante a) throws Exception {
+        Connection con = null;
+        CallableStatement ps = null;
         try {
-            Connection con = (Connection) iniciarConexion.getConection();
-            CallableStatement ps;
+            con = (Connection) iniciarConexion.getConection();
             ps = (CallableStatement) con.prepareCall("{call entrevistasCandidato(?)}");
             ps.setString(1, a.getCedula());
             ResultSet rs;
@@ -97,17 +107,22 @@ public class persistenciaEntrevista {
                     entrevistas.add(en);
                 } while (rs.next());
             }
+            rs.close();
             return entrevistas;
         } catch (Exception ex) {
             throw ex;
+        } finally {
+            ps.close();
+            con.close();
         }
     }
 
     //Buscar entrevista para un candidato y una oferta dados
     public DataEntrevista buscarEntrevista(DataOferta o, DataAspirante a) throws Exception {
+        Connection con = null;
+        CallableStatement ps = null;
         try {
-            Connection con = (Connection) iniciarConexion.getConection();
-            CallableStatement ps;
+            con = (Connection) iniciarConexion.getConection();
             ps = (CallableStatement) con.prepareCall("{call buscarEntrevista(?,?)}");
             ps.setInt(1, o.getId());
             ps.setString(2, a.getCedula());
@@ -126,6 +141,9 @@ public class persistenciaEntrevista {
 
         } catch (Exception ex) {
             throw ex;
+        } finally {
+            ps.close();
+            con.close();
         }
     }
 }
