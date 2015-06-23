@@ -52,4 +52,9 @@ public class DataEmpresa {
     public DataEmpresa() {
     }
     
+    @Override
+    public String toString() {
+        return this.Nombre;
+    }
+    
 }

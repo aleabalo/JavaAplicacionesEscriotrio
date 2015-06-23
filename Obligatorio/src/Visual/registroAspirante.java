@@ -51,7 +51,6 @@ public class registroAspirante extends javax.swing.JFrame {
         for (int i = 0; i < 99; i++) {
             jcbEdad.addItem(i);
         }
-
     }
 
     private void iniciarBotones() {
@@ -113,7 +112,7 @@ public class registroAspirante extends javax.swing.JFrame {
 
         jLabel2.setText("Nombre");
 
-        jLabel3.setFont(new java.awt.Font("Tahoma", 1, 36)); // NOI18N
+        jLabel3.setFont(new java.awt.Font("Tahoma", 1, 36));
         jLabel3.setText("Registro de Aspirantes");
 
         jLabel4.setText("Apellido");
@@ -125,6 +124,11 @@ public class registroAspirante extends javax.swing.JFrame {
         jLabel7.setText("Curriculum (pdf)");
 
         jcbEdad.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jcbEdad.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jcbEdadActionPerformed(evt);
+            }
+        });
 
         btnSubeArchivo.setText("Subir Archivo");
         btnSubeArchivo.setToolTipText("");
@@ -184,7 +188,7 @@ public class registroAspirante extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGap(21, 21, 21)
                 .addComponent(btnEliminar)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 125, Short.MAX_VALUE)
                 .addComponent(btnModificar)
                 .addGap(115, 115, 115)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -285,6 +289,10 @@ public class registroAspirante extends javax.swing.JFrame {
         } catch (Exception e) {
         }
     }//GEN-LAST:event_btnAgregarActionPerformed
+
+private void jcbEdadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jcbEdadActionPerformed
+// TODO add your handling code here:
+}//GEN-LAST:event_jcbEdadActionPerformed
 
     /**
      * @param args the command line arguments
