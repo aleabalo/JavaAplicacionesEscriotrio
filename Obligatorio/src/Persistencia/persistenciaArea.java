@@ -19,7 +19,6 @@ public class persistenciaArea {
 
     private persistenciaArea() {
     }
-
     private static persistenciaArea area = null;
 
     public static persistenciaArea getInstance() {
@@ -32,66 +31,79 @@ public class persistenciaArea {
 
     //Alta de Area
     public void altaArea(DataArea a) throws Exception {
-
+        Connection con = null;
+        CallableStatement ps = null;
         try {
-            Connection con = (Connection) iniciarConexion.getConection();
-            CallableStatement ps;
+            con = (Connection) iniciarConexion.getConection();
             ps = (CallableStatement) con.prepareCall("{call altaArea (?)}");
             ps.setString(1, a.getDescripcion());
             ps.execute();
         } catch (Exception ex) {
             throw ex;
+        } finally {
+            ps.close();
+            con.close();
         }
     }
 
     //Modificacion de Area
     public void modArea(DataArea a) throws Exception {
-
+        Connection con = null;
+        CallableStatement ps = null;
         try {
-            Connection con = (Connection) iniciarConexion.getConection();
-            CallableStatement ps;
+            con = (Connection) iniciarConexion.getConection();
             ps = (CallableStatement) con.prepareCall("{call modArea (?,?)}");
             ps.setInt(1, a.getId());
             ps.setString(2, a.getDescripcion());
             ps.execute();
         } catch (Exception ex) {
             throw ex;
+        } finally {
+            ps.close();
+            con.close();
         }
     }
 
     //Eliminar Area
     public void eliminarArea(int a) throws Exception {
-
+        Connection con = null;
+        CallableStatement ps = null;
         try {
-            Connection con = (Connection) iniciarConexion.getConection();
-            CallableStatement ps;
+            con = (Connection) iniciarConexion.getConection();
             ps = (CallableStatement) con.prepareCall("{call eliminarArea (?)}");
             ps.setInt(1, a);
             ps.execute();
         } catch (Exception ex) {
             throw ex;
+        } finally {
+            ps.close();
+            con.close();
         }
     }
-    
-        public void eliminarAreaAspirante(DataArea area, DataAspirante aspirante) throws Exception {
 
+    public void eliminarAreaAspirante(DataArea area, DataAspirante aspirante) throws Exception {
+        Connection con = null;
+        CallableStatement ps = null;
         try {
-            Connection con = (Connection) iniciarConexion.getConection();
-            CallableStatement ps;
+            con = (Connection) iniciarConexion.getConection();
             ps = (CallableStatement) con.prepareCall("{call bajaAreaAspirante (?,?)}");
-//            ps.setInt(1, aspirante.getCedula());
-            
+            ps.setString(1, aspirante.getCedula());
+            ps.setInt(2, area.getId());
             ps.execute();
         } catch (Exception ex) {
             throw ex;
+        } finally {
+            ps.close();
+            con.close();
         }
     }
 
     //Buscar Area, pendiente de hacer el metodo en la base
     public DataArea buscarArea(int id) throws Exception {
+        Connection con = null;
+        CallableStatement ps = null;
         try {
-            Connection con = (Connection) iniciarConexion.getConection();
-            CallableStatement ps;
+            con = (Connection) iniciarConexion.getConection();
             ps = (CallableStatement) con.prepareCall("{call buscarArea (?)}");
             ps.setInt(1, id);
             ResultSet rs;
@@ -106,14 +118,18 @@ public class persistenciaArea {
             return area;
         } catch (Exception ex) {
             throw ex;
+        } finally {
+            ps.close();
+            con.close();
         }
     }
 
     //Listar Areas
     public ArrayList<DataArea> ListarAreas() throws Exception {
+        Connection con = null;
+        CallableStatement ps = null;
         try {
-            Connection con = (Connection) iniciarConexion.getConection();
-            CallableStatement ps;
+            con = (Connection) iniciarConexion.getConection();
             ps = (CallableStatement) con.prepareCall("{call listarArea}");
             ResultSet rs;
             rs = ps.executeQuery();
@@ -127,17 +143,22 @@ public class persistenciaArea {
                     areas.add(ar);
                 } while (rs.next());
             }
+            rs.close();
             return areas;
         } catch (Exception ex) {
             throw ex;
+        } finally {
+            ps.close();
+            con.close();
         }
     }
 
     //Listar Areas por Aspirante
     public ArrayList<DataArea> ListarAreasAspirante(DataAspirante aspirante) throws Exception {
+        Connection con = null;
+        CallableStatement ps = null;
         try {
-            Connection con = (Connection) iniciarConexion.getConection();
-            CallableStatement ps;
+            con = (Connection) iniciarConexion.getConection();
             ps = (CallableStatement) con.prepareCall("{call buscarAreaAspirante (?)}");
             ps.setString(1, aspirante.getCedula());
             ResultSet rs;
@@ -152,14 +173,17 @@ public class persistenciaArea {
                     areas.add(ar);
                 } while (rs.next());
             }
+            rs.close();
             return areas;
         } catch (Exception ex) {
             throw ex;
+        } finally {
+            ps.close();
+            con.close();
         }
     }
 
     public void agregarAreaAspirante(DataAspirante aspirante, DataArea area, Connection con) throws Exception {
-
         try {
             CallableStatement ps;
             ps = (CallableStatement) con.prepareCall("{call AltaAreaAspirante (?,?)}");
@@ -169,7 +193,5 @@ public class persistenciaArea {
         } catch (Exception ex) {
             throw ex;
         }
-
     }
-
 }
