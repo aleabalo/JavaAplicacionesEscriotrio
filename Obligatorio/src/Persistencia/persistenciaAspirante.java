@@ -49,6 +49,7 @@ public class persistenciaAspirante {
                 persistenciaArea.getInstance().agregarAreaAspirante(a, area, con);
             }
             con.commit();
+            con.setAutoCommit(true);
 
         } catch (Exception ex) {
             throw ex;
@@ -76,6 +77,7 @@ public class persistenciaAspirante {
                 //Apellido char(50) not null,
                 //Edad smallint not null,
                 //Cv char(150) not null,
+                a.setCedula(rs.getString(1));
                 a.setNombre(rs.getString(2));
                 a.setApellido(rs.getString(3));
                 a.setEdad(rs.getInt(4));
@@ -96,17 +98,25 @@ public class persistenciaAspirante {
 
     public void eliminarAspirante(String cedula) throws Exception {
         Connection con = null;
+
         CallableStatement ps = null;
         try {
             con = (Connection) iniciarConexion.getConection();
+            con.setAutoCommit(false);
+            persistenciaArea.getInstance().eliminarAreaAspirante(cedula, con);
             ps = (CallableStatement) con.prepareCall("{call eliminarAspirante (?)}");
             ps.setString(1, cedula);
             ps.execute();
+
+            con.commit();
         } catch (Exception ex) {
+            con.rollback();
             throw ex;
         } finally {
+            con.setAutoCommit(true);
             ps.close();
             con.close();
+
         }
     }
 
@@ -115,16 +125,24 @@ public class persistenciaAspirante {
         CallableStatement ps = null;
         try {
             con = (Connection) iniciarConexion.getConection();
+            con.setAutoCommit(false);
+            persistenciaArea.getInstance().eliminarAreaAspirante(a.getCedula(), con);
             ps = (CallableStatement) con.prepareCall("{call modAspirante (?,?,?,?,?)}");
             ps.setString(1, a.getCedula());
             ps.setString(2, a.getNombre());
             ps.setString(3, a.getApellido());
             ps.setInt(4, a.getEdad());
             ps.setString(5, a.getArchivoPdf());
+            for (DataArea area : a.getAreasDeInteres()) {
+                persistenciaArea.getInstance().agregarAreaAspirante(a, area, con);
+            }
             ps.execute();
+            con.commit();
         } catch (Exception ex) {
+            con.rollback();
             throw ex;
         } finally {
+            con.setAutoCommit(true);
             ps.close();
             con.close();
         }

@@ -81,21 +81,16 @@ public class persistenciaArea {
         }
     }
 
-    public void eliminarAreaAspirante(DataArea area, DataAspirante aspirante) throws Exception {
-        Connection con = null;
+    public void eliminarAreaAspirante(String cedula , Connection con) throws Exception {
         CallableStatement ps = null;
         try {
             con = (Connection) iniciarConexion.getConection();
-            ps = (CallableStatement) con.prepareCall("{call bajaAreaAspirante (?,?)}");
-            ps.setString(1, aspirante.getCedula());
-            ps.setInt(2, area.getId());
+            ps = (CallableStatement) con.prepareCall("{call bajaAreaAspirante (?)}");
+            ps.setString(1, cedula);
             ps.execute();
         } catch (Exception ex) {
             throw ex;
-        } finally {
-            ps.close();
-            con.close();
-        }
+        } 
     }
 
     //Buscar Area, pendiente de hacer el metodo en la base

@@ -1,4 +1,4 @@
-﻿drop database if exists Obli_RRHH;
+drop database if exists Obli_RRHH;
 create database if not exists Obli_RRHH;
 
 use Obli_RRHH;
@@ -258,11 +258,10 @@ DROP PROCEDURE IF EXISTS bajaAreaAspirante;
 DELIMITER $$
 
 CREATE PROCEDURE bajaAreaAspirante(
-_Cedula char(10),
-_IdArea int)
+_Cedula char(10))
 BEGIN
 -- consultar si no hay que verificar perviamente como en sql server que no exista ya  un regostro con esa clave????????
-Delete from AreaAspirante where Cedula=_Cedula and IdArea=_IdArea;
+Delete from AreaAspirante where Cedula=_Cedula;
 END $$
 
 DELIMITER ;

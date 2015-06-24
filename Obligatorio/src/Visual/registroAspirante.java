@@ -19,7 +19,11 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.List;
 import javax.swing.DefaultListModel;
+import javax.swing.DefaultListSelectionModel;
 import javax.swing.JFileChooser;
+import javax.swing.JList;
+import javax.swing.ListModel;
+import javax.swing.ListSelectionModel;
 
 /**
  *
@@ -65,7 +69,6 @@ public class registroAspirante extends javax.swing.JFrame {
         btnEliminar.setVisible(false);
         btnModificar.setVisible(false);
         txtCedula.setEditable(true);
-        lblError.setText("");
     }
 
     private void iniciarBotonesModiOeli() {
@@ -73,7 +76,6 @@ public class registroAspirante extends javax.swing.JFrame {
         btnEliminar.setVisible(true);
         btnModificar.setVisible(true);
         txtCedula.setEditable(false);
-        lblError.setText("");
     }
 
     private void guardarArchivo() {
@@ -119,7 +121,7 @@ public class registroAspirante extends javax.swing.JFrame {
 
         jLabel2.setText("Nombre");
 
-        jLabel3.setFont(new java.awt.Font("Tahoma", 1, 36));
+        jLabel3.setFont(new java.awt.Font("Tahoma", 1, 36)); // NOI18N
         jLabel3.setText("Registro de Aspirantes");
 
         jLabel4.setText("Apellido");
@@ -167,8 +169,18 @@ public class registroAspirante extends javax.swing.JFrame {
         });
 
         btnModificar.setText("Modificar");
+        btnModificar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnModificarActionPerformed(evt);
+            }
+        });
 
         btnEliminar.setText("Eliminar");
+        btnEliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEliminarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -176,7 +188,7 @@ public class registroAspirante extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(41, 41, 41)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel1)
@@ -194,18 +206,20 @@ public class registroAspirante extends javax.swing.JFrame {
                                 .addComponent(txtApellido, javax.swing.GroupLayout.DEFAULT_SIZE, 199, Short.MAX_VALUE))
                             .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(btnSubeArchivo)))
-                    .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(lblError, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jLabel3))
                 .addContainerGap(49, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGap(21, 21, 21)
-                .addComponent(btnEliminar)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 125, Short.MAX_VALUE)
-                .addComponent(btnModificar)
-                .addGap(115, 115, 115)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnBuscar)
-                    .addComponent(btnAgregar))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(lblError, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(btnEliminar)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 125, Short.MAX_VALUE)
+                        .addComponent(btnModificar)
+                        .addGap(115, 115, 115)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(btnBuscar)
+                            .addComponent(btnAgregar))))
                 .addGap(27, 27, 27))
         );
         layout.setVerticalGroup(
@@ -238,13 +252,13 @@ public class registroAspirante extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnSubeArchivo)
                     .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 9, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnAgregar)
                     .addComponent(btnModificar)
                     .addComponent(btnEliminar))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(lblError, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(lblError, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
@@ -259,11 +273,11 @@ public class registroAspirante extends javax.swing.JFrame {
                 if (asp != null) {
                     txtApellido.setText(asp.getApellido());
                     txtNombre.setText(asp.getNombre());
-                    for (DataArea are : asp.getAreasDeInteres()) {
-                        listAreas.setSelectedValue(are, false);
-                    }
+                    setSelectedValues(listAreas, asp.getAreasDeInteres());
                     jcbEdad.setSelectedItem(asp.getEdad());
                     iniciarBotonesModiOeli();
+                } else {
+                    lblError.setText("No existe el Aspirante");
                 }
             }
 
@@ -271,6 +285,32 @@ public class registroAspirante extends javax.swing.JFrame {
             lblError.setText(e.getMessage());
         }
     }//GEN-LAST:event_btnBuscarActionPerformed
+
+    public void setSelectedValues(JList list, Object... values) {
+        list.clearSelection();
+        for (Object value : values) {
+            int index = getIndex(list.getModel(), value);
+            if (index >= 0) {
+                list.addSelectionInterval(index, index);
+            }
+        }
+        list.ensureIndexIsVisible(list.getSelectedIndex());
+    }
+
+    public int getIndex(ListModel model, Object value) {
+        if (value == null) {
+            return -1;
+        }
+        if (model instanceof DefaultListModel) {
+            return ((DefaultListModel) model).indexOf(value);
+        }
+        for (int i = 0; i < model.getSize(); i++) {
+            if (value.equals(model.getElementAt(i))) {
+                return i;
+            }
+        }
+        return -1;
+    }
 
     private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
         try {
@@ -290,42 +330,85 @@ public class registroAspirante extends javax.swing.JFrame {
             } else {
                 throw new Exception("Debe seleccionar una edad");
             }
+            
+            List<DataArea> areas;
+            areas = listAreas.getSelectedValuesList();
+            if (areas.isEmpty()) {
+                throw new Exception("Debe seleccionar al menos una area");
+            }
+            as.setAreasDeInteres(areas);
 
             if (guarda != null) {
-                
                 File file = guarda;
-                    FileInputStream fis = null;
-                    BufferedInputStream bis = null;
-                    DataInputStream dis = null;
-                    byte cont2[] = new byte[(int)file.length()];
-                    int bites=0;
-                    try {
-                        fis = new FileInputStream(file);
-
-                        // Here BufferedInputStream is added for fast reading.
-                        bis = new BufferedInputStream(fis);
-                        dis = new DataInputStream(bis);
-                        
-                        bites = dis.read(cont2);
-                        // dispose all the resources after using them.
-                        fis.close();
-                        bis.close();
-                        dis.close();
-                        FileOutputStream ou = new FileOutputStream("c:\\ "+ guarda.getName());
-                        ou.write(cont2);
-                    } catch (FileNotFoundException e) {
-                        throw e;
-                    } catch (IOException ex) {
-                        throw ex;
+                FileInputStream fis = null;
+                BufferedInputStream bis = null;
+                DataInputStream dis = null;
+                byte cont2[] = new byte[(int) file.length()];
+                int bites = 0;
+                try {
+                    fis = new FileInputStream(file);
+                    // arranco lo buffer de lectura
+                    bis = new BufferedInputStream(fis);
+                    dis = new DataInputStream(bis);
+                    bites = dis.read(cont2);
+                    // cierro todo los recursos de los buffer
+                    fis.close();
+                    bis.close();
+                    dis.close();
+                    // identifico el sistema operativo para guardar el archivo
+                    // creo una ruta por is hay que crear la carpeta y otra para el archivo
+                    String separador = System.getProperty("file.separator");
+                    String sPath;
+                    String sDir;
+                    if (isWindows()) {
+                        sPath = "c:" + guarda.separator + "pdf" + File.separator + guarda.getName();
+                        sDir = "c:" + guarda.separator + "pdf";
+                    } else {
+                        sPath = guarda.separator + "pdf" + File.separator + guarda.getName();
+                        sDir = guarda.separator + "pdf";
                     }
-
-
-
+                    //genero el puto directorio
+                    java.io.File dir = new File(sDir);
+                    if (!dir.exists()) {
+                        dir.mkdirs();
+                    }
+                    // aca va a guardar el archivo. Cruce los dedos
+                    FileOutputStream ou = new FileOutputStream(sPath, true); //con true no da permiso denegado: cito celebre comentario de java ! only god and know way i do this. now only good :D
+                    ou.write(cont2);
+                    as.setArchivoPdf(guarda.getName());
+                } catch (FileNotFoundException e) {
+                    throw e;
+                } catch (IOException ex) {
+                    throw ex;
+                }
             }
 
+            
+            logicaAspirante.getInstance().altaAspirante(as);
+            lblError.setText("Aspirante credo con éxito");
+            limpiarVentana();
+            iniciarBotones();
+
         } catch (Exception e) {
+            lblError.setText(e.getMessage());
         }
     }//GEN-LAST:event_btnAgregarActionPerformed
+
+    private void limpiarVentana() {
+        txtApellido.setText("");
+        txtCedula.setText("");
+        txtNombre.setText("");
+        guarda = null;
+        jcbEdad.setSelectedItem(0);
+        listAreas.clearSelection();
+    }
+
+    private boolean isWindows() {
+
+        String so = System.getProperty("os.name").toLowerCase();
+        return (so.indexOf("win") >= 0);
+
+    }
 
     private void btnSubeArchivoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSubeArchivoActionPerformed
         guardarArchivo();
@@ -333,6 +416,97 @@ public class registroAspirante extends javax.swing.JFrame {
 private void jcbEdadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jcbEdadActionPerformed
 // TODO add your handling code here:
 }//GEN-LAST:event_jcbEdadActionPerformed
+
+    private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
+        try {
+            logicaAspirante.getInstance().eliminarAspirante(txtCedula.getText());
+            iniciarBotones();
+            limpiarVentana();
+            lblError.setText("Aspirante Eliminado");
+            
+        } catch (Exception e) {
+            lblError.setText(e.getMessage());
+        }
+    }//GEN-LAST:event_btnEliminarActionPerformed
+
+    private void btnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarActionPerformed
+        try {
+            if (!txtCedula.getText().isEmpty()) {
+                String cedula = txtCedula.getText();
+
+            } else {
+                throw new Exception("Debe ingresar una cedula");
+            }
+            DataAspirante as = new DataAspirante();
+            as.setCedula(txtCedula.getText());
+            as.setNombre(txtNombre.getText());
+            as.setApellido(txtApellido.getText());
+
+            if (jcbEdad.getSelectedItem() != null) {
+                as.setEdad((Integer) jcbEdad.getSelectedItem());
+            } else {
+                throw new Exception("Debe seleccionar una edad");
+            }
+            
+            List<DataArea> areas;
+            areas = listAreas.getSelectedValuesList();
+            if (areas.isEmpty()) {
+                throw new Exception("Debe seleccionar al menos una area");
+            }
+            as.setAreasDeInteres(areas);
+
+            if (guarda != null) {
+                File file = guarda;
+                FileInputStream fis = null;
+                BufferedInputStream bis = null;
+                DataInputStream dis = null;
+                byte cont2[] = new byte[(int) file.length()];
+                int bites = 0;
+                try {
+                    fis = new FileInputStream(file);
+                    // arranco lo buffer de lectura
+                    bis = new BufferedInputStream(fis);
+                    dis = new DataInputStream(bis);
+                    bites = dis.read(cont2);
+                    // cierro todo los recursos de los buffer
+                    fis.close();
+                    bis.close();
+                    dis.close();
+                    // identifico el sistema operativo para guardar el archivo
+                    // creo una ruta por is hay que crear la carpeta y otra para el archivo
+                    String separador = System.getProperty("file.separator");
+                    String sPath;
+                    String sDir;
+                    if (isWindows()) {
+                        sPath = "c:" + guarda.separator + "pdf" + File.separator + guarda.getName();
+                        sDir = "c:" + guarda.separator + "pdf";
+                    } else {
+                        sPath = guarda.separator + "pdf" + File.separator + guarda.getName();
+                        sDir = guarda.separator + "pdf";
+                    }
+                    //genero el puto directorio
+                    java.io.File dir = new File(sDir);
+                    if (!dir.exists()) {
+                        dir.mkdirs();
+                    }
+                    // aca va a guardar el archivo. Cruce los dedos
+                    FileOutputStream ou = new FileOutputStream(sPath, true); //con true no da permiso denegado: cito celebre comentario de java ! only god and know way i do this. now only good :D
+                    ou.write(cont2);
+                    as.setArchivoPdf(guarda.getName());
+                } catch (FileNotFoundException e) {
+                    throw e;
+                } catch (IOException ex) {
+                    throw ex;
+                }
+            }
+            logicaAspirante.getInstance().modAspirante(as);
+            lblError.setText("Aspirante modificado con éxito");
+            limpiarVentana();
+            iniciarBotones();
+        } catch (Exception ex){
+            lblError.setText(ex.getMessage());
+        }
+    }//GEN-LAST:event_btnModificarActionPerformed
 
     /**
      * @param args the command line arguments

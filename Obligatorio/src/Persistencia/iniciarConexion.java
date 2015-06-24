@@ -19,7 +19,7 @@ public class iniciarConexion {
     public static Connection  getConection () throws ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException {
         Connection con;
         Class.forName("com.mysql.jdbc.Driver").newInstance();
-      return con = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/Obli_RRHH", "root", "password");
+      return con = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/Obli_RRHH", "root", "");
     }
     
 }

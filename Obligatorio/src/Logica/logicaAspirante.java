@@ -67,8 +67,8 @@ public class logicaAspirante {
     
     private void validaCrearAspirante(String cedula) throws Exception {
         try {
-            Aspirante as = null;
-            as = convertirDatatypeEnAspirante(persistenciaAspirante.getInstance().buscarAspirante(cedula));
+            DataAspirante as = null;
+            as = persistenciaAspirante.getInstance().buscarAspirante(cedula);
             if (as != null) {
                 throw new AspiranteExisteExcepcion();
             }
