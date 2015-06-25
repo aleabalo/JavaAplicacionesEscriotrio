@@ -1,4 +1,4 @@
-<?xml version="1.1" encoding="UTF-8" ?>
+<?xml version="1.0" encoding="UTF-8" ?>
 
 <Form version="1.3" maxVersion="1.7" type="org.netbeans.modules.form.forminfo.JFrameFormInfo">
   <Properties>
@@ -6,6 +6,7 @@
   </Properties>
   <SyntheticProperties>
     <SyntheticProperty name="formSizePolicy" type="int" value="1"/>
+    <SyntheticProperty name="generateCenter" type="boolean" value="false"/>
   </SyntheticProperties>
   <AuxValues>
     <AuxValue name="FormSettings_autoResourcing" type="java.lang.Integer" value="0"/>
@@ -293,18 +294,27 @@
             <Property name="text" type="java.lang.String" value="Registrar Oferta"/>
             <Property name="name" type="java.lang.String" value="btnRegistrar" noResource="true"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="BtnRegistrarActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="BtnModificar">
           <Properties>
             <Property name="text" type="java.lang.String" value="Modificar Oferta"/>
             <Property name="name" type="java.lang.String" value="btnModificar" noResource="true"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="BtnModificarActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="BtnDesactivar">
           <Properties>
             <Property name="text" type="java.lang.String" value="Desactivar Oferta"/>
             <Property name="name" type="java.lang.String" value="btnDesactivar" noResource="true"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="BtnDesactivarActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JLabel" name="lblError">
           <Properties>
