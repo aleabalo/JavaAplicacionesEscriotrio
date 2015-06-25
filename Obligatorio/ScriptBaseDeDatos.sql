@@ -415,7 +415,8 @@ DELIMITER $$
 CREATE PROCEDURE buscarOferta(
 _Id int
 )
-BEGIN Select * from Oferta where IdOferta=_Id;
+BEGIN 
+Select * from Oferta where IdOferta=_Id;
 END $$
 
 DELIMITER ;
