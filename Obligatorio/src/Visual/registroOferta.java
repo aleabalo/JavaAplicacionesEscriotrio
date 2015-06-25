@@ -75,6 +75,7 @@ public class registroOferta extends javax.swing.JFrame {
         BtnDesactivar.setVisible(true);
         BtnModificar.setVisible(true);
         txtIdOferta.setEditable(false);
+        lblError.setText("");
     }
 
     private void validarId() {
@@ -86,10 +87,6 @@ public class registroOferta extends javax.swing.JFrame {
         }
     }
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> a56c929cb3b463df4ac359ccc464ef53790717e1
     private void validarFormulario() throws Exception {
         if (txtTitulo.getText().isEmpty()) {
             throw new Exception("Debe ingresar un titulo");
@@ -111,60 +108,6 @@ public class registroOferta extends javax.swing.JFrame {
         }
         if (ComboEmpresa.getSelectedItem() == null) {
             throw new Exception("debe seleccionar una empresa");
-<<<<<<< HEAD
-=======
-    private void validarDatos() {
-        try {
-            int id = -1;
-            id = Integer.parseInt(txtIdOferta.getText());
-        } catch (Exception e) {
-            lblError.setText("El Id debe ser numerico");
-            lblError.setVisible(true);
-        }
-        try {
-            String Titulo;
-            Titulo = txtTitulo.getText();
-        } catch (Exception e) {
-            lblError.setText("Error en el Titulo");
-            lblError.setVisible(true);
-        }
-        try {
-            String Cargo;
-            Cargo = txtCargo.getText();
-        } catch (Exception e) {
-            lblError.setText("Error en el Cargo");
-            lblError.setVisible(true);
-        }
-        try {
-            String Req;
-            Req = txtReq.getText();
-        } catch (Exception e) {
-            lblError.setText("Error en los Requerimientos");
-            lblError.setVisible(true);
-        }
-        try {
-            int Puestos;
-            Puestos = Integer.parseInt(txtPuestos.getText());
-        } catch (Exception e) {
-            lblError.setText("El Puesto debe ser un numero");
-            lblError.setVisible(true);
-        }
-        try {
-            DataArea ar;
-            ar = (DataArea) ComboArea.getSelectedItem();
-        } catch (Exception e) {
-            lblError.setText("Error en el Area");
-            lblError.setVisible(true);
-        }
-        try {
-            DataEmpresa em;
-            em = (DataEmpresa) ComboEmpresa.getSelectedItem();
-        } catch (Exception e) {
-            lblError.setText("Error en la Empresa");
-            lblError.setVisible(true);
->>>>>>> Fin de ABM Oferta, falta hacerle algunas pruebas y cargar datos por defecto en la base
-=======
->>>>>>> a56c929cb3b463df4ac359ccc464ef53790717e1
         }
     }
 
@@ -173,9 +116,7 @@ public class registroOferta extends javax.swing.JFrame {
         txtCargo.setText("");
         txtReq.setText("");
         txtPuestos.setText("");
-        ComboArea.setSelectedItem(0);
-        ComboEmpresa.setSelectedItem(0);
-        //ver en la prueba que hace esto porque no estoy segura de que este bien       
+        //pendiente de ver que dejo seleccionado en el combo area y combo empresa        
     }
 
     /**
@@ -280,19 +221,9 @@ public class registroOferta extends javax.swing.JFrame {
 
         BtnModificar.setText("Modificar Oferta");
         BtnModificar.setName("btnModificar"); // NOI18N
-        BtnModificar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                BtnModificarActionPerformed(evt);
-            }
-        });
 
         BtnDesactivar.setText("Desactivar Oferta");
         BtnDesactivar.setName("btnDesactivar"); // NOI18N
-        BtnDesactivar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                BtnDesactivarActionPerformed(evt);
-            }
-        });
 
         lblError.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblError.setName("lblError"); // NOI18N
@@ -413,17 +344,13 @@ public class registroOferta extends javax.swing.JFrame {
             validarId();
             int a = Integer.parseInt(txtIdOferta.getText());
             DataOferta of = logicaOferta.getInstance().buscarOferta(a);
-            if (of != null) {
-                txtTitulo.setText(of.getTitulo());
-                txtCargo.setText(of.getCargo());
-                txtReq.setText(of.getRequerimientos());
-                txtPuestos.setText(String.valueOf(of.getPuestos()));
-                ComboArea.setSelectedItem(of.getArea());
-                ComboEmpresa.setSelectedItem(of.getEmpresa());
-                iniciarBotonesEdit();
-            } else{
-                lblError.setText("No existe la Oferta, puede dar de alta");
-            }
+            txtTitulo.setText(of.getTitulo());
+            txtCargo.setText(of.getCargo());
+            txtReq.setText(of.getRequerimientos());
+            txtPuestos.setText(String.valueOf(of.getPuestos()));
+            ComboArea.setSelectedItem(of.getArea());
+            ComboEmpresa.setSelectedItem(of.getEmpresa());
+            iniciarBotonesEdit();
 
         } catch (Exception e) {
             lblError.setText(e.getMessage());
@@ -438,10 +365,6 @@ public class registroOferta extends javax.swing.JFrame {
 
     private void BtnRegistrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnRegistrarActionPerformed
         try {
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> a56c929cb3b463df4ac359ccc464ef53790717e1
             DataOferta ofera = new DataOferta();
             validarFormulario();
             ofera.setPuestos(Integer.parseInt(txtPuestos.getText()));
@@ -458,78 +381,6 @@ public class registroOferta extends javax.swing.JFrame {
 
 
     }//GEN-LAST:event_BtnRegistrarActionPerformed
-<<<<<<< HEAD
-=======
-            // Alta de Oferta
-            lblError.setText("");
-            validarId();
-            validarDatos();
-            //Creo el Objeto DataOferta para mandar el alta
-            DataOferta of = new DataOferta();
-            of.setId(0); //le pongo un cero porque es autonumerado y lo va a asignar la base autom.
-            of.setCargo(txtCargo.getText());
-            of.setTitulo(txtTitulo.getText());
-            of.setRequerimientos(txtReq.getText());
-            of.setPuestos(Integer.parseInt(txtPuestos.getText()));
-            of.setArea((DataArea) ComboArea.getSelectedItem());
-            of.setEmpresa((DataEmpresa) ComboEmpresa.getSelectedItem());
-            logicaOferta.getInstance().altaOferta(of);
-            lblError.setText("Oferta dada de alta correctamente");
-            iniciarBotones();
-            limpiarCampos();
-        } catch (Exception e) {
-            lblError.setText(e.getMessage());
-            iniciarBotones();
-            limpiarCampos();
-        }
-    }//GEN-LAST:event_BtnRegistrarActionPerformed
-
-    private void BtnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnModificarActionPerformed
-        try {
-            // Modificacion de Oferta
-            lblError.setText("");
-            validarId();
-            validarDatos();
-            //Creo el Objeto DataOferta para mandar a la logica
-            DataOferta of = new DataOferta();
-            of.setId(Integer.parseInt(txtIdOferta.getText())); //tomo el id de oferta que me trajo el buscar
-            of.setCargo(txtCargo.getText());
-            of.setTitulo(txtTitulo.getText());
-            of.setRequerimientos(txtReq.getText());
-            of.setPuestos(Integer.parseInt(txtPuestos.getText()));
-            of.setArea((DataArea) ComboArea.getSelectedItem());
-            of.setEmpresa((DataEmpresa) ComboEmpresa.getSelectedItem());
-            logicaOferta.getInstance().modOferta(of);
-            lblError.setText("Oferta modificada correctamente");
-            iniciarBotones();
-            limpiarCampos();
-        } catch (Exception e) {
-            lblError.setText(e.getMessage());
-            iniciarBotones();
-            limpiarCampos();
-        }
-    }//GEN-LAST:event_BtnModificarActionPerformed
-
-    private void BtnDesactivarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnDesactivarActionPerformed
-        try {
-            // Desactivar Oferta
-            lblError.setText("");
-            validarId();
-            //Creo el Objeto DataOferta para mandar a la logica
-            DataOferta of = logicaOferta.getInstance().buscarOferta(Integer.parseInt(txtIdOferta.getText()));
-            logicaOferta.getInstance().desactivarOferta(of);
-            lblError.setText("Oferta desactivada correctamente");
-            iniciarBotones();
-            limpiarCampos();
-        } catch (Exception e) {
-            lblError.setText(e.getMessage());
-            iniciarBotones();
-            limpiarCampos();
-        }
-    }//GEN-LAST:event_BtnDesactivarActionPerformed
->>>>>>> Fin de ABM Oferta, falta hacerle algunas pruebas y cargar datos por defecto en la base
-=======
->>>>>>> a56c929cb3b463df4ac359ccc464ef53790717e1
 
     /**
      * @param args the command line arguments
