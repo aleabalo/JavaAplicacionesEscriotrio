@@ -74,8 +74,7 @@ public class registroOferta extends javax.swing.JFrame {
         BtnRegistrar.setVisible(false);
         BtnDesactivar.setVisible(true);
         BtnModificar.setVisible(true);
-        txtIdOferta.setEditable(false);
-        lblError.setText("");
+        txtIdOferta.setEditable(false);        
     }
 
     private void validarId() {
@@ -116,7 +115,9 @@ public class registroOferta extends javax.swing.JFrame {
         txtCargo.setText("");
         txtReq.setText("");
         txtPuestos.setText("");
-        //pendiente de ver que dejo seleccionado en el combo area y combo empresa        
+        ComboArea.setSelectedItem(0);
+        ComboEmpresa.setSelectedItem(0);
+        //ver si esto queda bien con la prueba        
     }
 
     /**
@@ -221,9 +222,19 @@ public class registroOferta extends javax.swing.JFrame {
 
         BtnModificar.setText("Modificar Oferta");
         BtnModificar.setName("btnModificar"); // NOI18N
+        BtnModificar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BtnModificarActionPerformed(evt);
+            }
+        });
 
         BtnDesactivar.setText("Desactivar Oferta");
         BtnDesactivar.setName("btnDesactivar"); // NOI18N
+        BtnDesactivar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BtnDesactivarActionPerformed(evt);
+            }
+        });
 
         lblError.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblError.setName("lblError"); // NOI18N
@@ -236,14 +247,14 @@ public class registroOferta extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(45, 45, 45)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                             .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, 114, Short.MAX_VALUE)
                             .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
@@ -282,13 +293,13 @@ public class registroOferta extends javax.swing.JFrame {
                     .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txtTitulo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 46, Short.MAX_VALUE)
+                    .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 47, Short.MAX_VALUE)
+                    .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(13, 13, 13)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -365,6 +376,7 @@ public class registroOferta extends javax.swing.JFrame {
 
     private void BtnRegistrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnRegistrarActionPerformed
         try {
+            lblError.setText("");
             DataOferta ofera = new DataOferta();
             validarFormulario();
             ofera.setPuestos(Integer.parseInt(txtPuestos.getText()));
@@ -374,13 +386,43 @@ public class registroOferta extends javax.swing.JFrame {
             ofera.setArea((DataArea)ComboArea.getSelectedItem());
             ofera.setEmpresa((DataEmpresa)ComboEmpresa.getSelectedItem());
             logicaOferta.getInstance().altaOferta(ofera);
+            limpiarCampos();
             lblError.setText("Oferta Creada con exito");
+        } catch (Exception e) {
+            lblError.setText(e.getMessage());            
+        }
+    }//GEN-LAST:event_BtnRegistrarActionPerformed
+
+    private void BtnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnModificarActionPerformed
+        try {   
+            lblError.setText("");
+            validarFormulario();
+            DataOferta ofera = logicaOferta.getInstance().buscarOferta(Integer.parseInt(txtIdOferta.getText()));
+            ofera.setPuestos(Integer.parseInt(txtPuestos.getText()));
+            ofera.setRequerimientos(txtReq.getText());
+            ofera.setTitulo(txtTitulo.getText());
+            ofera.setCargo(txtCargo.getText());
+            ofera.setArea((DataArea)ComboArea.getSelectedItem());
+            ofera.setEmpresa((DataEmpresa)ComboEmpresa.getSelectedItem());
+            logicaOferta.getInstance().altaOferta(ofera);
+            limpiarCampos();
+            lblError.setText("Oferta modificada con exito");
         } catch (Exception e) {
             lblError.setText(e.getMessage());
         }
+    }//GEN-LAST:event_BtnModificarActionPerformed
 
-
-    }//GEN-LAST:event_BtnRegistrarActionPerformed
+    private void BtnDesactivarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnDesactivarActionPerformed
+        try {            
+            validarFormulario();
+            DataOferta ofera = logicaOferta.getInstance().buscarOferta(Integer.parseInt(txtIdOferta.getText()));            
+            logicaOferta.getInstance().desactivarOferta(ofera);
+            limpiarCampos();
+            lblError.setText("Oferta desactivada con exito");
+        } catch (Exception e) {
+            lblError.setText(e.getMessage());
+        }
+    }//GEN-LAST:event_BtnDesactivarActionPerformed
 
     /**
      * @param args the command line arguments
