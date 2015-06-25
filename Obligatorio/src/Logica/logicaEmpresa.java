@@ -52,7 +52,7 @@ public class logicaEmpresa {
 
     private void validateCrear(DataEmpresa e) throws Exception {
 
-        if (this.buscarEmpresa(e.getRut()) != null) {
+        if (persistenciaEmpresa.getInstance().buscarEmpresa(e.getRut()) != null) {
             throw new EmpresaExisteException();
         }
         Empresa em;

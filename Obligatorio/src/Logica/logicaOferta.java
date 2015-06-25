@@ -82,11 +82,6 @@ public class logicaOferta {
         if (this.buscarOferta(o.getId()) != null) {
             throw new ExisteOfertaException();
         }
-        Oferta of;
-        of = this.convertirDatatypeEnOferta(o);
-        if (of == null) {
-            throw new Exception("Error creando la oferta");
-        }
     }
     
     private void validaModificarElminar(int id) throws Exception {
