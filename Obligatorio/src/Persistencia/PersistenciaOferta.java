@@ -38,6 +38,13 @@ public class PersistenciaOferta {
         CallableStatement ps = null;
         try {
             con = (Connection) iniciarConexion.getConection();
+            
+//            _Descrip char(200),
+//_Puestos int,
+//_Titulo char(100),
+//_Req char(200),
+//_Empresa int,
+//_Area int)
             ps = (CallableStatement) con.prepareCall("{call altaOferta (?,?,?,?,?,?)}");
             ps.setString(1, o.getCargo());
             ps.setInt(2, o.getPuestos());

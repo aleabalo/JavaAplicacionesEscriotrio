@@ -87,6 +87,9 @@ public class registroOferta extends javax.swing.JFrame {
     }
 
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> a56c929cb3b463df4ac359ccc464ef53790717e1
     private void validarFormulario() throws Exception {
         if (txtTitulo.getText().isEmpty()) {
             throw new Exception("Debe ingresar un titulo");
@@ -108,6 +111,7 @@ public class registroOferta extends javax.swing.JFrame {
         }
         if (ComboEmpresa.getSelectedItem() == null) {
             throw new Exception("debe seleccionar una empresa");
+<<<<<<< HEAD
 =======
     private void validarDatos() {
         try {
@@ -159,6 +163,8 @@ public class registroOferta extends javax.swing.JFrame {
             lblError.setText("Error en la Empresa");
             lblError.setVisible(true);
 >>>>>>> Fin de ABM Oferta, falta hacerle algunas pruebas y cargar datos por defecto en la base
+=======
+>>>>>>> a56c929cb3b463df4ac359ccc464ef53790717e1
         }
     }
 
@@ -433,6 +439,9 @@ public class registroOferta extends javax.swing.JFrame {
     private void BtnRegistrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnRegistrarActionPerformed
         try {
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> a56c929cb3b463df4ac359ccc464ef53790717e1
             DataOferta ofera = new DataOferta();
             validarFormulario();
             ofera.setPuestos(Integer.parseInt(txtPuestos.getText()));
@@ -449,6 +458,7 @@ public class registroOferta extends javax.swing.JFrame {
 
 
     }//GEN-LAST:event_BtnRegistrarActionPerformed
+<<<<<<< HEAD
 =======
             // Alta de Oferta
             lblError.setText("");
@@ -518,6 +528,8 @@ public class registroOferta extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_BtnDesactivarActionPerformed
 >>>>>>> Fin de ABM Oferta, falta hacerle algunas pruebas y cargar datos por defecto en la base
+=======
+>>>>>>> a56c929cb3b463df4ac359ccc464ef53790717e1
 
     /**
      * @param args the command line arguments

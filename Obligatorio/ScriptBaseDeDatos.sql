@@ -365,7 +365,7 @@ _Req char(200),
 _Empresa int,
 _Area int)
 BEGIN
-Insert into Oferta values(_Descrip,_Puestos,_Titulo,_Req,true,_Empresa,_Area);
+Insert into Oferta (DescCargo,Puestos,Titulo,Requerimientos, Activo, Empresa, IdArea)values(_Descrip,_Puestos,_Titulo,_Req,true,_Empresa,_Area);
 END $$
 
 DELIMITER ;
@@ -415,7 +415,8 @@ DELIMITER $$
 CREATE PROCEDURE buscarOferta(
 _Id int
 )
-BEGIN Select * from Oferta where IdOferta=_Id;
+BEGIN 
+Select * from Oferta where IdOferta=_Id;
 END $$
 
 DELIMITER ;
