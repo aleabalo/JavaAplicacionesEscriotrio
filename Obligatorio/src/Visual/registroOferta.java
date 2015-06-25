@@ -8,6 +8,7 @@ package Visual;
 import DataTypes.DataArea;
 import DataTypes.DataEmpresa;
 import DataTypes.DataOferta;
+import Logica.logicaArea;
 import Logica.logicaEmpresa;
 import Logica.logicaOferta;
 import java.util.List;
@@ -23,19 +24,20 @@ public class registroOferta extends javax.swing.JFrame {
      */
     public registroOferta() {
         initComponents();
-        CargarOfertas();
+        CargarAreas();
         CargarEmpresas();
         iniciarBotones();
     }
 
     //Cargo la lista de Ofertas
-    private void CargarOfertas() {
+    private void CargarAreas() {
         try {
-            List<DataOferta> lista = logicaOferta.getInstance().listaOferta();
+            ComboArea.removeAllItems();
+            List<DataArea> lista = logicaArea.getInstance().ListarArea();
             if (lista.isEmpty()) {
                 throw new Exception("No hay áreas ingresadas en el sistema.");
             } else {
-                for (DataOferta o : lista) {
+                for (DataArea o : lista) {
                     ComboArea.addItem(o);
                 }
             }
@@ -47,6 +49,7 @@ public class registroOferta extends javax.swing.JFrame {
     //Cargo la lista de Empresas en el combo
     private void CargarEmpresas() {
         try {
+            ComboEmpresa.removeAllItems();
             List<DataEmpresa> lista = logicaEmpresa.getInstance().ListEmpresa();
             if (lista.isEmpty()) {
                 throw new Exception("No hay Empresas ingresadas en el sistema.");
@@ -83,6 +86,29 @@ public class registroOferta extends javax.swing.JFrame {
         }
     }
 
+<<<<<<< HEAD
+    private void validarFormulario() throws Exception {
+        if (txtTitulo.getText().isEmpty()) {
+            throw new Exception("Debe ingresar un titulo");
+        }
+        if (txtCargo.getText().isEmpty()) {
+            throw new Exception("Debe ingresar una descripcion del cargo");
+        }
+        if (txtReq.getText().isEmpty()) {
+            throw new Exception("Debe ingresar un requerimiento");
+        }
+        try {
+            int a = Integer.parseInt(txtPuestos.getText());
+        } catch (Exception e) {
+            throw new Exception("La cantidad de puestos debe ser numerica");
+        }
+
+        if (ComboArea.getSelectedItem() == null) {
+            throw new Exception("debe seleccionar una area");
+        }
+        if (ComboEmpresa.getSelectedItem() == null) {
+            throw new Exception("debe seleccionar una empresa");
+=======
     private void validarDatos() {
         try {
             int id = -1;
@@ -132,6 +158,7 @@ public class registroOferta extends javax.swing.JFrame {
         } catch (Exception e) {
             lblError.setText("Error en la Empresa");
             lblError.setVisible(true);
+>>>>>>> Fin de ABM Oferta, falta hacerle algunas pruebas y cargar datos por defecto en la base
         }
     }
 
@@ -405,6 +432,24 @@ public class registroOferta extends javax.swing.JFrame {
 
     private void BtnRegistrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnRegistrarActionPerformed
         try {
+<<<<<<< HEAD
+            DataOferta ofera = new DataOferta();
+            validarFormulario();
+            ofera.setPuestos(Integer.parseInt(txtPuestos.getText()));
+            ofera.setRequerimientos(txtReq.getText());
+            ofera.setTitulo(txtTitulo.getText());
+            ofera.setCargo(txtCargo.getText());
+            ofera.setArea((DataArea)ComboArea.getSelectedItem());
+            ofera.setEmpresa((DataEmpresa)ComboEmpresa.getSelectedItem());
+            logicaOferta.getInstance().altaOferta(ofera);
+            lblError.setText("Oferta Creada con exito");
+        } catch (Exception e) {
+            lblError.setText(e.getMessage());
+        }
+
+
+    }//GEN-LAST:event_BtnRegistrarActionPerformed
+=======
             // Alta de Oferta
             lblError.setText("");
             validarId();
@@ -472,6 +517,7 @@ public class registroOferta extends javax.swing.JFrame {
             limpiarCampos();
         }
     }//GEN-LAST:event_BtnDesactivarActionPerformed
+>>>>>>> Fin de ABM Oferta, falta hacerle algunas pruebas y cargar datos por defecto en la base
 
     /**
      * @param args the command line arguments
