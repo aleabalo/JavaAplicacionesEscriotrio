@@ -9,7 +9,6 @@ import DataTypes.DataArea;
 import DataTypes.DataAspirante;
 import DataTypes.DataOferta;
 import Logica.logicaAspirante;
-import Logica.logicaEntrevista;
 import Logica.logicaOferta;
 import java.util.List;
 
@@ -136,9 +135,9 @@ public class solicitudEntrevista extends javax.swing.JFrame {
         lblTitulo.setText("Solicitar Entrevista - Candidato");
 
         ComboOfertas.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        ComboOfertas.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ComboOfertasActionPerformed(evt);
+        ComboOfertas.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                ComboOfertasItemStateChanged(evt);
             }
         });
 
@@ -149,9 +148,9 @@ public class solicitudEntrevista extends javax.swing.JFrame {
         lblAspirante.setText("Aspirante:");
 
         ComboAspirante.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        ComboAspirante.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ComboAspiranteActionPerformed(evt);
+        ComboAspirante.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                ComboAspiranteItemStateChanged(evt);
             }
         });
 
@@ -310,7 +309,34 @@ public class solicitudEntrevista extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void ComboAspiranteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ComboAspiranteActionPerformed
+    private void BtnSolicitudActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnSolicitudActionPerformed
+        //Registrar solicitud de entrevista del candidato para la oferta
+        try {
+            lblError.setText("");
+            validarFormulario();
+            DataAspirante das = (DataAspirante) (ComboAspirante.getSelectedItem());
+            DataOferta dof = (DataOferta) (ComboOfertas.getSelectedItem());
+            if (das == null) {
+                throw new Exception("Debe Seleccionar un Aspirante");
+            } else if (dof == null) {
+                throw new Exception("Debe Seleccionar una Oferta");
+            } else {                
+                //Verifico si el candidato ya tiene una solicitud activa
+                for (DataAspirante as : dof.getAspirante()) {
+                    if (as.equals(das)) {
+                        throw new Exception("El Aspirante ya se encuentra registrado a esta Oferta");
+                    }
+                }
+                //Realizo la solicitud de entrevista que sera aceptada o no por la empresa
+                logicaOferta.getInstance().solicitarEntrevista(das, dof);
+            }
+        } catch (Exception e) {
+            lblError.setText(e.getMessage());
+            iniciarBotones();
+        }
+    }//GEN-LAST:event_BtnSolicitudActionPerformed
+
+    private void ComboAspiranteItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_ComboAspiranteItemStateChanged
         //Cuando seleccione un Aspirante
         try {
             lblError.setText("");
@@ -324,9 +350,9 @@ public class solicitudEntrevista extends javax.swing.JFrame {
             lblError.setText(e.getMessage());
             iniciarBotones();
         }
-    }//GEN-LAST:event_ComboAspiranteActionPerformed
+    }//GEN-LAST:event_ComboAspiranteItemStateChanged
 
-    private void ComboOfertasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ComboOfertasActionPerformed
+    private void ComboOfertasItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_ComboOfertasItemStateChanged
         //Cuando selecciona una Oferta despliego sus datos y habilito el registro a Entrevista
         try {
             lblError.setText("");
@@ -356,34 +382,7 @@ public class solicitudEntrevista extends javax.swing.JFrame {
             lblError.setText(e.getMessage());
             iniciarBotones();
         }
-    }//GEN-LAST:event_ComboOfertasActionPerformed
-
-    private void BtnSolicitudActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnSolicitudActionPerformed
-        //Registrar solicitud de entrevista del candidato para la oferta
-        try {
-            lblError.setText("");
-            validarFormulario();
-            DataAspirante das = (DataAspirante) (ComboAspirante.getSelectedItem());
-            DataOferta dof = (DataOferta) (ComboOfertas.getSelectedItem());
-            if (das == null) {
-                throw new Exception("Debe Seleccionar un Aspirante");
-            } else if (dof == null) {
-                throw new Exception("Debe Seleccionar una Oferta");
-            } else {                
-                //Verifico si el candidato ya tiene una solicitud activa
-                for (DataAspirante as : dof.getAspirante()) {
-                    if (as.equals(das)) {
-                        throw new Exception("El Aspirante ya se encuentra registrado a esta Oferta");
-                    }
-                }
-                //Realizo la solicitud de entrevista que sera aceptada o no por la empresa
-                logicaOferta.getInstance().solicitarEntrevista(das, dof);
-            }
-        } catch (Exception e) {
-            lblError.setText(e.getMessage());
-            iniciarBotones();
-        }
-    }//GEN-LAST:event_BtnSolicitudActionPerformed
+    }//GEN-LAST:event_ComboOfertasItemStateChanged
 
     /**
      * @param args the command line arguments
