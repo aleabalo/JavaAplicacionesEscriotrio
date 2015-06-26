@@ -73,7 +73,7 @@ public class DataAspirante {
     
     @Override
     public String toString() {
-        String nombre = (this.Apellido + ", " + this.Nombre + " - " + this.Cedula);
+        String nombre = (this.Apellido + ", " + this.Nombre + " - CI: " + this.Cedula);
         return nombre;
     }  
     
