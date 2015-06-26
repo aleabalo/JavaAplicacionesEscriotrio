@@ -37,14 +37,8 @@ public class PersistenciaOferta {
         Connection con = null;
         CallableStatement ps = null;
         try {
-            con = (Connection) iniciarConexion.getConection();
-            
-//            _Descrip char(200),
-//_Puestos int,
-//_Titulo char(100),
-//_Req char(200),
-//_Empresa int,
-//_Area int)
+            con = (Connection) iniciarConexion.getConection();            
+
             ps = (CallableStatement) con.prepareCall("{call altaOferta (?,?,?,?,?,?)}");
             ps.setString(1, o.getCargo());
             ps.setInt(2, o.getPuestos());
@@ -197,6 +191,24 @@ public class PersistenciaOferta {
         }
     }
 
+    //Solicitar entrevista para una oferta    
+    public void solicitarEntrevista(DataOferta o, DataAspirante a) throws Exception {
+        Connection con = null;
+        CallableStatement ps = null;
+        try {
+            con = (Connection) iniciarConexion.getConection();
+            ps = (CallableStatement) con.prepareCall("{call solicitarEntrevista (?,?)}");
+            ps.setInt(1, o.getId());
+            ps.setString(2, a.getCedula());
+            ps.execute();
+        } catch (Exception ex) {
+            throw ex;
+        }finally {
+            ps.close();
+            con.close();
+        }
+    }    
+    
     //Denegar solicitud de entrevista a un Aspirante
     public void rechazarEntrevista(DataOferta o, DataAspirante a) throws Exception {
         Connection con = null;

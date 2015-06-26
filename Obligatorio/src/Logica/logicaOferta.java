@@ -147,4 +147,30 @@ public class logicaOferta {
         }     
     }
     
+    //Solicitar una entrevista para una Oferta dada
+    public void solicitarEntrevista(DataAspirante as, DataOferta of) throws Exception{
+        try{
+            Oferta o = this.convertirDatatypeEnOferta(of);
+            if(o != null){
+                validaModificarElminar(o.getId());
+                PersistenciaOferta.getInstance().solicitarEntrevista(of, as);
+            }            
+        } catch (Exception ex) {
+            throw ex;
+        }        
+    }    
+    
+    //Denegar una solicitud de Entrevista a un candidato
+    public void rechazarEntrevista(DataAspirante as, DataOferta of) throws Exception{
+        try{
+            Oferta o = this.convertirDatatypeEnOferta(of);
+            if(o != null){
+                validaModificarElminar(o.getId());
+                PersistenciaOferta.getInstance().rechazarEntrevista(of, as);                
+            }            
+        } catch (Exception ex) {
+            throw ex;
+        }        
+    }
+    
 }
