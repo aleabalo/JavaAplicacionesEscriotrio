@@ -68,7 +68,48 @@ Fin date,
 Primary key(Id)
 );
 
+-- *************************ALTA DE REGISTROS DE PRUEBA*******************************
+-- Empresa
+insert into Empresa values(123456789, 'Empresa 1', 'Direccion Empresa 1', '11111111');
+insert into Empresa values(12345666, 'Empresa 2', 'Direccion Empresa 2', '22222222');
+insert into Empresa values(78954623, 'Empresa 3', 'Direccion Empresa 3', '33333333');
+insert into Empresa values(147852369, 'Empresa 4', 'Direccion Empresa 4', '44444444');
 
+-- Area
+insert into Area(DescArea) values('Administracion');
+insert into Area(DescArea) values('Informatica');
+insert into Area(DescArea) values('Tecnologias de la Informacion');
+insert into Area(DescArea) values('Contabilidad');
+insert into Area(DescArea) values('Limpieza');
+
+-- Ofertas
+insert into Oferta(DescCargo,Puestos,Titulo,Requerimientos,Empresa,IdArea) values('Oferta numero 1', 1, 'Oferta 1', 'Requerimientos Oferta 1', 123456789, 1);
+insert into Oferta(DescCargo,Puestos,Titulo,Requerimientos,Empresa,IdArea) values('Oferta numero 2', 2, 'Oferta 2', 'Requerimientos Oferta 2', 12345666, 2);
+insert into Oferta(DescCargo,Puestos,Titulo,Requerimientos,Empresa,IdArea) values('Oferta numero 3', 1, 'Oferta 3', 'Requerimientos Oferta 3', 78954623, 3);
+insert into Oferta(DescCargo,Puestos,Titulo,Requerimientos,Empresa,IdArea) values('Oferta numero 4', 4, 'Oferta 4', 'Requerimientos Oferta 4', 147852369, 4);
+insert into Oferta(DescCargo,Puestos,Titulo,Requerimientos,Empresa,IdArea) values('Oferta numero 6', 3, 'Oferta 5', 'Requerimientos Oferta 5', 123456789, 5);
+insert into Oferta(DescCargo,Puestos,Titulo,Requerimientos,Empresa,IdArea) values('Oferta numero 6', 2, 'Oferta 6', 'Requerimientos Oferta 6', 12345666, 1);
+insert into Oferta(DescCargo,Puestos,Titulo,Requerimientos,Empresa,IdArea) values('Oferta numero 7', 1, 'Oferta 7', 'Requerimientos Oferta 7', 78954623, 2);
+insert into Oferta(DescCargo,Puestos,Titulo,Requerimientos,Empresa,IdArea) values('Oferta numero 8', 2, 'Oferta 8', 'Requerimientos Oferta 7', 147852369, 3);
+
+-- Aspirantes
+insert into Aspirante(Cedula,Nombre,Apellido,Edad,Cv) values('11111111', 'Nombre1', 'Apellido1', 18, 'Apellido1, Nombre1');
+insert into Aspirante(Cedula,Nombre,Apellido,Edad,Cv) values('22222222', 'Nombre2', 'Apellido2', 19, 'Apellido2, Nombre2');
+insert into Aspirante(Cedula,Nombre,Apellido,Edad,Cv) values('33333333', 'Nombre3', 'Apellido3', 20, 'Apellido3, Nombre3');
+insert into Aspirante(Cedula,Nombre,Apellido,Edad,Cv) values('44444444', 'Nombre4', 'Apellido4', 21, 'Apellido4, Nombre4');
+insert into Aspirante(Cedula,Nombre,Apellido,Edad,Cv) values('55555555', 'Nombre5', 'Apellido5', 22, 'Apellido5, Nombre5');
+
+-- Areas de Interes
+insert into AreaAspirante(Cedula,IdArea) values('11111111', 1);
+insert into AreaAspirante(Cedula,IdArea) values('22222222', 2);
+insert into AreaAspirante(Cedula,IdArea) values('33333333', 1);
+insert into AreaAspirante(Cedula,IdArea) values('44444444', 2);
+insert into AreaAspirante(Cedula,IdArea) values('55555555', 3);
+insert into AreaAspirante(Cedula,IdArea) values('11111111', 4);
+insert into AreaAspirante(Cedula,IdArea) values('22222222', 3);
+insert into AreaAspirante(Cedula,IdArea) values('33333333', 4);
+insert into AreaAspirante(Cedula,IdArea) values('44444444', 5);
+insert into AreaAspirante(Cedula,IdArea) values('55555555', 5);
 
 DROP PROCEDURE IF EXISTS altaEmpresa;
 
@@ -162,11 +203,7 @@ _Edad smallint,
 _Cv char(150)
 )
 BEGIN
--- consultar si no hay que verificar perviamente como en sql server que no exista ya  un regostro con esa clave????????
--- if exists(select * from Aspirante where Cedula=_Cedula)
-	-- return -1;
-Insert into Aspirante(Cedula,Nombre,Apellido,Edad,Cv) values(_Cedula,_Nombre,_Apellido,_Edad,_Cv);
-	-- return 1;
+Insert into Aspirante(Cedula,Nombre,Apellido,Edad,Cv) values(_Cedula,_Nombre,_Apellido,_Edad,_Cv);	
 END $$
 
 DELIMITER ;
@@ -227,7 +264,6 @@ DELIMITER $$
 CREATE PROCEDURE eliminarAspirante(
 _Cedula char(10))
 BEGIN
--- consultar si no hay que verificar perviamente como en sql server que no exista ya  un regostro con esa clave????????
 Delete from AreaAspirante where Cedula=_Cedula;
 Delete from Aspirante where Cedula=_Cedula;
 END $$
@@ -245,7 +281,6 @@ CREATE PROCEDURE AltaAreaAspirante(
 _Cedula char(10),
 _IdArea int)
 BEGIN
--- consultar si no hay que verificar perviamente como en sql server que no exista ya  un regostro con esa clave????????
 Insert into AreaAspirante values(_Cedula,_IdArea);
 END $$
 
@@ -260,7 +295,6 @@ DELIMITER $$
 CREATE PROCEDURE bajaAreaAspirante(
 _Cedula char(10))
 BEGIN
--- consultar si no hay que verificar perviamente como en sql server que no exista ya  un regostro con esa clave????????
 Delete from AreaAspirante where Cedula=_Cedula;
 END $$
 
@@ -276,7 +310,6 @@ DELIMITER $$
 CREATE PROCEDURE buscarAreaAspirante(
 _Cedula char(10))
 BEGIN
--- consultar si no hay que verificar perviamente como en sql server que no exista ya  un regostro con esa clave????????
 Select * from Area where IdArea in (Select IdArea from AreaAspirante where Cedula=_Cedula);
 END $$
 
