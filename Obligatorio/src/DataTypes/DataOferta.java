@@ -91,4 +91,10 @@ public class DataOferta {
     public DataOferta() {
     }
     
+    @Override
+    public String toString() {
+        String nombre = this.Titulo;
+        return nombre;
+    }
+    
 }

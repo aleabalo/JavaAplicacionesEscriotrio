@@ -71,5 +71,10 @@ public class DataAspirante {
     public DataAspirante() {
     }
     
+    @Override
+    public String toString() {
+        String nombre = (this.Apellido + ", " + this.Nombre + " - " + this.Cedula);
+        return nombre;
+    }  
     
 }
