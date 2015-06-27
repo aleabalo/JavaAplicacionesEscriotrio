@@ -10,8 +10,6 @@ import com.mysql.jdbc.CallableStatement;
 import com.mysql.jdbc.Connection;
 import java.sql.ResultSet;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
@@ -61,7 +59,7 @@ public class PersistenciaOferta {
         CallableStatement ps = null;
         try {
             con = (Connection) iniciarConexion.getConection();
-            ps = (CallableStatement) con.prepareCall("{call altaOferta (?,?,?,?,?,?,?)}");
+            ps = (CallableStatement) con.prepareCall("{call modOferta (?,?,?,?,?,?,?)}");
             ps.setInt(1, o.getId());
             ps.setString(2, o.getCargo());
             ps.setInt(3, o.getPuestos());

@@ -74,7 +74,7 @@ public class registroOferta extends javax.swing.JFrame {
         BtnRegistrar.setVisible(false);
         BtnDesactivar.setVisible(true);
         BtnModificar.setVisible(true);
-        txtIdOferta.setEditable(false);        
+        txtIdOferta.setEditable(false);
     }
 
     private void validarId() {
@@ -111,6 +111,8 @@ public class registroOferta extends javax.swing.JFrame {
     }
 
     private void limpiarCampos() {
+        txtIdOferta.setText("");
+        txtIdOferta.setEditable(true);
         txtTitulo.setText("");
         txtCargo.setText("");
         txtReq.setText("");
@@ -152,6 +154,7 @@ public class registroOferta extends javax.swing.JFrame {
         BtnModificar = new javax.swing.JButton();
         BtnDesactivar = new javax.swing.JButton();
         lblError = new javax.swing.JLabel();
+        btnLimpiar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -162,11 +165,6 @@ public class registroOferta extends javax.swing.JFrame {
         jLabel2.setText("Id Oferta:");
 
         txtIdOferta.setName("txtIdOferta"); // NOI18N
-        txtIdOferta.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtIdOfertaActionPerformed(evt);
-            }
-        });
 
         BtnBuscar.setText("Buscar");
         BtnBuscar.setToolTipText("");
@@ -239,6 +237,13 @@ public class registroOferta extends javax.swing.JFrame {
         lblError.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblError.setName("lblError"); // NOI18N
 
+        btnLimpiar.setText("Limpiar Pantalla");
+        btnLimpiar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLimpiarActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -269,15 +274,17 @@ public class registroOferta extends javax.swing.JFrame {
                             .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 416, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 416, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(176, 176, 176)
+                        .addGap(111, 111, 111)
+                        .addComponent(lblError, javax.swing.GroupLayout.PREFERRED_SIZE, 547, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(83, 83, 83)
                         .addComponent(BtnRegistrar)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(BtnModificar)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(BtnDesactivar))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(111, 111, 111)
-                        .addComponent(lblError, javax.swing.GroupLayout.PREFERRED_SIZE, 547, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(BtnDesactivar)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btnLimpiar, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(61, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -316,7 +323,8 @@ public class registroOferta extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(BtnRegistrar)
                     .addComponent(BtnModificar)
-                    .addComponent(BtnDesactivar))
+                    .addComponent(BtnDesactivar)
+                    .addComponent(btnLimpiar))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(lblError, javax.swing.GroupLayout.DEFAULT_SIZE, 18, Short.MAX_VALUE)
                 .addContainerGap())
@@ -355,13 +363,17 @@ public class registroOferta extends javax.swing.JFrame {
             validarId();
             int a = Integer.parseInt(txtIdOferta.getText());
             DataOferta of = logicaOferta.getInstance().buscarOferta(a);
-            txtTitulo.setText(of.getTitulo());
-            txtCargo.setText(of.getCargo());
-            txtReq.setText(of.getRequerimientos());
-            txtPuestos.setText(String.valueOf(of.getPuestos()));
-            ComboArea.setSelectedItem(of.getArea());
-            ComboEmpresa.setSelectedItem(of.getEmpresa());
-            iniciarBotonesEdit();
+            if (of != null) {
+                txtTitulo.setText(of.getTitulo());
+                txtCargo.setText(of.getCargo());
+                txtReq.setText(of.getRequerimientos());
+                txtPuestos.setText(String.valueOf(of.getPuestos()));
+                ComboArea.setSelectedItem(of.getArea());
+                ComboEmpresa.setSelectedItem(of.getEmpresa());
+                iniciarBotonesEdit();
+            } else {
+                throw new Exception("La oferta buscada no existe o esta desactivada");
+            }
 
         } catch (Exception e) {
             lblError.setText(e.getMessage());
@@ -369,10 +381,6 @@ public class registroOferta extends javax.swing.JFrame {
             limpiarCampos();
         }
     }//GEN-LAST:event_BtnBuscarActionPerformed
-
-    private void txtIdOfertaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtIdOfertaActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtIdOfertaActionPerformed
 
     private void BtnRegistrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnRegistrarActionPerformed
         try {
@@ -383,28 +391,28 @@ public class registroOferta extends javax.swing.JFrame {
             ofera.setRequerimientos(txtReq.getText());
             ofera.setTitulo(txtTitulo.getText());
             ofera.setCargo(txtCargo.getText());
-            ofera.setArea((DataArea)ComboArea.getSelectedItem());
-            ofera.setEmpresa((DataEmpresa)ComboEmpresa.getSelectedItem());
+            ofera.setArea((DataArea) ComboArea.getSelectedItem());
+            ofera.setEmpresa((DataEmpresa) ComboEmpresa.getSelectedItem());
             logicaOferta.getInstance().altaOferta(ofera);
             limpiarCampos();
             lblError.setText("Oferta Creada con exito");
         } catch (Exception e) {
-            lblError.setText(e.getMessage());            
+            lblError.setText(e.getMessage());
         }
     }//GEN-LAST:event_BtnRegistrarActionPerformed
 
     private void BtnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnModificarActionPerformed
-        try {   
+        try {
             lblError.setText("");
             validarFormulario();
-            DataOferta ofera = logicaOferta.getInstance().buscarOferta(Integer.parseInt(txtIdOferta.getText()));
-            ofera.setPuestos(Integer.parseInt(txtPuestos.getText()));
-            ofera.setRequerimientos(txtReq.getText());
-            ofera.setTitulo(txtTitulo.getText());
-            ofera.setCargo(txtCargo.getText());
-            ofera.setArea((DataArea)ComboArea.getSelectedItem());
-            ofera.setEmpresa((DataEmpresa)ComboEmpresa.getSelectedItem());
-            logicaOferta.getInstance().altaOferta(ofera);
+            DataOferta oferta = logicaOferta.getInstance().buscarOferta(Integer.parseInt(txtIdOferta.getText()));
+            oferta.setPuestos(Integer.parseInt(txtPuestos.getText()));
+            oferta.setRequerimientos(txtReq.getText());
+            oferta.setTitulo(txtTitulo.getText());
+            oferta.setCargo(txtCargo.getText());
+            oferta.setArea((DataArea) ComboArea.getSelectedItem());
+            oferta.setEmpresa((DataEmpresa) ComboEmpresa.getSelectedItem());
+            logicaOferta.getInstance().modOferta(oferta);
             limpiarCampos();
             lblError.setText("Oferta modificada con exito");
         } catch (Exception e) {
@@ -413,9 +421,9 @@ public class registroOferta extends javax.swing.JFrame {
     }//GEN-LAST:event_BtnModificarActionPerformed
 
     private void BtnDesactivarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnDesactivarActionPerformed
-        try {            
+        try {
             validarFormulario();
-            DataOferta ofera = logicaOferta.getInstance().buscarOferta(Integer.parseInt(txtIdOferta.getText()));            
+            DataOferta ofera = logicaOferta.getInstance().buscarOferta(Integer.parseInt(txtIdOferta.getText()));
             logicaOferta.getInstance().desactivarOferta(ofera);
             limpiarCampos();
             lblError.setText("Oferta desactivada con exito");
@@ -423,6 +431,11 @@ public class registroOferta extends javax.swing.JFrame {
             lblError.setText(e.getMessage());
         }
     }//GEN-LAST:event_BtnDesactivarActionPerformed
+
+    private void btnLimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimpiarActionPerformed
+        iniciarBotones();
+        limpiarCampos();
+    }//GEN-LAST:event_btnLimpiarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -466,6 +479,7 @@ public class registroOferta extends javax.swing.JFrame {
     private javax.swing.JButton BtnRegistrar;
     private javax.swing.JComboBox ComboArea;
     private javax.swing.JComboBox ComboEmpresa;
+    private javax.swing.JButton btnLimpiar;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

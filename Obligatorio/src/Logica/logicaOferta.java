@@ -85,7 +85,6 @@ public class logicaOferta {
     }
     
     private void validaModificarElminar(int id) throws Exception {
-
         if (this.buscarOferta(id) == null) {
             throw new NoExisteOfertaException();
         }

@@ -96,16 +96,18 @@
                           </Group>
                       </Group>
                       <Group type="102" alignment="0" attributes="0">
-                          <EmptySpace min="-2" pref="176" max="-2" attributes="0"/>
+                          <EmptySpace min="-2" pref="111" max="-2" attributes="0"/>
+                          <Component id="lblError" min="-2" pref="547" max="-2" attributes="0"/>
+                      </Group>
+                      <Group type="102" alignment="0" attributes="0">
+                          <EmptySpace min="-2" pref="83" max="-2" attributes="0"/>
                           <Component id="BtnRegistrar" min="-2" max="-2" attributes="0"/>
                           <EmptySpace type="unrelated" max="-2" attributes="0"/>
                           <Component id="BtnModificar" min="-2" max="-2" attributes="0"/>
                           <EmptySpace type="unrelated" max="-2" attributes="0"/>
                           <Component id="BtnDesactivar" min="-2" max="-2" attributes="0"/>
-                      </Group>
-                      <Group type="102" alignment="0" attributes="0">
-                          <EmptySpace min="-2" pref="111" max="-2" attributes="0"/>
-                          <Component id="lblError" min="-2" pref="547" max="-2" attributes="0"/>
+                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                          <Component id="btnLimpiar" min="-2" pref="138" max="-2" attributes="0"/>
                       </Group>
                   </Group>
                   <EmptySpace pref="61" max="32767" attributes="0"/>
@@ -156,6 +158,7 @@
                       <Component id="BtnRegistrar" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="BtnModificar" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="BtnDesactivar" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="btnLimpiar" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
                   <Component id="lblError" pref="18" max="32767" attributes="0"/>
@@ -174,9 +177,6 @@
           <Properties>
             <Property name="name" type="java.lang.String" value="txtIdOferta" noResource="true"/>
           </Properties>
-          <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtIdOfertaActionPerformed"/>
-          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="BtnBuscar">
           <Properties>
@@ -321,6 +321,14 @@
             <Property name="horizontalAlignment" type="int" value="0"/>
             <Property name="name" type="java.lang.String" value="lblError" noResource="true"/>
           </Properties>
+        </Component>
+        <Component class="javax.swing.JButton" name="btnLimpiar">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Limpiar Pantalla"/>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnLimpiarActionPerformed"/>
+          </Events>
         </Component>
       </SubComponents>
     </Container>

@@ -54,15 +54,17 @@ public class registroEntrevista extends javax.swing.JFrame {
 
     private void iniciarControles() {
         //Oculto todo hasta que seleccione una empresa
-        listOfertas.setModel(null);        
+        DefaultListModel modelVacio = new DefaultListModel();
+        listOfertas.setModel(modelVacio);        
         listOfertas.setVisible(false);
-        listAspirante.setModel(null);
+        listAspirante.setModel(modelVacio);
         listAspirante.setVisible(false);
         btnVerCv.setVisible(false);
         btnAgendar.setVisible(false);
         btnRechazar.setVisible(false);        
         lblFechayHora.setVisible(false);
-        calFecha.setDate(null);
+        Date hoy = new Date();
+        calFecha.setDate(hoy);
         calFecha.setVisible(false);
         txtHora.setText("");
         txtHora.setVisible(false);
@@ -75,7 +77,7 @@ public class registroEntrevista extends javax.swing.JFrame {
             //traigo todas las ofertas
             List<DataOferta> listaOfertas = logicaOferta.getInstance().listaOferta();
             if (listaOfertas.isEmpty()) {
-                throw new Exception("No hay Ofertas registradas para la Empresa seleccionada");
+                throw new Exception("No hay Ofertas registradas en el sistema");
             }
             //Cargo la lista solo con las ofertas que pertenecen a la empresa seleccionada 
             DefaultListModel modelOferta = new DefaultListModel();
@@ -274,7 +276,7 @@ public class registroEntrevista extends javax.swing.JFrame {
         try {
             DataAspirante as = (DataAspirante)listAspirante.getSelectedValue();
             String nombre = as.getApellido() + ", " + as.getNombre() + ".pdf";
-            File path = new File("carpeta/" + nombre);
+            File path = new File("C:/pdf/" + nombre);
             Desktop.getDesktop().open(path);
         } catch (IOException ex) {
             lblError.setText(ex.getMessage());            
