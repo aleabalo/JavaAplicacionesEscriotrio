@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package Persistencia;
 
 import DataTypes.DataContrato;
@@ -19,7 +18,7 @@ import java.util.ArrayList;
  * @author Estefanía
  */
 public class persistenciaContrato {
-    
+
     private persistenciaContrato() {
     }
     private static persistenciaContrato contrato = null;
@@ -31,17 +30,17 @@ public class persistenciaContrato {
 
         return contrato;
     }
-    
+
     //Alta de Contrato
     public void altaContrato(DataContrato c) throws Exception {
         Connection con = null;
         CallableStatement ps = null;
         try {
-            con = (Connection) iniciarConexion.getConection();            
+            con = (Connection) iniciarConexion.getConection();
 
             ps = (CallableStatement) con.prepareCall("{call altaContrato (?,?,?,?,?)}");
             ps.setInt(1, c.getEntrev().getIdEntrevista());
-            ps.setDouble(2, c.getSueldo());            
+            ps.setDouble(2, c.getSueldo());
             ps.setDate(3, (Date) c.getFechaInicio());
             ps.setString(4, c.getTipoContrato());
             ps.setDate(5, (Date) c.getFechaCaducidad());
@@ -53,15 +52,15 @@ public class persistenciaContrato {
             con.close();
         }
     }
-    
+
     //Listado de contratos
     public ArrayList<DataContrato> listaContrato() throws Exception {
         Connection con = null;
         CallableStatement ps = null;
         try {
-            con = (Connection) iniciarConexion.getConection();            
+            con = (Connection) iniciarConexion.getConection();
 
-            ps = (CallableStatement) con.prepareCall("{call listaContrato }");            
+            ps = (CallableStatement) con.prepareCall("{call listaContrato }");
             ResultSet rs;
             rs = ps.executeQuery();
             ArrayList<DataContrato> contratos = null;
@@ -87,5 +86,38 @@ public class persistenciaContrato {
             con.close();
         }
     }
-    
+
+    //Busco si existe contrato para una Oferta y un Aspirante Dado
+    //Si existe un contrato me va a trar el ultimo
+    public DataContrato buscarContratoAsp(DataContrato cn) throws Exception {
+        Connection con = null;
+        CallableStatement ps = null;
+        try {
+            con = (Connection) iniciarConexion.getConection();
+
+            ps = (CallableStatement) con.prepareCall("{call buscarContratoAsp (?,?)}");
+            ps.setInt(1, cn.getEntrev().getOferta().getId());
+            ps.setString(2, cn.getEntrev().getAspirante().getCedula());
+            ResultSet rs;
+            rs = ps.executeQuery();
+            DataContrato cont = null;
+
+            if (rs.first()) {
+                cont.setEntrev(persistenciaEntrevista.getInstance().buscarEntrevistaId(rs.getInt(2)));
+                cont.setFechaCaducidad(rs.getDate(6));
+                cont.setFechaInicio(rs.getDate(4));
+                cont.setNumero(rs.getInt(1));
+                cont.setSueldo(rs.getDouble(3));
+                cont.setTipoContrato(rs.getString(5));
+            }
+            rs.close();
+            return cont;
+        } catch (Exception ex) {
+            throw ex;
+        } finally {
+            ps.close();
+            con.close();
+        }
+    }
+
 }
