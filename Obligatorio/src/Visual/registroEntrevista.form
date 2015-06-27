@@ -48,13 +48,16 @@
                               <Component id="lblFechayHora" pref="151" max="32767" attributes="0"/>
                               <Component id="calFecha" alignment="0" max="32767" attributes="0"/>
                               <Component id="txtHora" alignment="0" max="32767" attributes="0"/>
-                              <Group type="102" alignment="1" attributes="0">
-                                  <Component id="btnAgendar" min="-2" max="-2" attributes="0"/>
-                                  <EmptySpace min="-2" pref="11" max="-2" attributes="0"/>
-                              </Group>
                               <Group type="102" alignment="0" attributes="0">
                                   <EmptySpace min="-2" pref="25" max="-2" attributes="0"/>
                                   <Component id="btnVerCv" min="-2" pref="89" max="-2" attributes="0"/>
+                              </Group>
+                              <Group type="102" alignment="1" attributes="0">
+                                  <Group type="103" groupAlignment="1" max="-2" attributes="0">
+                                      <Component id="btnAgendar" max="32767" attributes="0"/>
+                                      <Component id="btnRechazar" max="32767" attributes="0"/>
+                                  </Group>
+                                  <EmptySpace min="-2" pref="11" max="-2" attributes="0"/>
                               </Group>
                           </Group>
                       </Group>
@@ -93,6 +96,8 @@
                       <Component id="txtHora" min="-2" pref="25" max="-2" attributes="0"/>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Component id="btnAgendar" min="-2" pref="25" max="-2" attributes="0"/>
+                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                      <Component id="btnRechazar" min="-2" pref="25" max="-2" attributes="0"/>
                   </Group>
               </Group>
               <EmptySpace min="-2" pref="21" max="-2" attributes="0"/>
@@ -129,6 +134,9 @@
               <Color id="Default Cursor"/>
             </Property>
           </Properties>
+          <Events>
+            <EventHandler event="valueChanged" listener="javax.swing.event.ListSelectionListener" parameters="javax.swing.event.ListSelectionEvent" handler="listOfertasValueChanged"/>
+          </Events>
         </Component>
       </SubComponents>
     </Container>
@@ -138,6 +146,9 @@
           <StringArray count="0"/>
         </Property>
       </Properties>
+      <Events>
+        <EventHandler event="itemStateChanged" listener="java.awt.event.ItemListener" parameters="java.awt.event.ItemEvent" handler="ComboEmpresaItemStateChanged"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JLabel" name="lblEmpresa">
       <Properties>
@@ -158,6 +169,9 @@
               <StringArray count="0"/>
             </Property>
           </Properties>
+          <Events>
+            <EventHandler event="valueChanged" listener="javax.swing.event.ListSelectionListener" parameters="javax.swing.event.ListSelectionEvent" handler="listAspiranteValueChanged"/>
+          </Events>
         </Component>
       </SubComponents>
     </Container>
@@ -179,6 +193,9 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="Agendar Entrevista"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnAgendarActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JLabel" name="lblError">
       <Properties>
@@ -190,10 +207,18 @@
     </Component>
     <Component class="com.toedter.calendar.JDateChooser" name="calFecha">
       <Properties>
-        <Property name="dateFormatString" type="java.lang.String" value="DD/MM/YYYY"/>
+        <Property name="dateFormatString" type="java.lang.String" value="dd/MM/yyyy"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="txtHora">
+    </Component>
+    <Component class="javax.swing.JButton" name="btnRechazar">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Rechazar Solicitud"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnRechazarActionPerformed"/>
+      </Events>
     </Component>
   </SubComponents>
 </Form>

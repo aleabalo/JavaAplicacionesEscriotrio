@@ -3,8 +3,22 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package Visual;
+
+import DataTypes.DataAspirante;
+import DataTypes.DataEmpresa;
+import DataTypes.DataEntrevista;
+import DataTypes.DataOferta;
+import Logica.logicaEmpresa;
+import Logica.logicaEntrevista;
+import Logica.logicaOferta;
+import java.awt.Desktop;
+import java.io.File;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
+import javax.swing.DefaultListModel;
 
 /**
  *
@@ -17,6 +31,84 @@ public class registroEntrevista extends javax.swing.JFrame {
      */
     public registroEntrevista() {
         initComponents();
+        CargarEmpresas();
+        iniciarControles();
+    }
+
+    //Cargo la lista de Empresas en el combo
+    private void CargarEmpresas() {
+        try {
+            ComboEmpresa.removeAllItems();
+            List<DataEmpresa> lista = logicaEmpresa.getInstance().ListEmpresa();
+            if (lista.isEmpty()) {
+                throw new Exception("No hay Empresas ingresadas en el sistema.");
+            } else {
+                for (DataEmpresa e : lista) {
+                    ComboEmpresa.addItem(e);
+                }
+            }
+        } catch (Exception ex) {
+            lblError.setText(ex.getMessage());
+        }
+    }
+
+    private void iniciarControles() {
+        //Oculto todo hasta que seleccione una empresa
+        listOfertas.setModel(null);        
+        listOfertas.setVisible(false);
+        listAspirante.setModel(null);
+        listAspirante.setVisible(false);
+        btnVerCv.setVisible(false);
+        btnAgendar.setVisible(false);
+        btnRechazar.setVisible(false);        
+        lblFechayHora.setVisible(false);
+        calFecha.setDate(null);
+        calFecha.setVisible(false);
+        txtHora.setText("");
+        txtHora.setVisible(false);
+    }
+
+    //Metodo para cargar las Ofertas de la Empresa seleccionada
+    private void cargarOfertas(DataEmpresa em) throws Exception {
+        try {
+            lblError.setText("");
+            //traigo todas las ofertas
+            List<DataOferta> listaOfertas = logicaOferta.getInstance().listaOferta();
+            if (listaOfertas.isEmpty()) {
+                throw new Exception("No hay Ofertas registradas para la Empresa seleccionada");
+            }
+            //Cargo la lista solo con las ofertas que pertenecen a la empresa seleccionada 
+            DefaultListModel modelOferta = new DefaultListModel();
+            for (DataOferta of : listaOfertas) {
+                if (of.getEmpresa().equals(em)) {
+                    modelOferta.addElement(em);
+                }
+            }
+            if (modelOferta.isEmpty()) {
+                throw new Exception("No hay Ofertas registradas para la Empresa seleccionada");
+            }
+            listOfertas.setModel(modelOferta);
+        } catch (Exception e) {
+            lblError.setText(e.getMessage());
+        }
+    }
+
+    //Metodo para cargar los Aspirantes que solicitaron entrevista para la Oferta seleccionada
+    private void cargarAspirantes(DataOferta of) throws Exception {
+        try {
+            lblError.setText("");
+            if (of.getAspirante().isEmpty()) {
+                throw new Exception("No hay Aspirantes registrados para la Oferta seleccionada");
+            }
+            //Cargo la lista de los Aspirantes 
+            DefaultListModel modelAspirante = new DefaultListModel();
+            for (DataAspirante as : of.getAspirante()) {
+                modelAspirante.addElement(as);
+            }
+            listAspirante.setModel(modelAspirante);
+        } catch (Exception e) {
+            lblError.setText(e.getMessage());
+        }
     }
 
     /**
@@ -41,6 +133,7 @@ public class registroEntrevista extends javax.swing.JFrame {
         lblError = new javax.swing.JLabel();
         calFecha = new com.toedter.calendar.JDateChooser();
         txtHora = new javax.swing.JTextField();
+        btnRechazar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -50,11 +143,27 @@ public class registroEntrevista extends javax.swing.JFrame {
 
         listOfertas.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         listOfertas.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        listOfertas.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
+            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
+                listOfertasValueChanged(evt);
+            }
+        });
         jScrollPane1.setViewportView(listOfertas);
+
+        ComboEmpresa.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                ComboEmpresaItemStateChanged(evt);
+            }
+        });
 
         lblEmpresa.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblEmpresa.setText("Empresa:");
 
+        listAspirante.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
+            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
+                listAspiranteValueChanged(evt);
+            }
+        });
         jScrollPane2.setViewportView(listAspirante);
 
         btnVerCv.setText("Ver CV");
@@ -68,11 +177,23 @@ public class registroEntrevista extends javax.swing.JFrame {
         lblFechayHora.setText("Hora y Fecha de Entrevista:");
 
         btnAgendar.setText("Agendar Entrevista");
+        btnAgendar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAgendarActionPerformed(evt);
+            }
+        });
 
         lblError.setForeground(new java.awt.Color(255, 0, 0));
         lblError.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
 
-        calFecha.setDateFormatString("DD/MM/YYYY");
+        calFecha.setDateFormatString("dd/MM/yyyy");
+
+        btnRechazar.setText("Rechazar Solicitud");
+        btnRechazar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRechazarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -101,12 +222,14 @@ public class registroEntrevista extends javax.swing.JFrame {
                                 .addComponent(lblFechayHora, javax.swing.GroupLayout.DEFAULT_SIZE, 151, Short.MAX_VALUE)
                                 .addComponent(calFecha, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(txtHora)
-                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                    .addComponent(btnAgendar)
-                                    .addGap(11, 11, 11))
                                 .addGroup(layout.createSequentialGroup()
                                     .addGap(25, 25, 25)
-                                    .addComponent(btnVerCv, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE))))))
+                                    .addComponent(btnVerCv, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                        .addComponent(btnAgendar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(btnRechazar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                    .addGap(11, 11, 11))))))
                 .addContainerGap(33, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -134,7 +257,9 @@ public class registroEntrevista extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addComponent(txtHora, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(btnAgendar, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(btnAgendar, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btnRechazar, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(21, 21, 21)
                 .addComponent(lblError, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -144,8 +269,130 @@ public class registroEntrevista extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnVerCvActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVerCvActionPerformed
-        // TODO add your handling code here:
+        // Mostrar el CV que esta guardado
+        //Consultar con Alejandro en que directorio queda guardado y con que nombre para poder levantarlo
+        try {
+            DataAspirante as = (DataAspirante)listAspirante.getSelectedValue();
+            String nombre = as.getApellido() + ", " + as.getNombre() + ".pdf";
+            File path = new File("carpeta/" + nombre);
+            Desktop.getDesktop().open(path);
+        } catch (IOException ex) {
+            lblError.setText(ex.getMessage());            
+        } catch (Exception ex) {
+            lblError.setText(ex.getMessage());            
+        }
     }//GEN-LAST:event_btnVerCvActionPerformed
+
+    private void ComboEmpresaItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_ComboEmpresaItemStateChanged
+        // Cuando selecciona una empresa cargo la lista de Ofertas de la Empresa
+        try {
+            lblError.setText("");
+            DataEmpresa emp = (DataEmpresa) ComboEmpresa.getSelectedItem();
+            if (emp == null) {
+                throw new Exception("Debe Seleccionar una Empresa");
+            }
+            //Pongo visible la lista de Ofertas
+            listOfertas.setVisible(true);
+            //Si tengo empresa seleccionada entonces llamo al metodo para cargar la lista de ofertas
+            cargarOfertas(emp);
+        } catch (Exception e) {
+            lblError.setText(e.getMessage());
+        }
+    }//GEN-LAST:event_ComboEmpresaItemStateChanged
+
+    private void listOfertasValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_listOfertasValueChanged
+        try {
+            lblError.setText("");
+            DataOferta of = (DataOferta) listOfertas.getSelectedValue();
+            if (of == null) {
+                throw new Exception("Debe Seleccionar una Oferta");
+            }
+            //Si tengo oferta seleccionada entonces llamo al metodo para cargar la lista de aspirantes
+            listAspirante.setVisible(true);
+            cargarAspirantes(of);
+        } catch (Exception e) {
+            lblError.setText(e.getMessage());
+        }
+    }//GEN-LAST:event_listOfertasValueChanged
+
+    private void listAspiranteValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_listAspiranteValueChanged
+        try {
+            lblError.setText("");
+            DataAspirante as = (DataAspirante) listAspirante.getSelectedValue();
+            if (as == null) {
+                throw new Exception("Debe Seleccionar un Aspirante");
+            }
+            //Si tengo aspirante seleccionada entonces habilito el resto de los controles
+            btnVerCv.setVisible(true);
+            btnAgendar.setVisible(true);
+            btnRechazar.setVisible(true);                    
+            calFecha.setVisible(true);
+            txtHora.setVisible(true);
+        } catch (Exception e) {
+            lblError.setText(e.getMessage());
+        }
+    }//GEN-LAST:event_listAspiranteValueChanged
+
+    private void btnAgendarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgendarActionPerformed
+        try {
+            lblError.setText("");
+            //Primero leo todos los datos que estan seleccionados e ingresados en el formulario
+            DataAspirante as = (DataAspirante) listAspirante.getSelectedValue();
+            if (as == null) {
+                throw new Exception("Debe Seleccionar un Aspirante");
+            }
+            DataOferta of = (DataOferta) listOfertas.getSelectedValue();
+            if (of == null) {
+                throw new Exception("Debe Seleccionar una Oferta");
+            }
+            //Construyo la fecha de la entrevista con formato de fecha y hora
+            //No estoy segura de que esto funcione bien asi
+            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+            String f = calFecha.getDateFormatString();
+            String h = txtHora.getText();
+            Date fecha = sdf.parse(f + " " + h);
+            // ********** se debe verificar esta parte************
+            
+            //Verifico que la fecha sea mayor a la fecha actual
+            Date fechaActual = new Date();
+            if(fechaActual.after(fecha)){
+                throw new Exception("Debe seleccionar una fecha posterior al dia de hoy");
+            }
+            
+            //Una vez que tengo todo cargado construyo la entrevista y la mando a la logica para dar de alta
+            DataEntrevista ent = new DataEntrevista();
+            ent.setAspirante(as);
+            ent.setOferta(of);
+            ent.setFechaEntrevista(fecha);
+            logicaEntrevista.getInstance().agendarEntrevista(ent);
+            //Luego de agendar la entrevista elimino la solicitud para que pueda volver a solicitar entrevista en un futuro y para que no siga saliendo en la lista
+            logicaOferta.getInstance().rechazarEntrevista(as, of);
+            iniciarControles();
+            lblError.setText("Se ha agendado la entrevista");
+        } catch (Exception e) {
+            lblError.setText(e.getMessage());
+        }
+    }//GEN-LAST:event_btnAgendarActionPerformed
+
+    private void btnRechazarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRechazarActionPerformed
+        try {
+            lblError.setText("");
+            //Primero leo todos los datos que estan seleccionados e ingresados en el formulario
+            DataAspirante as = (DataAspirante) listAspirante.getSelectedValue();
+            if (as == null) {
+                throw new Exception("Debe Seleccionar un Aspirante");
+            }
+            DataOferta of = (DataOferta) listOfertas.getSelectedValue();
+            if (of == null) {
+                throw new Exception("Debe Seleccionar una Oferta");
+            }           
+            logicaOferta.getInstance().rechazarEntrevista(as, of);
+            iniciarControles();
+            lblError.setText("Se ha rechazado la solicitud de Entrevista");
+        } catch (Exception e) {
+            lblError.setText(e.getMessage());
+        }
+    }//GEN-LAST:event_btnRechazarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -176,6 +423,7 @@ public class registroEntrevista extends javax.swing.JFrame {
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
+            @Override
             public void run() {
                 new registroEntrevista().setVisible(true);
             }
@@ -185,6 +433,7 @@ public class registroEntrevista extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox ComboEmpresa;
     private javax.swing.JButton btnAgendar;
+    private javax.swing.JButton btnRechazar;
     private javax.swing.JButton btnVerCv;
     private com.toedter.calendar.JDateChooser calFecha;
     private javax.swing.JScrollPane jScrollPane1;
