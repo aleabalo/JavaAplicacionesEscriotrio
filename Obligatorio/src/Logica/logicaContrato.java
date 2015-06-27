@@ -5,8 +5,13 @@
  */
 package Logica;
 
+import DataTypes.DataComision;
 import DataTypes.DataContrato;
 import Persistencia.persistenciaContrato;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
 
 /**
  *
@@ -77,7 +82,79 @@ public class logicaContrato {
     public void altaContrato(DataContrato c) throws Exception {
         try {
             DataContrato dc = this.buscarContratoAsp(c);
-            persistenciaContrato.getInstance().altaContrato(c);
+            if(dc == null){
+                persistenciaContrato.getInstance().altaContrato(c);                
+            } else {
+                Contrato co = this.convertirDatatypeEnContrato(dc);
+                if(co.getClass().getName()=="Contrato"){
+                    //Si es un contrato efectivo entonces no puede tener otro
+                    throw new Exception("El Aspirante ya tiene un contrato para la Oferta");
+                } else {
+                    ContratoTermino ct = (ContratoTermino)co;
+                    Date fecha = ct.getFechaCaducidad();
+                    Date actual = new Date();
+                    if(fecha.after(actual)){
+                        //Si es un contrato a termino pero aun no finalizo entonces no puede tener otro
+                        throw new Exception("El Aspirante ya tiene un contrato para la Oferta");
+                    } else {
+                        //Si es un contrato a termino pero ya finalizo puede tener otro
+                        persistenciaContrato.getInstance().altaContrato(c); 
+                    }
+                }
+            }            
+        } catch (Exception ex) {
+            throw ex;
+        }
+    }
+    
+    //Listo los contratos existentes
+    public List<DataContrato> listaContrato() throws Exception{
+        try {
+            return persistenciaContrato.getInstance().listaContrato();
+        } catch (Exception ex) {
+            throw ex;
+        }
+    }
+    
+    //Metodo para listar las comisiones para cobrar dado un mes y un anio
+    public ArrayList<DataComision> listaComisiones(int mes, int anio) throws Exception{
+        try {
+            //Seteo una fecha como el primer dia del mes y anio ingresados y otra sumando 1 mes
+            Calendar cal = Calendar.getInstance();
+            cal.set(anio, mes, 01);
+            Calendar calfinEfectivo = Calendar.getInstance();
+            calfinEfectivo = cal;
+            calfinEfectivo.add(Calendar.MONTH, 3);
+            Calendar calfinTermino = Calendar.getInstance();
+            calfinTermino = cal;
+            calfinTermino.add(Calendar.MONTH, 1);            
+            ArrayList<DataComision> comisiones = new ArrayList<DataComision>();
+            //traigo toda la lista de los contratos existentes
+            List<DataContrato> contratos = this.listaContrato();
+            //Para cada contrato tengo que verificar que si es a termino la fecha de inicio este entre la fecha ingresada y +30 dias
+            //Y si es Efectivo tengo que verificar que la fecha de inicio est
+            for(DataContrato dc: contratos){                
+                if(dc.getTipoContrato()=="Termino"){
+                    Calendar ter = Calendar.getInstance();
+                    ter.setTime(dc.getFechaInicio());
+                    if(ter.after(cal)&& ter.before(calfinTermino)){
+                        DataComision com = new DataComision();
+                        com.setNombreAspirante(dc.getEntrev().getAspirante().toString());
+                        com.setMontoComision(dc.getSueldo()*0.1);
+                        comisiones.add(com);
+                    }
+                } else if(dc.getTipoContrato()=="Efectivo"){
+                    Calendar term = Calendar.getInstance();
+                    term.setTime(dc.getFechaInicio());
+                    if(term.after(cal)&& term.before(calfinEfectivo)){
+                        DataComision com = new DataComision();
+                        com.setNombreAspirante(dc.getEntrev().getAspirante().toString());
+                        com.setMontoComision(dc.getSueldo()*0.1);
+                        comisiones.add(com);
+                    }
+                }
+            }            
+            return comisiones;
         } catch (Exception ex) {
             throw ex;
         }
