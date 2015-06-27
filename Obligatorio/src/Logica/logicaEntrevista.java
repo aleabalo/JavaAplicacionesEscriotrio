@@ -112,7 +112,7 @@ public class logicaEntrevista {
     //Agendar Entrevista
     public void agendarEntrevista(DataEntrevista e) throws Exception {
         try {
-            if (this.buscarEntrevista(e.getOferta(), e.getAspirante()) == null) {
+            if (this.buscarEntrevista(e.getOferta(), e.getAspirante()) != null) {
                 throw new ExisteEntrevistaException();
             }
             else

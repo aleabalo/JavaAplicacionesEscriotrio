@@ -11,10 +11,10 @@ import DataTypes.DataEntrevista;
 import DataTypes.DataOferta;
 import java.sql.CallableStatement;
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Date;
 
 /**
  *
@@ -44,7 +44,8 @@ public class persistenciaEntrevista {
             ps = (CallableStatement) con.prepareCall("{call agendarEntrevista (?,?,?)}");
             ps.setInt(1, e.getOferta().getId());
             ps.setString(2, e.getAspirante().getCedula());
-            ps.setDate(3, (Date) e.getFechaEntrevista());
+            java.sql.Date sqlDate = new java.sql.Date(e.getFechaEntrevista().getTime());
+            ps.setDate(3, sqlDate);
             ps.execute();
         } catch (Exception ex) {
             throw ex;

@@ -535,7 +535,7 @@ _IdOferta int,
 _Aspirante char(10),
 _Fecha date)
 BEGIN
-Insert into Entrevista values(_IdOferta,_Aspirante,_Fecha);
+Insert into Entrevista (Oferta, Aspirante, Fecha) values(_IdOferta,_Aspirante,_Fecha);
 END $$
 
 DELIMITER ;
