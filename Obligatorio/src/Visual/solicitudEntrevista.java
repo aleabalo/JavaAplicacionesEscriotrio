@@ -62,8 +62,9 @@ public class solicitudEntrevista extends javax.swing.JFrame {
                     for (DataArea ar : areas) {
                         if (of.getArea().getId() == ar.getId()) {
                             boolean agregar = true;
-                            for (DataAspirante as : of.getAspirante()) {
-                                if (as.getCedula().equals(a)) {
+                            List<DataAspirante> aspirantesDeLaOferta = logicaOferta.getInstance().listarSolicitudesOferta(of.getId());
+                            for (DataAspirante as : aspirantesDeLaOferta) {
+                                if (as.getCedula().equals(a.getCedula())) {
                                     agregar = false;
                                 }
                             }
@@ -338,6 +339,7 @@ public class solicitudEntrevista extends javax.swing.JFrame {
                 //Realizo la solicitud de entrevista que sera aceptada o no por la empresa
                 logicaOferta.getInstance().solicitarEntrevista(das, dof);
                 lblError.setText("Solicitud de entrevista creada");
+                lblError.setVisible(true);
                 ComboOfertas.removeItem(dof);
             }
         } catch (Exception e) {
