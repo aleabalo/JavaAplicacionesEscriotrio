@@ -82,7 +82,7 @@ public class registroEntrevista extends javax.swing.JFrame {
             //Cargo la lista solo con las ofertas que pertenecen a la empresa seleccionada 
             DefaultListModel modelOferta = new DefaultListModel();
             for (DataOferta of : listaOfertas) {
-                if (of.getEmpresa().equals(em)) {
+                if (of.getEmpresa().getRut() == em.getRut()) {
                     modelOferta.addElement(of);
                 }
             }

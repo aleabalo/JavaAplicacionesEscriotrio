@@ -33,7 +33,7 @@ public class logicaContrato {
         cn.setFechaInicio(c.getFechaInicio());
         cn.setNumero(c.getNumero());
         cn.setSueldo(c.getSueldo());
-        if ()   
+//        if ()   
     
         cn.setTipoContrato(c.getClass().toString());
         return cn;

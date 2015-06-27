@@ -10,6 +10,7 @@ import DataTypes.DataAspirante;
 import DataTypes.DataOferta;
 import Logica.logicaAspirante;
 import Logica.logicaOferta;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -56,11 +57,20 @@ public class solicitudEntrevista extends javax.swing.JFrame {
                 throw new Exception("No hay Ofertas ingresadas en el sistema.");
             } else {
                 //Lista de Ofertas para Areas de interes del aspirante
-                List<DataOferta> ofertasAspirante = null;
+                List<DataOferta> ofertasAspirante = new ArrayList<DataOferta>();
                 for (DataOferta of : ofertas) {
                     for (DataArea ar : areas) {
-                        if (of.getArea() == ar) {
-                            ofertasAspirante.add(of);
+                        if (of.getArea().getId() == ar.getId()) {
+                            boolean agregar = true;
+                            for (DataAspirante as : of.getAspirante()) {
+                                if (as.getCedula().equals(a)) {
+                                    agregar = false;
+                                }
+                            }
+                            if (agregar) {
+                                ofertasAspirante.add(of);
+                            }
+
                         }
                     }
                 }
@@ -318,7 +328,7 @@ public class solicitudEntrevista extends javax.swing.JFrame {
                 throw new Exception("Debe Seleccionar un Aspirante");
             } else if (dof == null) {
                 throw new Exception("Debe Seleccionar una Oferta");
-            } else {                
+            } else {
                 //Verifico si el candidato ya tiene una solicitud activa
                 for (DataAspirante as : dof.getAspirante()) {
                     if (as.equals(das)) {
@@ -327,6 +337,8 @@ public class solicitudEntrevista extends javax.swing.JFrame {
                 }
                 //Realizo la solicitud de entrevista que sera aceptada o no por la empresa
                 logicaOferta.getInstance().solicitarEntrevista(das, dof);
+                lblError.setText("Solicitud de entrevista creada");
+                ComboOfertas.removeItem(dof);
             }
         } catch (Exception e) {
             lblError.setText(e.getMessage());
