@@ -34,4 +34,9 @@ public class DataComision {
     public DataComision() {
     }  
     
+    @Override
+    public String toString(){
+        return (this.NombreAspirante + " - " + this.MontoComision);        
+    }
+    
 }
