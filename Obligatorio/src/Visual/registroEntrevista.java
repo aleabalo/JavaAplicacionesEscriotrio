@@ -57,13 +57,13 @@ public class registroEntrevista extends javax.swing.JFrame {
     private void iniciarControles() {
         //Oculto todo hasta que seleccione una empresa
         DefaultListModel modelVacio = new DefaultListModel();
-        listOfertas.setModel(modelVacio);        
+        listOfertas.setModel(modelVacio);
         listOfertas.setVisible(false);
         listAspirante.setModel(modelVacio);
         listAspirante.setVisible(false);
         btnVerCv.setVisible(false);
         btnAgendar.setVisible(false);
-        btnRechazar.setVisible(false);        
+        btnRechazar.setVisible(false);
         lblFechayHora.setVisible(false);
         Date hoy = new Date();
         calFecha.setDate(hoy);
@@ -72,14 +72,14 @@ public class registroEntrevista extends javax.swing.JFrame {
         cmbMinutos.setVisible(false);
         cmbHora.removeAllItems();
         cmbMinutos.removeAllItems();
-        
-        for (int a =1; a<61;a++){
+
+        for (int a = 1; a < 60; a++) {
             cmbMinutos.addItem(a);
-            if (a<25){
+            if (a < 24) {
                 cmbHora.addItem(a);
             }
         }
-        
+
     }
 
     //Metodo para cargar las Ofertas de la Empresa seleccionada
@@ -316,16 +316,33 @@ public class registroEntrevista extends javax.swing.JFrame {
         // Mostrar el CV que esta guardado
         //Consultar con Alejandro en que directorio queda guardado y con que nombre para poder levantarlo
         try {
-            DataAspirante as = (DataAspirante)listAspirante.getSelectedValue();
+            DataAspirante as = (DataAspirante) listAspirante.getSelectedValue();
             String nombre = as.getApellido() + ", " + as.getNombre() + ".pdf";
-            File path = new File("C:/pdf/" + nombre);
+
+            String sPath = "";
+            String separador = System.getProperty("file.separator");
+            if (isWindows()) {
+                sPath = "c:" + separador+ "pdf" + separador + as.getArchivoPdf();
+            } else {
+                sPath = separador + "pdf" + separador + as.getArchivoPdf();
+
+            }
+
+            File path = new File(sPath);
             Desktop.getDesktop().open(path);
         } catch (IOException ex) {
-            lblError.setText(ex.getMessage());            
+            lblError.setText(ex.getMessage());
         } catch (Exception ex) {
-            lblError.setText(ex.getMessage());            
+            lblError.setText(ex.getMessage());
         }
     }//GEN-LAST:event_btnVerCvActionPerformed
+
+    private boolean isWindows() {
+
+        String so = System.getProperty("os.name").toLowerCase();
+        return (so.indexOf("win") >= 0);
+
+    }
 
     private void ComboEmpresaItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_ComboEmpresaItemStateChanged
         // Cuando selecciona una empresa cargo la lista de Ofertas de la Empresa
@@ -369,7 +386,7 @@ public class registroEntrevista extends javax.swing.JFrame {
             //Si tengo aspirante seleccionada entonces habilito el resto de los controles
             btnVerCv.setVisible(true);
             btnAgendar.setVisible(true);
-            btnRechazar.setVisible(true);                    
+            btnRechazar.setVisible(true);
             calFecha.setVisible(true);
             cmbHora.setVisible(true);
             cmbMinutos.setVisible(true);
@@ -396,17 +413,17 @@ public class registroEntrevista extends javax.swing.JFrame {
             Date f = calFecha.getDate();
             GregorianCalendar cal = new GregorianCalendar();
             cal.setTime(f);
-            
-            int hora = (int)cmbHora.getSelectedItem();
-            int mintuos = (int)cmbMinutos.getSelectedItem();
+
+            int hora = (int) cmbHora.getSelectedItem();
+            int mintuos = (int) cmbMinutos.getSelectedItem();
             cal.set(Calendar.HOUR, hora);
             cal.set(Calendar.MINUTE, mintuos);
             Date fecha = cal.getTime();
             Date fechaActual = new Date();
-            if(fechaActual.after(fecha)){
+            if (fechaActual.after(fecha)) {
                 throw new Exception("Debe seleccionar una fecha posterior al dia de hoy");
             }
-            
+
             //Una vez que tengo todo cargado construyo la entrevista y la mando a la logica para dar de alta
             DataEntrevista ent = new DataEntrevista();
             ent.setAspirante(as);
@@ -433,7 +450,7 @@ public class registroEntrevista extends javax.swing.JFrame {
             DataOferta of = (DataOferta) listOfertas.getSelectedValue();
             if (of == null) {
                 throw new Exception("Debe Seleccionar una Oferta");
-            }           
+            }
             logicaOferta.getInstance().rechazarEntrevista(as, of);
             iniciarControles();
             lblError.setText("Se ha rechazado la solicitud de Entrevista");

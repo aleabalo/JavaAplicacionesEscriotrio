@@ -361,11 +361,11 @@ public class registroAspirante extends javax.swing.JFrame {
                     String sPath;
                     String sDir;
                     if (isWindows()) {
-                        sPath = "c:" + guarda.separator + "pdf" + File.separator + guarda.getName();
+                        sPath = "c:" + separador + "pdf" + separador+ guarda.getName();
                         sDir = "c:" + guarda.separator + "pdf";
                     } else {
-                        sPath = guarda.separator + "pdf" + File.separator + guarda.getName();
-                        sDir = guarda.separator + "pdf";
+                        sPath = separador + "pdf" + separador + guarda.getName();
+                        sDir = separador + "pdf";
                     }
                     //genero el puto directorio
                     java.io.File dir = new File(sDir);
