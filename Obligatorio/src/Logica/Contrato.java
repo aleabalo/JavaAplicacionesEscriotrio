@@ -58,9 +58,7 @@ public class Contrato {
 
     public void setEntrev(Entrevista entrev) {
         this.entrev = entrev;
-    }
-    
-    
+    }    
 
     /**
     * Devuelve la comision que se va a cobrar
@@ -70,8 +68,7 @@ public class Contrato {
         double comision;
         comision = (sueldo / 100) * 10;
         return comision;
-    }
-    
+    }    
     
     /**
     * Se fija si hay que cobrar comision o no

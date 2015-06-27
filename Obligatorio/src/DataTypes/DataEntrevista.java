@@ -14,6 +14,7 @@ import java.util.Date;
  */
 public class DataEntrevista {
     
+    private int idEntrevista;
     private Date fechaEntrevista;     
     private DataOferta oferta;
     private DataAspirante aspirante;
@@ -41,6 +42,14 @@ public class DataEntrevista {
     public void setAspirante(DataAspirante aspirante) {
         this.aspirante = aspirante;
     }
+
+    public int getIdEntrevista() {
+        return idEntrevista;
+    }
+
+    public void setIdEntrevista(int idEntrevista) {
+        this.idEntrevista = idEntrevista;
+    }   
 
     public DataEntrevista() {
     } 

@@ -14,6 +14,7 @@ import Expecioneas.SolapamientoEntrevistaException;
 import Persistencia.persistenciaEntrevista;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 /**
  *
@@ -36,6 +37,7 @@ public class logicaEntrevista {
 
     public DataEntrevista convertirEntrevistaEnDatatype(Entrevista e) {
         DataEntrevista en = new DataEntrevista();
+        en.setIdEntrevista(e.getIdEntrevista());
         en.setAspirante(logicaAspirante.getInstance().convertirAspiranteEnDatatype(e.getAspirante()));
         en.setFechaEntrevista(e.getFechaEntrevista());
         en.setOferta(logicaOferta.getInstance().convertirOfertaEnDatatype(e.getOferta()));
@@ -45,15 +47,24 @@ public class logicaEntrevista {
 
     public Entrevista convertirDatatypeEnEntrevista(DataEntrevista e) {
         Entrevista en = new Entrevista();
+        en.setIdEntrevista(e.getIdEntrevista());
         en.setAspirante(logicaAspirante.getInstance().convertirDatatypeEnAspirante(e.getAspirante()));
         en.setFechaEntrevista(e.getFechaEntrevista());
         en.setOferta(logicaOferta.getInstance().convertirDatatypeEnOferta(e.getOferta()));
         return en;
     }
 
-    public DataEntrevista buscarEntrevista(DataOferta o, DataAspirante a) throws Exception {
+    public List<DataEntrevista> buscarEntrevista(DataOferta o, DataAspirante a) throws Exception {
         try {
             return persistenciaEntrevista.getInstance().buscarEntrevista(o, a);
+        } catch (Exception ex) {
+            throw ex;
+        }
+    }
+    
+    public DataEntrevista buscarEntrevistaId(int Id) throws Exception {
+        try {
+            return persistenciaEntrevista.getInstance().buscarEntrevistaId(Id);
         } catch (Exception ex) {
             throw ex;
         }

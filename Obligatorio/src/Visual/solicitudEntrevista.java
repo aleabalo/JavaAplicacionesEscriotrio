@@ -134,7 +134,6 @@ public class solicitudEntrevista extends javax.swing.JFrame {
         lblTitulo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblTitulo.setText("Solicitar Entrevista - Candidato");
 
-        ComboOfertas.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         ComboOfertas.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
                 ComboOfertasItemStateChanged(evt);
@@ -147,7 +146,6 @@ public class solicitudEntrevista extends javax.swing.JFrame {
         lblAspirante.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblAspirante.setText("Aspirante:");
 
-        ComboAspirante.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         ComboAspirante.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
                 ComboAspiranteItemStateChanged(evt);

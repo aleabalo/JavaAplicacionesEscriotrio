@@ -83,7 +83,7 @@ public class registroEntrevista extends javax.swing.JFrame {
             DefaultListModel modelOferta = new DefaultListModel();
             for (DataOferta of : listaOfertas) {
                 if (of.getEmpresa().equals(em)) {
-                    modelOferta.addElement(em);
+                    modelOferta.addElement(of);
                 }
             }
             if (modelOferta.isEmpty()) {

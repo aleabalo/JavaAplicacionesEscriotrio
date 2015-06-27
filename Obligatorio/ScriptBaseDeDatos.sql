@@ -540,6 +540,19 @@ END $$
 
 DELIMITER ;
 
+-- Buscar Entrevista por Id
+DROP PROCEDURE IF EXISTS buscarEntrevistaId;
+
+DELIMITER $$
+
+CREATE PROCEDURE buscarEntrevistaId(
+_IdEnt int)
+BEGIN
+select * from Entrevista where  Id = _IdEnt;
+END $$
+
+DELIMITER ;
+
 -- Alta de contrato
 DROP PROCEDURE IF EXISTS altaContrato;
 
@@ -552,7 +565,19 @@ _Inicio date,
 _Tipo char(10),
 _Fin date)
 BEGIN
-Insert into Contrato values(_IdEntrevista,_Sueldo,_Inicio,_Tipo,_Fin);
+Insert into Contrato(Entrevista,Sueldo,Inicio,Tipo,Fin) values(_IdEntrevista,_Sueldo,_Inicio,_Tipo,_Fin);
+END $$
+
+DELIMITER ;
+
+-- Lista de Contratos
+DROP PROCEDURE IF EXISTS listaContrato;
+
+DELIMITER $$
+
+CREATE PROCEDURE listaContrato()
+BEGIN
+Select * from Contrato;
 END $$
 
 DELIMITER ;

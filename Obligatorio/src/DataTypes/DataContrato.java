@@ -19,6 +19,7 @@ public class DataContrato {
     private Date fechaInicio;
     private Date fechaCaducidad;
     private DataEntrevista entrev;
+    private String tipoContrato;
 
     public int getNumero() {
         return numero;
@@ -58,6 +59,14 @@ public class DataContrato {
 
     public void setEntrev(DataEntrevista entrev) {
         this.entrev = entrev;
+    }   
+
+    public String getTipoContrato() {
+        return tipoContrato;
+    }
+
+    public void setTipoContrato(String tipoContrato) {
+        this.tipoContrato = tipoContrato;
     }   
 
     public DataContrato() {

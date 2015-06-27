@@ -30,7 +30,6 @@ public class PersistenciaOferta {
     }
 
     //Alta de Oferta
-
     public void altaOferta(DataOferta o) throws Exception {
         Connection con = null;
         CallableStatement ps = null;

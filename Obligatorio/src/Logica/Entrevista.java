@@ -12,6 +12,7 @@ import java.util.Date;
  * @author ale
  */
 public class Entrevista {
+     private int idEntrevista;
      private Date fechaEntrevista;     
      private Oferta oferta;
      private Aspirante aspirante;
@@ -40,7 +41,16 @@ public class Entrevista {
         this.aspirante = aspirante;
     }
 
-    public Entrevista(Date fechaEntrevista, Oferta oferta, Aspirante aspirante) {
+    public int getIdEntrevista() {
+        return idEntrevista;
+    }
+
+    public void setIdEntrevista(int idEntrevista) {
+        this.idEntrevista = idEntrevista;
+    }   
+
+    public Entrevista(int idEnt, Date fechaEntrevista, Oferta oferta, Aspirante aspirante) {
+        this.idEntrevista = idEnt;
         this.fechaEntrevista = fechaEntrevista;        
         this.oferta = oferta;
         this.aspirante = aspirante;

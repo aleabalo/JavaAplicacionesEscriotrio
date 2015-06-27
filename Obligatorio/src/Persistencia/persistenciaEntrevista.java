@@ -14,6 +14,7 @@ import java.sql.Connection;
 import java.sql.Date;
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -70,7 +71,7 @@ public class persistenciaEntrevista {
                     DataOferta of = PersistenciaOferta.getInstance().buscarOferta(rs.getInt(1));
                     en.setOferta(of);
                     DataAspirante as = persistenciaAspirante.getInstance().buscarAspirante(rs.getString(2));
-                    en.setAspirante(as);                    
+                    en.setAspirante(as);
                     entrevistas.add(en);
                 } while (rs.next());
             }
@@ -98,6 +99,7 @@ public class persistenciaEntrevista {
             if (rs.first()) {
                 do {
                     DataEntrevista en = new DataEntrevista();
+                    en.setIdEntrevista(rs.getInt(1));
                     DataOferta of = PersistenciaOferta.getInstance().buscarOferta(rs.getInt(2));
                     en.setOferta(of);
                     DataAspirante as = persistenciaAspirante.getInstance().buscarAspirante(rs.getString(3));
@@ -117,7 +119,7 @@ public class persistenciaEntrevista {
     }
 
     //Buscar entrevista para un candidato y una oferta dados
-    public DataEntrevista buscarEntrevista(DataOferta o, DataAspirante a) throws Exception {
+    public List<DataEntrevista> buscarEntrevista(DataOferta o, DataAspirante a) throws Exception {
         Connection con = null;
         CallableStatement ps = null;
         try {
@@ -127,15 +129,52 @@ public class persistenciaEntrevista {
             ps.setString(2, a.getCedula());
             ResultSet rs;
             rs = ps.executeQuery();
+            List<DataEntrevista> listaEntrev = null;
+
+            if (rs.first()) {
+                do {
+                    DataEntrevista entrev = null;
+                    entrev.setIdEntrevista(rs.getInt(1));
+                    DataOferta of = PersistenciaOferta.getInstance().buscarOferta(rs.getInt(2));
+                    entrev.setOferta(of);
+                    DataAspirante as = persistenciaAspirante.getInstance().buscarAspirante(rs.getString(3));
+                    entrev.setAspirante(as);
+                    entrev.setFechaEntrevista(rs.getDate(4));
+                    listaEntrev.add(entrev);
+                } while (rs.next());
+            }
+            rs.close();
+            return listaEntrev;
+
+        } catch (Exception ex) {
+            throw ex;
+        } finally {
+            ps.close();
+            con.close();
+        }
+    }
+
+    //Buscar entrevista por Id
+    public DataEntrevista buscarEntrevistaId(int Id) throws Exception {
+        Connection con = null;
+        CallableStatement ps = null;
+        try {
+            con = (Connection) iniciarConexion.getConection();
+            ps = (CallableStatement) con.prepareCall("{call buscarEntrevistaId(?)}");
+            ps.setInt(1, Id);
+            ResultSet rs;
+            rs = ps.executeQuery();
             DataEntrevista entrev = null;
 
             if (rs.first()) {                
+                entrev.setIdEntrevista(rs.getInt(1));
                 DataOferta of = PersistenciaOferta.getInstance().buscarOferta(rs.getInt(2));
                 entrev.setOferta(of);
                 DataAspirante as = persistenciaAspirante.getInstance().buscarAspirante(rs.getString(3));
                 entrev.setAspirante(as);
-                entrev.setFechaEntrevista(rs.getDate(4)); 
+                entrev.setFechaEntrevista(rs.getDate(4));                
             }
+            rs.close();
             return entrev;
 
         } catch (Exception ex) {
