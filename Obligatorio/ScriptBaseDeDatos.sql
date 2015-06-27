@@ -411,7 +411,7 @@ DELIMITER $$
 
 CREATE PROCEDURE listaOferta()
 BEGIN
-Select * from Oferta where Activa=true;
+Select * from Oferta where Activo=true;
 END $$
 
 DELIMITER ;
@@ -429,10 +429,9 @@ _Puestos int,
 _Titulo char(100),
 _Req char(200),
 _Empresa int,
-_Area int,
-_Activo binary)
+_Area int)
 BEGIN
-Update Oferta set DescCargo=_Descrip, Puestos=_Puestos, Titulo=_Titulo, Requerimientos=_Req, Activo=_Activo, Empresa=_Empresa, IdArea=_Area 
+Update Oferta set DescCargo=_Descrip, Puestos=_Puestos, Titulo=_Titulo, Requerimientos=_Req, Empresa=_Empresa, IdArea=_Area 
 where IdOferta=_Id;
 END $$
 
@@ -449,7 +448,7 @@ CREATE PROCEDURE buscarOferta(
 _Id int
 )
 BEGIN 
-Select * from Oferta where IdOferta=_Id;
+Select * from Oferta where IdOferta=_Id and Activo=1;
 END $$
 
 DELIMITER ;
