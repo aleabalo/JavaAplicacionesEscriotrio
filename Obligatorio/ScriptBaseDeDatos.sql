@@ -570,6 +570,20 @@ END $$
 
 DELIMITER ;
 
+-- Buscar contrato para una Oferta y un Aspirante dado
+DROP PROCEDURE IF EXISTS buscarContratoAsp;
+
+DELIMITER $$
+
+CREATE PROCEDURE buscarContratoAsp(
+_IdOferta int,
+_Aspirante char(10))
+BEGIN
+Select * from Contrato c where c.Entrevista in (Select e.Id from Entrevista e where e.Oferta=_IdOferta and e.Aspirante=_Aspirante) order by c.Inicio desc;
+END $$
+
+DELIMITER ;
+
 -- Lista de Contratos
 DROP PROCEDURE IF EXISTS listaContrato;
 
