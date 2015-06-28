@@ -3,8 +3,18 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package Visual;
+
+import DataTypes.DataContrato;
+import DataTypes.DataEmpresa;
+import DataTypes.DataEntrevista;
+import Logica.logicaContrato;
+import Logica.logicaEmpresa;
+import Logica.logicaEntrevista;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
+import javax.swing.DefaultListModel;
 
 /**
  *
@@ -17,6 +27,112 @@ public class registroContrato extends javax.swing.JFrame {
      */
     public registroContrato() {
         initComponents();
+        CargarEmpresas();
+        FormularioDefecto();
+    }
+
+    //Cargo la lista de Empresas en el combo
+    private void CargarEmpresas() {
+        try {
+            lblError.setText("");
+            ComboEmpresa.removeAllItems();
+            List<DataEmpresa> lista = logicaEmpresa.getInstance().ListEmpresa();
+            if (lista.isEmpty()) {
+                throw new Exception("No hay Empresas ingresadas en el sistema.");
+            } else {
+                for (DataEmpresa e : lista) {
+                    ComboEmpresa.addItem(e);
+                }
+            }
+        } catch (Exception ex) {
+            lblError.setText(ex.getMessage());
+        }
+    }
+
+    private void FormularioDefecto() {
+        //Dejo todo como no visible hasta que se vayan seleccionando los datos
+        listEntrevistas.setVisible(false);
+        lblAs.setVisible(false);
+        lblOf.setVisible(false);
+        lblTip.setVisible(false);
+        lblSdo.setVisible(false);
+        lblIni.setVisible(false);
+        txtAspirante.setVisible(false);
+        txtOferta.setVisible(false);
+        txtSueldo.setVisible(false);
+        ComboTipo.setVisible(false);
+        calInicio.setVisible(false);
+        btnAlta.setVisible(false);
+        btnBaja.setVisible(false);
+        btnLimpiar.setVisible(false);
+    }
+
+    private void SelectEmpresa(DataEmpresa em) throws Exception {
+        try {
+            lblError.setText("");
+            //Cuando selecciono la empresa habilito la lista de Ofertas y la cargo
+            List<DataEntrevista> entrevistas = logicaEntrevista.getInstance().listaEntrevistasEmpresa(em);
+            if (entrevistas.isEmpty()) {
+                throw new Exception("No hay Entrevistas realizadas para la Empresa seleccionada.");
+            } else {
+                DefaultListModel modelEntrevista = new DefaultListModel();
+                for (DataEntrevista e : entrevistas) {
+                    modelEntrevista.addElement(e);
+                }
+                listEntrevistas.setVisible(true);
+                listEntrevistas.setModel(modelEntrevista);
+            }
+        } catch (Exception ex) {
+            lblError.setText(ex.getMessage());
+        }
+    }
+
+    private void SelectEntrevista(DataEntrevista en) throws Exception {
+        try {
+            //Cuando selecciona una entrevista habilito el resto de los botones y controles        
+            lblAs.setVisible(true);
+            lblOf.setVisible(true);
+            lblTip.setVisible(true);
+            lblSdo.setVisible(true);
+            lblIni.setVisible(true);
+            txtAspirante.setText(en.getAspirante().toString());
+            txtAspirante.setVisible(true);
+            txtOferta.setText(en.getOferta().toString());
+            txtOferta.setVisible(true);
+            txtSueldo.setVisible(true);
+            //Cargo el combo de tipos de contratos
+            ComboTipo.addItem("Efectivo");
+            ComboTipo.addItem("Termino");
+            ComboTipo.setVisible(true);
+            //Seteo como fecha por defecto la fecha de hoy
+            Date actual = new Date();
+            calInicio.setDate(actual);
+            calInicio.setVisible(true);
+            btnAlta.setVisible(true);
+            btnBaja.setVisible(true);
+            btnLimpiar.setVisible(true);
+        } catch (Exception e) {
+            lblError.setText(e.getMessage());
+        }
+    }
+
+    private void ValidarForm() throws Exception {
+        if (listEntrevistas.getSelectedValue() == null) {
+            throw new Exception("Debe seleccionar una entrevista");
+        }
+        if (ComboTipo.getSelectedItem() == null) {
+            throw new Exception("Debe seleccionar un tipo de Entrevista");
+        }
+        if (txtSueldo.getText().isEmpty()) {
+            throw new Exception("Debe ingresar un Sueldo");
+        }
+        if (calInicio.getDate() == null) {
+            throw new Exception("Debe Seleccionar una fecha de inicio");
+        }
+        Date actual = new Date();
+        if (calInicio.getDate().before(actual)) {
+            throw new Exception("La fecha de Inicio no puede ser anterior a hoy");
+        }
     }
 
     /**
@@ -45,7 +161,7 @@ public class registroContrato extends javax.swing.JFrame {
         txtOferta = new javax.swing.JTextField();
         ComboTipo = new javax.swing.JComboBox();
         txtSueldo = new javax.swing.JTextField();
-        jDateChooser1 = new com.toedter.calendar.JDateChooser();
+        calInicio = new com.toedter.calendar.JDateChooser();
         btnBaja = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -55,7 +171,18 @@ public class registroContrato extends javax.swing.JFrame {
         lblTitulo.setText("Registro de Contrato");
 
         listEntrevistas.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        listEntrevistas.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
+            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
+                listEntrevistasValueChanged(evt);
+            }
+        });
         jScrollPane1.setViewportView(listEntrevistas);
+
+        ComboEmpresa.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                ComboEmpresaItemStateChanged(evt);
+            }
+        });
 
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("Empresa:");
@@ -66,6 +193,11 @@ public class registroContrato extends javax.swing.JFrame {
         btnAlta.setText("Alta Contrato");
 
         btnLimpiar.setText("Limpiar Pantalla");
+        btnLimpiar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLimpiarActionPerformed(evt);
+            }
+        });
 
         lblAs.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblAs.setText("Aspirante:");
@@ -115,7 +247,7 @@ public class registroContrato extends javax.swing.JFrame {
                                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                                         .addComponent(lblIni, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jDateChooser1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                        .addComponent(calInicio, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                                         .addComponent(lblSdo, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -174,7 +306,7 @@ public class registroContrato extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(lblIni, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jDateChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(calInicio, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(btnAlta)
@@ -188,6 +320,78 @@ public class registroContrato extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void ComboEmpresaItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_ComboEmpresaItemStateChanged
+        // Cuando selecciona una empresa cargo la lista de Entrevistas
+        try {
+            lblError.setText("");
+            DataEmpresa emp = (DataEmpresa) ComboEmpresa.getSelectedItem();
+            if (emp == null) {
+                throw new Exception("Debe Seleccionar una Empresa");
+            }
+            //Si tengo empresa seleccionada entonces llamo al metodo para cargar la lista de ofertas
+            this.SelectEmpresa(emp);
+        } catch (Exception e) {
+            lblError.setText(e.getMessage());
+        }
+    }//GEN-LAST:event_ComboEmpresaItemStateChanged
+
+    private void listEntrevistasValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_listEntrevistasValueChanged
+        // Cuando selecciona una entrevista cargo el resto del formulario
+        try {
+            lblError.setText("");
+            DataEntrevista ent = (DataEntrevista) listEntrevistas.getSelectedValue();
+            if (ent == null) {
+                throw new Exception("Debe Seleccionar una Entrevista");
+            }
+            //Si tengo entrevista seleccionada entonces cargo el resto del formuario
+            this.SelectEntrevista(ent);
+        } catch (Exception e) {            
+            lblError.setText(e.getMessage());
+        }
+    }//GEN-LAST:event_listEntrevistasValueChanged
+
+    private void btnLimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimpiarActionPerformed
+        try {
+            lblError.setText("");
+            //Lo primero que hago es validar que todo este cargado
+            this.ValidarForm();
+            //Verifico que el sueldo seleccionado sea un numero mayor a cero
+            double sueldo = Double.parseDouble(txtSueldo.getText());
+            if(sueldo<=0){
+                throw new Exception("El sueldo debe ser mayor a cero");
+            }
+            //construyo la fecha inicio, el tipo y la fecha fin para crear el contrato
+            Date inicio = calInicio.getDate();
+            Date fin = new Date();
+            String tipo = ComboTipo.getSelectedItem().toString();
+            if(tipo=="Termino"){
+                //Si es a termino seteo la fecha fin agregando tres meses a la de inicio
+                Calendar ini = Calendar.getInstance();
+                ini.setTime(inicio);
+                Calendar f = Calendar.getInstance();
+                f.setTime(inicio);
+                f.add(Calendar.MONTH, 3);
+                fin = f.getTime();
+            }
+            if(tipo=="Efectivo"){
+                //Si es efectivo la fecha de fin es null                
+                fin = null;
+            }
+            DataContrato dc = new DataContrato();
+            dc.setEntrev((DataEntrevista)listEntrevistas.getSelectedValue());
+            dc.setFechaCaducidad(fin);
+            dc.setFechaInicio(inicio);
+            dc.setSueldo(sueldo);
+            dc.setTipoContrato(tipo);
+            logicaContrato.getInstance().altaContrato(dc);
+            this.FormularioDefecto();
+            lblError.setText("Contrato dado de alta con Exito");
+                    
+        } catch (Exception e) {            
+            lblError.setText(e.getMessage());
+        }
+    }//GEN-LAST:event_btnLimpiarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -230,7 +434,7 @@ public class registroContrato extends javax.swing.JFrame {
     private javax.swing.JButton btnAlta;
     private javax.swing.JButton btnBaja;
     private javax.swing.JButton btnLimpiar;
-    private com.toedter.calendar.JDateChooser jDateChooser1;
+    private com.toedter.calendar.JDateChooser calInicio;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lblAs;

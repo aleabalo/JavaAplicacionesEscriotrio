@@ -49,7 +49,7 @@
                                   <Group type="102" alignment="0" attributes="0">
                                       <Component id="lblIni" min="-2" pref="57" max="-2" attributes="0"/>
                                       <EmptySpace max="-2" attributes="0"/>
-                                      <Component id="jDateChooser1" max="32767" attributes="0"/>
+                                      <Component id="calInicio" max="32767" attributes="0"/>
                                   </Group>
                                   <Group type="102" alignment="0" attributes="0">
                                       <Component id="lblSdo" min="-2" pref="57" max="-2" attributes="0"/>
@@ -128,7 +128,7 @@
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Component id="lblIni" min="-2" pref="25" max="-2" attributes="0"/>
-                          <Component id="jDateChooser1" min="-2" pref="25" max="-2" attributes="0"/>
+                          <Component id="calInicio" min="-2" pref="25" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
@@ -170,6 +170,9 @@
             </Property>
             <Property name="selectionMode" type="int" value="0"/>
           </Properties>
+          <Events>
+            <EventHandler event="valueChanged" listener="javax.swing.event.ListSelectionListener" parameters="javax.swing.event.ListSelectionEvent" handler="listEntrevistasValueChanged"/>
+          </Events>
         </Component>
       </SubComponents>
     </Container>
@@ -179,6 +182,9 @@
           <StringArray count="0"/>
         </Property>
       </Properties>
+      <Events>
+        <EventHandler event="itemStateChanged" listener="java.awt.event.ItemListener" parameters="java.awt.event.ItemEvent" handler="ComboEmpresaItemStateChanged"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel1">
       <Properties>
@@ -203,6 +209,9 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="Limpiar Pantalla"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnLimpiarActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JLabel" name="lblAs">
       <Properties>
@@ -253,7 +262,7 @@
     </Component>
     <Component class="javax.swing.JTextField" name="txtSueldo">
     </Component>
-    <Component class="com.toedter.calendar.JDateChooser" name="jDateChooser1">
+    <Component class="com.toedter.calendar.JDateChooser" name="calInicio">
     </Component>
     <Component class="javax.swing.JButton" name="btnBaja">
       <Properties>
