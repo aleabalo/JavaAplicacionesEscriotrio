@@ -98,4 +98,10 @@ public class Aspirante {
     public Aspirante() {
     }
 
+    @Override
+    public String toString() {
+        return this.Nombre + " " + this.Apellido;
+    }
+
+    
 }

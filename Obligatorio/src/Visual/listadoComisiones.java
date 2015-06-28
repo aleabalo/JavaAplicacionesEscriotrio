@@ -9,6 +9,7 @@ import DataTypes.DataComision;
 import Logica.logicaContrato;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.GregorianCalendar;
 import javax.swing.DefaultListModel;
 
 /**
@@ -31,14 +32,15 @@ public class listadoComisiones extends javax.swing.JFrame {
         try {
             //Cargo los meses del 1 al 12 y dejo seleccionado el actual
             ComboMes.removeAllItems();
+            GregorianCalendar fecha = new GregorianCalendar();
             for (int a = 1; a < 13; a++) {
                 ComboMes.addItem(a);
-                int mes = Calendar.MONTH;
-                ComboMes.setSelectedItem(mes);
             }
+            int mes = fecha.get(Calendar.MONTH);
+            ComboMes.setSelectedItem(mes);
             //Cargo los anios con el anio actual, el anterior y el siguiente y dejo seleccionado el actual
             ComboAnio.removeAllItems();
-            int anio = Calendar.YEAR;
+            int anio = fecha.get(Calendar.YEAR);
             ComboAnio.addItem(anio - 1);
             ComboAnio.addItem(anio);
             ComboAnio.addItem(anio + 1);
@@ -47,12 +49,12 @@ public class listadoComisiones extends javax.swing.JFrame {
             lblError.setText(ex.getMessage());
         }
     }
-    
-    private void iniciarContenedores(){
+
+    private void iniciarContenedores() {
         DefaultListModel modelCom = new DefaultListModel();
         listComisiones.setModel(modelCom);
         lblError.setText("");
-        txtTotal.setText("");        
+        txtTotal.setText("");
     }
 
     /**
@@ -77,7 +79,7 @@ public class listadoComisiones extends javax.swing.JFrame {
         lblTotal = new javax.swing.JLabel();
         txtTotal = new javax.swing.JTextField();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         lblTitulo.setFont(new java.awt.Font("Tahoma", 1, 30)); // NOI18N
         lblTitulo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -181,20 +183,20 @@ public class listadoComisiones extends javax.swing.JFrame {
             lblError.setText("");
             txtTotal.setText("");
             //Obtengo los valores seleccionados para mes y anio
-            int mes = (int)ComboMes.getSelectedItem();
-            int anio = (int)ComboAnio.getSelectedItem();
+            int mes = (int) ComboMes.getSelectedItem();
+            int anio = (int) ComboAnio.getSelectedItem();
             //Traigo la lista de comisiones a cobrar con los parametros ingresados
             ArrayList<DataComision> comisionesCobrar = logicaContrato.getInstance().listaComisiones(mes, anio);
             if (comisionesCobrar.isEmpty()) {
                 throw new Exception("No hay Comisiones a cobrar para el mes seleccionado");
-            }            
+            }
             DefaultListModel modelCom = new DefaultListModel();
             double total = 0;
             for (DataComision c : comisionesCobrar) {
                 modelCom.addElement(c);
-                total = total + c.getMontoComision();                
+                total = total + c.getMontoComision();
             }
-            listComisiones.setModel(modelCom); 
+            listComisiones.setModel(modelCom);
             txtTotal.setText(String.valueOf(total));
         } catch (Exception ex) {
             iniciarContenedores();

@@ -7,13 +7,14 @@ package Logica;
 
 import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 
 /**
  *
  * @author ale
  */
 public class Contrato {
-    
+
     private int numero;
     private double sueldo;
     private Date fechaInicio;
@@ -58,49 +59,66 @@ public class Contrato {
 
     public void setEntrev(Entrevista entrev) {
         this.entrev = entrev;
-    }    
+    }
 
     /**
-    * Devuelve la comision que se va a cobrar
+     * Devuelve la comision que se va a cobrar
+     *
      * @return dobule comision
-    */
-    public double comision(){
+     */
+    public double comision() {
         double comision;
         comision = (sueldo / 100) * 10;
         return comision;
-    }    
-    
+    }
+
+    public double comisionSegunFecha(Date fechaCalcular) {
+        double comision = 0;
+        Calendar fehainicio = Calendar.getInstance();
+        Calendar fechafin = Calendar.getInstance();;
+        Calendar fehainicioControl = Calendar.getInstance();;
+        fehainicio.setTime(fechaCalcular);
+        fehainicioControl.setTime(fechaCalcular);
+        fechafin.setTime(fechaInicio);
+        fehainicio.add(Calendar.MONTH, -3);
+        if (fehainicio.before(fechafin) && fehainicioControl.after(fechafin)){
+            comision = comision();
+        }
+
+        return comision;
+    }
+
     /**
-    * Se fija si hay que cobrar comision o no
-    * @return boolean
-    */
-    public boolean cobraComision(){
-    
+     * Se fija si hay que cobrar comision o no
+     *
+     * @return boolean
+     */
+    public boolean cobraComision() {
+
         Calendar fehainicio = Calendar.getInstance();
         Calendar fechafin = Calendar.getInstance();
-        
+
         fehainicio.setTime(fechaInicio);
         fechafin.setTime(fechaCaducidad);
         fechafin.add(Calendar.MONTH, -3);
         return !fehainicio.before(fechafin);
     }
-    
-    
+
     /**
-    * Devuelve el sueldo posta
-    * Cobra comision si hay que cobrar
-    * @return double
-    */
-    public double sueldoSinComision(){
+     * Devuelve el sueldo posta Cobra comision si hay que cobrar
+     *
+     * @return double
+     */
+    public double sueldoSinComision() {
         double sueldoFinal;
-        if (cobraComision()){
-           sueldoFinal = this.getSueldo() - comision();
+        if (cobraComision()) {
+            sueldoFinal = this.getSueldo() - comision();
         } else {
             sueldoFinal = this.getSueldo();
         }
         return sueldoFinal;
     }
-    
+
     public Contrato(int numero, double sueldo, Date fechaInicio, Date fechaCaducidad, Entrevista _entrevista) {
         this.numero = numero;
         this.sueldo = sueldo;
@@ -111,7 +129,5 @@ public class Contrato {
 
     public Contrato() {
     }
-    
-    
-    
+
 }

@@ -72,6 +72,7 @@ public class persistenciaContrato {
             ArrayList<DataContrato> contratos = null;
 
             if (rs.first()) {
+                contratos = new ArrayList<>();
                 do {
                     DataContrato cont = new DataContrato();
                     cont.setEntrev(persistenciaEntrevista.getInstance().buscarEntrevistaId(rs.getInt(2)));

@@ -64,97 +64,95 @@ public class logicaContrato {
             cn.setNumero(c.getNumero());
             cn.setSueldo(c.getSueldo());
             return cn;
-        }       
+        }
     }
-    
+
     //Busco si existe constato para una Oferta y un Aspirante Dado
     public DataContrato buscarContratoAsp(DataContrato dc) throws Exception {
-        try{
+        try {
             DataContrato cont = persistenciaContrato.getInstance().buscarContratoAsp(dc);
             return cont;
         } catch (Exception ex) {
             throw ex;
         }
     }
-    
-    
+
     //Alta de Contrato    
     public void altaContrato(DataContrato c) throws Exception {
         try {
             DataContrato dc = this.buscarContratoAsp(c);
-            if(dc == null){
-                 Contrato con = convertirDatatypeEnContrato(c);
-                persistenciaContrato.getInstance().altaContrato(c);                
+            if (dc == null) {
+                Contrato con = convertirDatatypeEnContrato(c);
+                persistenciaContrato.getInstance().altaContrato(c);
             } else {
                 Contrato co = this.convertirDatatypeEnContrato(dc);
-                if(co.getClass().getName()=="Contrato"){
+                if (co.getClass().getName() == "Contrato") {
                     //Si es un contrato efectivo entonces no puede tener otro
                     throw new Exception("El Aspirante ya tiene un contrato para la Oferta");
                 } else {
-                    ContratoTermino ct = (ContratoTermino)co;
+                    ContratoTermino ct = (ContratoTermino) co;
                     Date fecha = ct.getFechaCaducidad();
                     Date actual = new Date();
-                    if(fecha.after(actual)){
+                    if (fecha.after(actual)) {
                         //Si es un contrato a termino pero aun no finalizo entonces no puede tener otro
                         throw new Exception("El Aspirante ya tiene un contrato para la Oferta");
                     } else {
                         //Si es un contrato a termino pero ya finalizo puede tener otro
-                        persistenciaContrato.getInstance().altaContrato(c); 
+                        persistenciaContrato.getInstance().altaContrato(c);
                     }
                 }
-            }            
+            }
         } catch (Exception ex) {
             throw ex;
         }
     }
-    
+
     //Listo los contratos existentes
-    public List<DataContrato> listaContrato() throws Exception{
+    public List<DataContrato> listaContrato() throws Exception {
         try {
             return persistenciaContrato.getInstance().listaContrato();
         } catch (Exception ex) {
             throw ex;
         }
     }
-    
+
     //Metodo para listar las comisiones para cobrar dado un mes y un anio
-    public ArrayList<DataComision> listaComisiones(int mes, int anio) throws Exception{
+    public ArrayList<DataComision> listaComisiones(int mes, int anio) throws Exception {
         try {
-            //Seteo una fecha como el primer dia del mes y anio ingresados y otra sumando 1 mes
+
+//            Estafa te comento esto porque el calculo ya esta hecho en un metodo que centraliza
+//            la logica en el objeto. Mepa que no esta muy bien meter asi
             Calendar cal = Calendar.getInstance();
-            cal.set(anio, mes, 01);
-            Calendar calfinEfectivo = Calendar.getInstance();
-            calfinEfectivo = cal;
-            calfinEfectivo.add(Calendar.MONTH, 3);
-            Calendar calfinTermino = Calendar.getInstance();
-            calfinTermino = cal;
-            calfinTermino.add(Calendar.MONTH, 1);            
+            cal.set(Calendar.MONTH, mes);
+            cal.set(Calendar.YEAR, anio);
+            Date fechaParaCalc = cal.getTime();
+                  
             ArrayList<DataComision> comisiones = new ArrayList<DataComision>();
             //traigo toda la lista de los contratos existentes
             List<DataContrato> contratos = this.listaContrato();
             //Para cada contrato tengo que verificar que si es a termino la fecha de inicio este entre la fecha ingresada y +30 dias
             //Y si es Efectivo tengo que verificar que la fecha de inicio est
-            for(DataContrato dc: contratos){                
-                if(dc.getTipoContrato()=="Termino"){
-                    Calendar ter = Calendar.getInstance();
-                    ter.setTime(dc.getFechaInicio());
-                    if(ter.after(cal)&& ter.before(calfinTermino)){
-                        DataComision com = new DataComision();
-                        com.setNombreAspirante(dc.getEntrev().getAspirante().toString());
-                        com.setMontoComision(dc.getSueldo()*0.1);
-                        comisiones.add(com);
-                    }
-                } else if(dc.getTipoContrato()=="Efectivo"){
-                    Calendar term = Calendar.getInstance();
-                    term.setTime(dc.getFechaInicio());
-                    if(term.after(cal)&& term.before(calfinEfectivo)){
-                        DataComision com = new DataComision();
-                        com.setNombreAspirante(dc.getEntrev().getAspirante().toString());
-                        com.setMontoComision(dc.getSueldo()*0.1);
-                        comisiones.add(com);
-                    }
+
+            List<Contrato> contratosObjeto = new ArrayList<Contrato>();
+            for (DataContrato dc : contratos) {
+                if (dc.getTipoContrato().equals("Termino")) {
+                    ContratoTermino conte = new ContratoTermino(dc.getNumero(), dc.getSueldo(), dc.getFechaInicio(), dc.getFechaCaducidad(), logicaEntrevista.getInstance().convertirDatatypeEnEntrevista(dc.getEntrev()));
+                    contratosObjeto.add(conte);
+                } else {
+                    Contrato con = new Contrato(dc.getNumero(), dc.getSueldo(), dc.getFechaInicio(), dc.getFechaCaducidad(), logicaEntrevista.getInstance().convertirDatatypeEnEntrevista(dc.getEntrev()));
+                    contratosObjeto.add(con);
                 }
-            }            
+
+            }
+            for (Contrato con : contratosObjeto) {
+                DataComision comision = new DataComision();
+                comision.setNombreAspirante(con.getEntrev().getAspirante().toString());
+                comision.setMontoComision(con.comisionSegunFecha(fechaParaCalc));
+                if (comision.getMontoComision() != 0){
+                    comisiones.add(comision);
+                }
+                
+            }
             return comisiones;
         } catch (Exception ex) {
             throw ex;

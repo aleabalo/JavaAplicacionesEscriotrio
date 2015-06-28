@@ -15,7 +15,8 @@ public class principal {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        registroEmpresa emp = new registroEmpresa();
+        puntoDeAcceso p = new puntoDeAcceso();
+        p.setVisible(true);
     }
     
 }

@@ -169,6 +169,7 @@ public class persistenciaEntrevista {
             DataEntrevista entrev = null;
 
             if (rs.first()) {
+                entrev = new DataEntrevista();
                 entrev.setIdEntrevista(rs.getInt(1));
                 DataOferta of = PersistenciaOferta.getInstance().buscarOferta(rs.getInt(2));
                 entrev.setOferta(of);
