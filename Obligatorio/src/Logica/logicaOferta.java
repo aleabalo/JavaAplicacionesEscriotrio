@@ -172,4 +172,18 @@ public class logicaOferta {
         }        
     }
     
+    //Desactivar una Oferta cuando se lleno el cupo de contratos
+    public void contratosOferta(DataOferta of) throws Exception{
+        try{
+            int res =PersistenciaOferta.getInstance().contratosOferta(of);
+            if(of.getPuestos()==res){
+                PersistenciaOferta.getInstance().desactivarOferta(of);
+            } else if(of.getPuestos()<res){
+                throw new Exception("Inconsistencia en Sistema, la cantidad de contratos es mayor a los puestos, Revise!");
+            }           
+        } catch (Exception ex) {
+            throw ex;
+        }        
+    }
+    
 }
