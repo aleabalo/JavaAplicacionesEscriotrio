@@ -47,6 +47,7 @@ Primary Key(Cedula, IdArea)
 Create table SolicitudEntrevista( 
 Oferta smallint not null references Oferta(IdOferta), 
 Aspirante char(10) not null references Aspirante(Cedula),
+Activo binary not null default 1,
 Primary Key(Oferta, Aspirante)
 );
 
@@ -621,6 +622,40 @@ _Cedula char(10)
 )
 BEGIN
 select * from Entrevista where Oferta = _IdOferta and Aspirante = _Cedula;
+END $$
+
+DELIMITER ;
+
+
+-- Lista de entrevistas para una Empresa que no tienen contrato asociado
+DROP PROCEDURE IF EXISTS listaEntrevistasEmpresa;
+
+DELIMITER $$
+
+CREATE PROCEDURE listaEntrevistasEmpresa(
+_Rut int)
+BEGIN
+select e.* from Entrevista e 
+inner join Oferta o on e.Oferta = o.IdOferta
+inner join Empresa em on em.Rut = o.Empresa
+where em.Rut = _Rut
+and e.Activo = 1
+and e.Id not in (select c.Entrevista from Contrato c);
+END $$
+
+DELIMITER ;
+
+
+-- Quitar entrevista de la lista
+DROP PROCEDURE IF EXISTS removerEntrevista;
+
+DELIMITER $$
+
+CREATE PROCEDURE removerEntrevista(
+_Id int)
+BEGIN
+Update Entrevista set Activo=0 
+where Id=_Id;
 END $$
 
 DELIMITER ;
