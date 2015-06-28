@@ -660,6 +660,21 @@ END $$
 
 DELIMITER ;
 
+-- Contar los contratos para una oferta dada
+DROP PROCEDURE IF EXISTS contratosOferta;
+
+DELIMITER $$
+
+CREATE PROCEDURE contratosOferta(
+_Id int)
+BEGIN
+Select count(*) from Contrato c 
+inner join Entrevista e on c.Entrevista = e.Id
+where e.Oferta = _Id;
+END $$
+
+DELIMITER ;
+
 
 
 
