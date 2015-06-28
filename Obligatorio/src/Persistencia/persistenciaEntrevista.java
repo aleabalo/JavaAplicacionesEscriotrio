@@ -13,6 +13,7 @@ import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Date;
 
@@ -167,17 +168,71 @@ public class persistenciaEntrevista {
             rs = ps.executeQuery();
             DataEntrevista entrev = null;
 
-            if (rs.first()) {                
+            if (rs.first()) {
                 entrev.setIdEntrevista(rs.getInt(1));
                 DataOferta of = PersistenciaOferta.getInstance().buscarOferta(rs.getInt(2));
                 entrev.setOferta(of);
                 DataAspirante as = persistenciaAspirante.getInstance().buscarAspirante(rs.getString(3));
                 entrev.setAspirante(as);
-                entrev.setFechaEntrevista(rs.getDate(4));                
+                entrev.setFechaEntrevista(rs.getDate(4));
             }
             rs.close();
             return entrev;
 
+        } catch (Exception ex) {
+            throw ex;
+        } finally {
+            ps.close();
+            con.close();
+        }
+    }
+
+    //Lista de Entrevistas para una Empesa que aun no tienen contrato
+    public ArrayList<DataEntrevista> listaEntrevistasEmpresa(DataEmpresa e) throws Exception {
+        Connection con = null;
+        CallableStatement ps = null;
+        try {
+            con = (Connection) iniciarConexion.getConection();
+            ps = (CallableStatement) con.prepareCall("{call listaEntrevistasEmpresa(?)}");
+            ps.setInt(1, e.getRut());
+            ResultSet rs;
+            rs = ps.executeQuery();
+            ArrayList<DataEntrevista> entrevistas = new ArrayList<DataEntrevista>();
+            if (rs.first()) {
+                do {
+                    DataEntrevista en = new DataEntrevista();
+                    en.setIdEntrevista(rs.getInt(1));
+                    DataOferta of = PersistenciaOferta.getInstance().buscarOferta(rs.getInt(2));
+                    en.setOferta(of);
+                    DataAspirante as = persistenciaAspirante.getInstance().buscarAspirante(rs.getString(3));
+                    en.setAspirante(as);
+                    en.setFechaEntrevista(rs.getDate(4));
+                    //Solo traigo las entrevistas que ya hayan pasado
+                    Calendar cal = Calendar.getInstance();
+                    if (rs.getDate(4).before(cal.getTime())) {
+                        entrevistas.add(en);
+                    }
+                } while (rs.next());
+            }
+            rs.close();
+            return entrevistas;
+        } catch (Exception ex) {
+            throw ex;
+        } finally {
+            ps.close();
+            con.close();
+        }
+    }
+    
+    //Remover Entrevista para que no salga mas en el listado de la Empresa
+    public void removerEntrevista(DataEntrevista e) throws Exception {
+        Connection con = null;
+        CallableStatement ps = null;
+        try {
+            con = (Connection) iniciarConexion.getConection();
+            ps = (CallableStatement) con.prepareCall("{call removerEntrevista (?)}");
+            ps.setInt(1, e.getIdEntrevista());            
+            ps.execute();
         } catch (Exception ex) {
             throw ex;
         } finally {

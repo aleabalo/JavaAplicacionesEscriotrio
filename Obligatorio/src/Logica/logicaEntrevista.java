@@ -61,7 +61,7 @@ public class logicaEntrevista {
             throw ex;
         }
     }
-    
+
     public DataEntrevista buscarEntrevistaId(int Id) throws Exception {
         try {
             return persistenciaEntrevista.getInstance().buscarEntrevistaId(Id);
@@ -114,14 +114,11 @@ public class logicaEntrevista {
         try {
             if (this.buscarEntrevista(e.getOferta(), e.getAspirante()) != null) {
                 throw new ExisteEntrevistaException();
-            }
-            else
-            {
+            } else {
                 boolean valida = this.verificarSolapamiento(e);
-                if(!valida){
-                persistenciaEntrevista.getInstance().agendarEntrevista(e);
-                }
-                else {
+                if (!valida) {
+                    persistenciaEntrevista.getInstance().agendarEntrevista(e);
+                } else {
                     throw new SolapamientoEntrevistaException();
                 }
             }
@@ -129,15 +126,34 @@ public class logicaEntrevista {
             throw ex;
         }
     }
-    
+
     //Lista de Entrevistas solicitadas para una empresa dada
     public ArrayList<DataEntrevista> listarSolicitudesEmpresa(DataEmpresa em) throws Exception {
-        try{
+        try {
             ArrayList<DataEntrevista> listado = persistenciaEntrevista.getInstance().listarSolicitudesEmpresa(em);
-            return listado;            
+            return listado;
         } catch (Exception ex) {
             throw ex;
-        }     
+        }
+    }
+
+    //Lista de Entrevistas para una Empesa que aun no tienen contrato y cuya fecha ya paso
+    public ArrayList<DataEntrevista> listaEntrevistasEmpresa(DataEmpresa em) throws Exception {
+        try {
+            ArrayList<DataEntrevista> listado = persistenciaEntrevista.getInstance().listaEntrevistasEmpresa(em);
+            return listado;
+        } catch (Exception ex) {
+            throw ex;
+        }
+    }
+
+    //Remover Entrevista para que no salga mas en el listado de la Empresa
+    public void removerEntrevista(DataEntrevista e) throws Exception {
+        try {
+            persistenciaEntrevista.getInstance().removerEntrevista(e);
+        } catch (Exception ex) {
+            throw ex;
+        }
     }
 
 }
