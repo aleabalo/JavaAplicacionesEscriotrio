@@ -34,7 +34,7 @@ public class PersistenciaOferta {
         Connection con = null;
         CallableStatement ps = null;
         try {
-            con = (Connection) iniciarConexion.getConection();            
+            con = (Connection) iniciarConexion.getConection();
 
             ps = (CallableStatement) con.prepareCall("{call altaOferta (?,?,?,?,?,?)}");
             ps.setString(1, o.getCargo());
@@ -69,7 +69,7 @@ public class PersistenciaOferta {
             ps.execute();
         } catch (Exception ex) {
             throw ex;
-        }finally {
+        } finally {
             ps.close();
             con.close();
         }
@@ -86,7 +86,7 @@ public class PersistenciaOferta {
             ResultSet rs;
             rs = ps.executeQuery();
             DataOferta oferta = null;
-            
+
             if (rs.first()) {
                 oferta = new DataOferta();
                 oferta.setId(rs.getInt(1));
@@ -102,7 +102,7 @@ public class PersistenciaOferta {
             return oferta;
         } catch (Exception ex) {
             throw ex;
-        }finally {
+        } finally {
             ps.close();
             con.close();
         }
@@ -119,7 +119,7 @@ public class PersistenciaOferta {
             ps.execute();
         } catch (Exception ex) {
             throw ex;
-        }finally {
+        } finally {
             ps.close();
             con.close();
         }
@@ -154,7 +154,7 @@ public class PersistenciaOferta {
             return ofertas;
         } catch (Exception ex) {
             throw ex;
-        }finally {
+        } finally {
             ps.close();
             con.close();
         }
@@ -182,7 +182,7 @@ public class PersistenciaOferta {
             return aspirantes;
         } catch (Exception ex) {
             throw ex;
-        }finally {
+        } finally {
             ps.close();
             con.close();
         }
@@ -200,12 +200,12 @@ public class PersistenciaOferta {
             ps.execute();
         } catch (Exception ex) {
             throw ex;
-        }finally {
+        } finally {
             ps.close();
             con.close();
         }
-    }    
-    
+    }
+
     //Denegar solicitud de entrevista a un Aspirante
     public void rechazarEntrevista(DataOferta o, DataAspirante a) throws Exception {
         Connection con = null;
@@ -218,9 +218,34 @@ public class PersistenciaOferta {
             ps.execute();
         } catch (Exception ex) {
             throw ex;
-        }finally {
+        } finally {
             ps.close();
             con.close();
         }
     }
+
+    //Denegar solicitud de entrevista a un Aspirante
+    public int contratosOferta(DataOferta o) throws Exception {
+        Connection con = null;
+        CallableStatement ps = null;
+        try {
+            con = (Connection) iniciarConexion.getConection();
+            ps = (CallableStatement) con.prepareCall("{call contratosOferta (?)}");
+            ps.setInt(1, o.getId());
+            ResultSet rs;
+            rs = ps.executeQuery();
+            int cantidad = 0;
+            if (rs.first()) {
+                cantidad = rs.getInt(1);
+            }
+            rs.close();
+            return cantidad;
+        } catch (Exception ex) {
+            throw ex;
+        } finally {
+            ps.close();
+            con.close();
+        }
+    }
+
 }
