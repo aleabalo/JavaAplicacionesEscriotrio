@@ -50,7 +50,7 @@ public class registroEntrevista extends javax.swing.JFrame {
                 }
             }
         } catch (Exception ex) {
-            lblError.setText(ex.getMessage());
+            lblError.setText(ex.getMessage().toString());
         }
     }
 
@@ -104,7 +104,7 @@ public class registroEntrevista extends javax.swing.JFrame {
             }
             listOfertas.setModel(modelOferta);
         } catch (Exception e) {
-            lblError.setText(e.getMessage());
+            lblError.setText(e.getMessage().toString());
         }
     }
 
@@ -122,7 +122,7 @@ public class registroEntrevista extends javax.swing.JFrame {
             }
             listAspirante.setModel(modelAspirante);
         } catch (Exception e) {
-            lblError.setText(e.getMessage());
+            lblError.setText(e.getMessage().toString());
         }
     }
 
@@ -157,6 +157,7 @@ public class registroEntrevista extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         lblTitulo.setFont(new java.awt.Font("Tahoma", 1, 30)); // NOI18N
+        lblTitulo.setForeground(new java.awt.Color(0, 153, 153));
         lblTitulo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblTitulo.setText("Registro de Entrevista - Empresa");
 
@@ -344,7 +345,7 @@ public class registroEntrevista extends javax.swing.JFrame {
         } catch (IOException ex) {
             lblError.setText(ex.getMessage());
         } catch (Exception ex) {
-            lblError.setText(ex.getMessage());
+            lblError.setText(ex.getMessage().toString());
         }
     }//GEN-LAST:event_btnVerCvActionPerformed
 
@@ -368,7 +369,7 @@ public class registroEntrevista extends javax.swing.JFrame {
             //Si tengo empresa seleccionada entonces llamo al metodo para cargar la lista de ofertas
             cargarOfertas(emp);
         } catch (Exception e) {
-            lblError.setText(e.getMessage());
+            lblError.setText(e.getMessage().toString());
         }
     }//GEN-LAST:event_ComboEmpresaItemStateChanged
 
@@ -394,7 +395,7 @@ public class registroEntrevista extends javax.swing.JFrame {
             lblM.setVisible(false);
             cargarAspirantes(of);
         } catch (Exception e) {
-            lblError.setText(e.getMessage());
+            lblError.setText(e.getMessage().toString());
         }
     }//GEN-LAST:event_listOfertasValueChanged
 
@@ -415,7 +416,7 @@ public class registroEntrevista extends javax.swing.JFrame {
             lblH.setVisible(true);
             lblM.setVisible(true);
         } catch (Exception e) {
-            lblError.setText(e.getMessage());
+            lblError.setText(e.getMessage().toString());
         }
     }//GEN-LAST:event_listAspiranteValueChanged
 
@@ -459,7 +460,7 @@ public class registroEntrevista extends javax.swing.JFrame {
             iniciarControles();
             lblError.setText("Se ha agendado la entrevista");
         } catch (Exception e) {
-            lblError.setText(e.getMessage());
+            lblError.setText(e.getMessage().toString());
         }
     }//GEN-LAST:event_btnAgendarActionPerformed
 
@@ -479,7 +480,7 @@ public class registroEntrevista extends javax.swing.JFrame {
             iniciarControles();
             lblError.setText("Se ha rechazado la solicitud de Entrevista");
         } catch (Exception e) {
-            lblError.setText(e.getMessage());
+            lblError.setText(e.getMessage().toString());
         }
     }//GEN-LAST:event_btnRechazarActionPerformed
 
@@ -488,7 +489,7 @@ public class registroEntrevista extends javax.swing.JFrame {
             iniciarControles(); 
             lblError.setText(""); 
         } catch (Exception e) {
-            lblError.setText(e.getMessage());
+            lblError.setText(e.getMessage().toString());
             lblError.setText(""); 
         }
     }//GEN-LAST:event_btnLimpiarActionPerformed

@@ -45,7 +45,7 @@ public class registroContrato extends javax.swing.JFrame {
                 }
             }
         } catch (Exception ex) {
-            lblError.setText(ex.getMessage());
+            lblError.setText(ex.getMessage().toString());
         }
     }
 
@@ -72,6 +72,7 @@ public class registroContrato extends javax.swing.JFrame {
     private void SelectEmpresa(DataEmpresa em) throws Exception {
         try {
             lblError.setText("");
+            FormularioDefecto();
             //Cuando selecciono la empresa habilito la lista de Ofertas y la cargo
             List<DataEntrevista> entrevistas = logicaEntrevista.getInstance().listaEntrevistasEmpresa(em);
             if (entrevistas.isEmpty()) {
@@ -85,7 +86,7 @@ public class registroContrato extends javax.swing.JFrame {
                 listEntrevistas.setModel(modelEntrevista);
             }
         } catch (Exception ex) {
-            lblError.setText(ex.getMessage());
+            lblError.setText(ex.getMessage().toString());
         }
     }
 
@@ -111,12 +112,12 @@ public class registroContrato extends javax.swing.JFrame {
             calInicio.setDate(actual);
             calInicio.setVisible(true);
             calFin.setDate(actual);
-            calFin.setVisible(true);
+            calFin.setVisible(false);
             btnAlta.setVisible(true);
             btnBaja.setVisible(true);
             btnLimpiar.setVisible(true);
         } catch (Exception e) {
-            lblError.setText(e.getMessage());
+            lblError.setText(e.getMessage().toString());
         }
     }
 
@@ -178,6 +179,7 @@ public class registroContrato extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         lblTitulo.setFont(new java.awt.Font("Tahoma", 1, 30)); // NOI18N
+        lblTitulo.setForeground(new java.awt.Color(0, 153, 153));
         lblTitulo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblTitulo.setText("Registro de Contrato");
 
@@ -255,7 +257,7 @@ public class registroContrato extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap(13, Short.MAX_VALUE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 343, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -373,7 +375,7 @@ public class registroContrato extends javax.swing.JFrame {
             //Si tengo empresa seleccionada entonces llamo al metodo para cargar la lista de ofertas
             this.SelectEmpresa(emp);
         } catch (Exception e) {
-            lblError.setText(e.getMessage());
+            lblError.setText(e.getMessage().toString());
         }
     }//GEN-LAST:event_ComboEmpresaItemStateChanged
 
@@ -388,7 +390,7 @@ public class registroContrato extends javax.swing.JFrame {
             //Si tengo entrevista seleccionada entonces cargo el resto del formuario
             this.SelectEntrevista(ent);
         } catch (Exception e) {
-            lblError.setText(e.getMessage());
+            lblError.setText(e.getMessage().toString());
         }
     }//GEN-LAST:event_listEntrevistasValueChanged
 
@@ -397,7 +399,7 @@ public class registroContrato extends javax.swing.JFrame {
             lblError.setText("");
             this.FormularioDefecto();
         } catch (Exception e) {
-            lblError.setText(e.getMessage());
+            lblError.setText(e.getMessage().toString());
         }
     }//GEN-LAST:event_btnLimpiarActionPerformed
 
@@ -409,7 +411,7 @@ public class registroContrato extends javax.swing.JFrame {
             lblError.setText("La Entrevista se ha quitado de la lista con Exito");
             this.FormularioDefecto();
         } catch (Exception e) {
-            lblError.setText(e.getMessage());
+            lblError.setText(e.getMessage().toString());
         }
     }//GEN-LAST:event_btnBajaActionPerformed
 
@@ -441,10 +443,10 @@ public class registroContrato extends javax.swing.JFrame {
             dc.setSueldo(sueldo);
             dc.setTipoContrato(tipo);
             logicaContrato.getInstance().altaContrato(dc);
-            this.FormularioDefecto();
+            FormularioDefecto();
             lblError.setText("Contrato dado de alta con Exito");
         } catch (Exception e) {
-            lblError.setText(e.getMessage());
+            lblError.setText(e.getMessage().toString());
         }
     }//GEN-LAST:event_btnAltaActionPerformed
 
