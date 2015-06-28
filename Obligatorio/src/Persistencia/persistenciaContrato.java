@@ -41,9 +41,11 @@ public class persistenciaContrato {
             ps = (CallableStatement) con.prepareCall("{call altaContrato (?,?,?,?,?)}");
             ps.setInt(1, c.getEntrev().getIdEntrevista());
             ps.setDouble(2, c.getSueldo());
-            ps.setDate(3, (Date) c.getFechaInicio());
+            java.sql.Date sqlDate2 = new java.sql.Date(c.getFechaInicio().getTime());
+            ps.setDate(3, sqlDate2);
             ps.setString(4, c.getTipoContrato());
-            ps.setDate(5, (Date) c.getFechaCaducidad());
+            java.sql.Date sqlDate = new java.sql.Date(c.getFechaCaducidad().getTime());
+            ps.setDate(5, sqlDate);
             ps.execute();
         } catch (Exception ex) {
             throw ex;

@@ -54,4 +54,9 @@ public class DataEntrevista {
     public DataEntrevista() {
     } 
     
+    @Override
+    public String toString(){
+        return (this.aspirante.toString() + " - Oferta: " + this.oferta.toString());
+    }
+    
 }

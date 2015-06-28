@@ -47,7 +47,6 @@ Primary Key(Cedula, IdArea)
 Create table SolicitudEntrevista( 
 Oferta smallint not null references Oferta(IdOferta), 
 Aspirante char(10) not null references Aspirante(Cedula),
-Activo binary not null default 1,
 Primary Key(Oferta, Aspirante)
 );
 
@@ -56,6 +55,7 @@ Id smallint not null auto_increment,
 Oferta smallint not null references Oferta(IdOferta),
 Aspirante char(10) not null references Aspirante(Cedula),
 Fecha date not null,
+Activo binary not null default 1,
 Primary Key(Id)
 );
 
