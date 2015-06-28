@@ -30,6 +30,7 @@ public class listadoComisiones extends javax.swing.JFrame {
     //Cargo la lista de Aspirantes
     private void CargarMesesyAnios() {
         try {
+            lblError.setText("");
             //Cargo los meses del 1 al 12 y dejo seleccionado el actual
             ComboMes.removeAllItems();
             GregorianCalendar fecha = new GregorianCalendar();
@@ -52,8 +53,7 @@ public class listadoComisiones extends javax.swing.JFrame {
 
     private void iniciarContenedores() {
         DefaultListModel modelCom = new DefaultListModel();
-        listComisiones.setModel(modelCom);
-        lblError.setText("");
+        listComisiones.setModel(modelCom);        
         txtTotal.setText("");
     }
 
@@ -143,8 +143,8 @@ public class listadoComisiones extends javax.swing.JFrame {
                                         .addComponent(jScrollPane1)
                                         .addComponent(lblError, javax.swing.GroupLayout.PREFERRED_SIZE, 669, javax.swing.GroupLayout.PREFERRED_SIZE))))))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(165, 165, 165)
-                        .addComponent(lblTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(212, 212, 212)
+                        .addComponent(lblTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(txtTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))

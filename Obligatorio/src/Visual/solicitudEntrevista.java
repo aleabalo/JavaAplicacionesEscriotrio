@@ -350,10 +350,11 @@ public class solicitudEntrevista extends javax.swing.JFrame {
                     }
                 }
                 //Realizo la solicitud de entrevista que sera aceptada o no por la empresa
-                logicaOferta.getInstance().solicitarEntrevista(das, dof);
+                logicaOferta.getInstance().solicitarEntrevista(das, dof);                
+                ComboOfertas.removeItem(dof);
                 lblError.setText("Solicitud de entrevista creada");
                 lblError.setVisible(true);
-                ComboOfertas.removeItem(dof);
+                iniciarBotones();
             }
         } catch (Exception e) {
             lblError.setText(e.getMessage());

@@ -102,6 +102,8 @@ public class logicaContrato {
                     }
                 }
             }
+            //Luego de dar de alta el contrato en la base verifico si quedan cupos disponibles y en caso de no ser asi desactivo la oferta
+            logicaOferta.getInstance().contratosOferta(dc.getEntrev().getOferta());
         } catch (Exception ex) {
             throw ex;
         }

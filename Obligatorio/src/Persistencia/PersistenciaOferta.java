@@ -224,7 +224,7 @@ public class PersistenciaOferta {
         }
     }
 
-    //Denegar solicitud de entrevista a un Aspirante
+    //Devuelve la cantidad de contratos que tiene ya asociados una oferta
     public int contratosOferta(DataOferta o) throws Exception {
         Connection con = null;
         CallableStatement ps = null;
