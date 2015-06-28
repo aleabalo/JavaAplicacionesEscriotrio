@@ -65,6 +65,8 @@ public class registroEntrevista extends javax.swing.JFrame {
         btnAgendar.setVisible(false);
         btnRechazar.setVisible(false);
         lblFechayHora.setVisible(false);
+        lblH.setVisible(false);
+        lblM.setVisible(false);
         Date hoy = new Date();
         calFecha.setDate(hoy);
         calFecha.setVisible(false);
@@ -79,7 +81,6 @@ public class registroEntrevista extends javax.swing.JFrame {
                 cmbHora.addItem(a);
             }
         }
-
     }
 
     //Metodo para cargar las Ofertas de la Empresa seleccionada
@@ -149,8 +150,9 @@ public class registroEntrevista extends javax.swing.JFrame {
         btnRechazar = new javax.swing.JButton();
         cmbHora = new javax.swing.JComboBox();
         cmbMinutos = new javax.swing.JComboBox();
-        jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
+        lblH = new javax.swing.JLabel();
+        lblM = new javax.swing.JLabel();
+        btnLimpiar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -216,9 +218,16 @@ public class registroEntrevista extends javax.swing.JFrame {
 
         cmbMinutos.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
-        jLabel1.setText("Hora");
+        lblH.setText("Hora");
 
-        jLabel2.setText("Minutos");
+        lblM.setText("Minutos");
+
+        btnLimpiar.setText("Limpiar Pantalla");
+        btnLimpiar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLimpiarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -252,21 +261,22 @@ public class registroEntrevista extends javax.swing.JFrame {
                                     .addGroup(layout.createSequentialGroup()
                                         .addGap(25, 25, 25)
                                         .addComponent(btnVerCv, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                            .addComponent(btnAgendar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                            .addComponent(btnRechazar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                        .addGap(11, 11, 11))
                                     .addGroup(layout.createSequentialGroup()
                                         .addComponent(cmbHora, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                         .addComponent(cmbMinutos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                                     .addGroup(layout.createSequentialGroup()
                                         .addGap(10, 10, 10)
-                                        .addComponent(jLabel1)
+                                        .addComponent(lblH)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(jLabel2)
-                                        .addGap(12, 12, 12)))))
+                                        .addComponent(lblM)
+                                        .addGap(12, 12, 12))
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                            .addComponent(btnAgendar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                            .addComponent(btnRechazar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                            .addComponent(btnLimpiar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                        .addGap(11, 11, 11)))))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 9, Short.MAX_VALUE)))
                 .addGap(24, 24, 24))
         );
@@ -279,14 +289,15 @@ public class registroEntrevista extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(ComboEmpresa, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(lblEmpresa, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 257, Short.MAX_VALUE)
-                            .addComponent(jScrollPane2)))
+                            .addComponent(jScrollPane2))
+                        .addGap(21, 21, 21)
+                        .addComponent(lblError, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(44, 44, 44)
                         .addComponent(btnVerCv, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(lblFechayHora, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -294,8 +305,8 @@ public class registroEntrevista extends javax.swing.JFrame {
                         .addComponent(calFecha, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel1)
-                            .addComponent(jLabel2))
+                            .addComponent(lblH)
+                            .addComponent(lblM))
                         .addGap(10, 10, 10)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(cmbHora, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -303,9 +314,9 @@ public class registroEntrevista extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(btnAgendar, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(btnRechazar, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(21, 21, 21)
-                .addComponent(lblError, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnRechazar, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btnLimpiar)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -322,7 +333,7 @@ public class registroEntrevista extends javax.swing.JFrame {
             String sPath = "";
             String separador = System.getProperty("file.separator");
             if (isWindows()) {
-                sPath = "c:" + separador+ "pdf" + separador + as.getArchivoPdf();
+                sPath = "c:" + separador + "pdf" + separador + as.getArchivoPdf();
             } else {
                 sPath = separador + "pdf" + separador + as.getArchivoPdf();
 
@@ -368,8 +379,19 @@ public class registroEntrevista extends javax.swing.JFrame {
             if (of == null) {
                 throw new Exception("Debe Seleccionar una Oferta");
             }
+            //Limpio la lista de aspirantes y resto de los controles
+            DefaultListModel modelVacio = new DefaultListModel();
+            listAspirante.setModel(modelVacio);
             //Si tengo oferta seleccionada entonces llamo al metodo para cargar la lista de aspirantes
             listAspirante.setVisible(true);
+            btnVerCv.setVisible(false);
+            btnAgendar.setVisible(false);
+            btnRechazar.setVisible(false);
+            calFecha.setVisible(false);
+            cmbHora.setVisible(false);
+            cmbMinutos.setVisible(false);
+            lblH.setVisible(false);
+            lblM.setVisible(false);
             cargarAspirantes(of);
         } catch (Exception e) {
             lblError.setText(e.getMessage());
@@ -390,6 +412,8 @@ public class registroEntrevista extends javax.swing.JFrame {
             calFecha.setVisible(true);
             cmbHora.setVisible(true);
             cmbMinutos.setVisible(true);
+            lblH.setVisible(true);
+            lblM.setVisible(true);
         } catch (Exception e) {
             lblError.setText(e.getMessage());
         }
@@ -459,6 +483,16 @@ public class registroEntrevista extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnRechazarActionPerformed
 
+    private void btnLimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimpiarActionPerformed
+        try {                       
+            iniciarControles(); 
+            lblError.setText(""); 
+        } catch (Exception e) {
+            lblError.setText(e.getMessage());
+            lblError.setText(""); 
+        }
+    }//GEN-LAST:event_btnLimpiarActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -498,18 +532,19 @@ public class registroEntrevista extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox ComboEmpresa;
     private javax.swing.JButton btnAgendar;
+    private javax.swing.JButton btnLimpiar;
     private javax.swing.JButton btnRechazar;
     private javax.swing.JButton btnVerCv;
     private com.toedter.calendar.JDateChooser calFecha;
     private javax.swing.JComboBox cmbHora;
     private javax.swing.JComboBox cmbMinutos;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JLabel lblEmpresa;
     private javax.swing.JLabel lblError;
     private javax.swing.JLabel lblFechayHora;
+    private javax.swing.JLabel lblH;
+    private javax.swing.JLabel lblM;
     private javax.swing.JLabel lblTitulo;
     private javax.swing.JList listAspirante;
     private javax.swing.JList listOfertas;

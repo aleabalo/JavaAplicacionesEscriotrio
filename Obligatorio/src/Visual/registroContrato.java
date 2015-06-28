@@ -57,11 +57,13 @@ public class registroContrato extends javax.swing.JFrame {
         lblTip.setVisible(false);
         lblSdo.setVisible(false);
         lblIni.setVisible(false);
+        lblFin.setVisible(false);
         txtAspirante.setVisible(false);
         txtOferta.setVisible(false);
         txtSueldo.setVisible(false);
         ComboTipo.setVisible(false);
         calInicio.setVisible(false);
+        calFin.setVisible(false);
         btnAlta.setVisible(false);
         btnBaja.setVisible(false);
         btnLimpiar.setVisible(false);
@@ -108,6 +110,8 @@ public class registroContrato extends javax.swing.JFrame {
             Date actual = new Date();
             calInicio.setDate(actual);
             calInicio.setVisible(true);
+            calFin.setDate(actual);
+            calFin.setVisible(true);
             btnAlta.setVisible(true);
             btnBaja.setVisible(true);
             btnLimpiar.setVisible(true);
@@ -132,6 +136,9 @@ public class registroContrato extends javax.swing.JFrame {
         Date actual = new Date();
         if (calInicio.getDate().before(actual)) {
             throw new Exception("La fecha de Inicio no puede ser anterior a hoy");
+        }        
+        if (calFin.getDate().before(calInicio.getDate())) {
+            throw new Exception("La fecha de Fin no puede ser anterior a la de Inicio");
         }
     }
 
@@ -163,6 +170,8 @@ public class registroContrato extends javax.swing.JFrame {
         calInicio = new com.toedter.calendar.JDateChooser();
         btnBaja = new javax.swing.JButton();
         lblError = new javax.swing.JLabel();
+        lblFin = new javax.swing.JLabel();
+        calFin = new com.toedter.calendar.JDateChooser();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -230,6 +239,9 @@ public class registroContrato extends javax.swing.JFrame {
         lblError.setForeground(new java.awt.Color(255, 0, 0));
         lblError.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
 
+        lblFin.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblFin.setText("Fin:");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -254,10 +266,6 @@ public class registroContrato extends javax.swing.JFrame {
                                             .addComponent(txtAspirante, javax.swing.GroupLayout.PREFERRED_SIZE, 267, javax.swing.GroupLayout.PREFERRED_SIZE))
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                                             .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                                                .addComponent(lblIni, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                .addComponent(calInicio, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                                                 .addComponent(lblSdo, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
                                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                                 .addComponent(txtSueldo))
@@ -269,7 +277,15 @@ public class registroContrato extends javax.swing.JFrame {
                                         .addGap(34, 34, 34)
                                         .addComponent(btnAlta, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(btnBaja, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                        .addComponent(btnBaja, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(lblIni, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(calInicio, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(lblFin, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(calFin, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE))))
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(98, 98, 98)
                                 .addComponent(btnLimpiar, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -317,9 +333,11 @@ public class registroContrato extends javax.swing.JFrame {
                             .addComponent(lblSdo, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(txtSueldo, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lblIni, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(calInicio, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(lblIni, javax.swing.GroupLayout.DEFAULT_SIZE, 25, Short.MAX_VALUE)
+                            .addComponent(calInicio, javax.swing.GroupLayout.DEFAULT_SIZE, 25, Short.MAX_VALUE)
+                            .addComponent(lblFin, javax.swing.GroupLayout.DEFAULT_SIZE, 25, Short.MAX_VALUE)
+                            .addComponent(calFin, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(btnAlta)
@@ -402,14 +420,8 @@ public class registroContrato extends javax.swing.JFrame {
             Date inicio = calInicio.getDate();
             Date fin = new Date();
             String tipo = ComboTipo.getSelectedItem().toString();
-            if(tipo=="Termino"){
-                //Si es a termino seteo la fecha fin agregando tres meses a la de inicio
-                Calendar ini = Calendar.getInstance();
-                ini.setTime(inicio);
-                Calendar f = Calendar.getInstance();
-                f.setTime(inicio);
-                f.add(Calendar.MONTH, 3);
-                fin = f.getTime();
+            if(tipo=="Termino"){                
+                fin = calFin.getDate();
             }
             if(tipo=="Efectivo"){
                 //Si es efectivo la fecha de fin es null                
@@ -470,11 +482,13 @@ public class registroContrato extends javax.swing.JFrame {
     private javax.swing.JButton btnAlta;
     private javax.swing.JButton btnBaja;
     private javax.swing.JButton btnLimpiar;
+    private com.toedter.calendar.JDateChooser calFin;
     private com.toedter.calendar.JDateChooser calInicio;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lblAs;
     private javax.swing.JLabel lblError;
+    private javax.swing.JLabel lblFin;
     private javax.swing.JLabel lblIni;
     private javax.swing.JLabel lblOf;
     private javax.swing.JLabel lblSdo;
