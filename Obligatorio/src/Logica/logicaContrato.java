@@ -83,6 +83,7 @@ public class logicaContrato {
         try {
             DataContrato dc = this.buscarContratoAsp(c);
             if(dc == null){
+                 Contrato con = convertirDatatypeEnContrato(c);
                 persistenciaContrato.getInstance().altaContrato(c);                
             } else {
                 Contrato co = this.convertirDatatypeEnContrato(dc);

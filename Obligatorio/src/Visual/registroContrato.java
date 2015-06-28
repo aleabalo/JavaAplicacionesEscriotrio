@@ -136,9 +136,11 @@ public class registroContrato extends javax.swing.JFrame {
         Date actual = new Date();
         if (calInicio.getDate().before(actual)) {
             throw new Exception("La fecha de Inicio no puede ser anterior a hoy");
-        }        
-        if (calFin.getDate().before(calInicio.getDate())) {
-            throw new Exception("La fecha de Fin no puede ser anterior a la de Inicio");
+        }
+        if (ComboTipo.getSelectedItem().equals("Termino")) {
+            if (calFin.getDate().before(calInicio.getDate())) {
+                throw new Exception("La fecha de Fin no puede ser anterior a la de Inicio");
+            }
         }
     }
 
@@ -229,6 +231,12 @@ public class registroContrato extends javax.swing.JFrame {
 
         txtOferta.setEnabled(false);
 
+        ComboTipo.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                ComboTipoItemStateChanged(evt);
+            }
+        });
+
         btnBaja.setText("Remover de Lista");
         btnBaja.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -264,15 +272,14 @@ public class registroContrato extends javax.swing.JFrame {
                                             .addComponent(lblAs, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
                                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                             .addComponent(txtAspirante, javax.swing.GroupLayout.PREFERRED_SIZE, 267, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                                                .addComponent(lblSdo, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                .addComponent(txtSueldo))
-                                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                                                .addComponent(lblTip, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                .addComponent(ComboTipo, javax.swing.GroupLayout.PREFERRED_SIZE, 185, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                        .addGroup(layout.createSequentialGroup()
+                                            .addComponent(lblSdo, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                            .addComponent(txtSueldo))
+                                        .addGroup(layout.createSequentialGroup()
+                                            .addComponent(lblTip, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                            .addComponent(ComboTipo, javax.swing.GroupLayout.PREFERRED_SIZE, 185, javax.swing.GroupLayout.PREFERRED_SIZE)))
                                     .addGroup(layout.createSequentialGroup()
                                         .addGap(34, 34, 34)
                                         .addComponent(btnAlta, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -380,16 +387,16 @@ public class registroContrato extends javax.swing.JFrame {
             }
             //Si tengo entrevista seleccionada entonces cargo el resto del formuario
             this.SelectEntrevista(ent);
-        } catch (Exception e) {            
+        } catch (Exception e) {
             lblError.setText(e.getMessage());
         }
     }//GEN-LAST:event_listEntrevistasValueChanged
 
     private void btnLimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimpiarActionPerformed
         try {
-            lblError.setText("");            
+            lblError.setText("");
             this.FormularioDefecto();
-        } catch (Exception e) {            
+        } catch (Exception e) {
             lblError.setText(e.getMessage());
         }
     }//GEN-LAST:event_btnLimpiarActionPerformed
@@ -397,11 +404,11 @@ public class registroContrato extends javax.swing.JFrame {
     private void btnBajaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBajaActionPerformed
         try {
             lblError.setText("");
-            DataEntrevista en = (DataEntrevista)listEntrevistas.getSelectedValue();
-            logicaEntrevista.getInstance().removerEntrevista(en);            
+            DataEntrevista en = (DataEntrevista) listEntrevistas.getSelectedValue();
+            logicaEntrevista.getInstance().removerEntrevista(en);
             lblError.setText("La Entrevista se ha quitado de la lista con Exito");
             this.FormularioDefecto();
-        } catch (Exception e) {            
+        } catch (Exception e) {
             lblError.setText(e.getMessage());
         }
     }//GEN-LAST:event_btnBajaActionPerformed
@@ -413,33 +420,43 @@ public class registroContrato extends javax.swing.JFrame {
             this.ValidarForm();
             //Verifico que el sueldo seleccionado sea un numero mayor a cero
             double sueldo = Double.parseDouble(txtSueldo.getText());
-            if(sueldo<=0){
+            if (sueldo <= 0) {
                 throw new Exception("El sueldo debe ser mayor a cero");
             }
             //construyo la fecha inicio, el tipo y la fecha fin para crear el contrato
             Date inicio = calInicio.getDate();
             Date fin = new Date();
             String tipo = ComboTipo.getSelectedItem().toString();
-            if(tipo=="Termino"){                
+            if (tipo == "Termino") {
                 fin = calFin.getDate();
             }
-            if(tipo=="Efectivo"){
+            if (tipo == "Efectivo") {
                 //Si es efectivo la fecha de fin es null                
                 fin = null;
             }
             DataContrato dc = new DataContrato();
-            dc.setEntrev((DataEntrevista)listEntrevistas.getSelectedValue());
+            dc.setEntrev((DataEntrevista) listEntrevistas.getSelectedValue());
             dc.setFechaCaducidad(fin);
             dc.setFechaInicio(inicio);
             dc.setSueldo(sueldo);
             dc.setTipoContrato(tipo);
             logicaContrato.getInstance().altaContrato(dc);
             this.FormularioDefecto();
-            lblError.setText("Contrato dado de alta con Exito");                    
-        } catch (Exception e) {            
+            lblError.setText("Contrato dado de alta con Exito");
+        } catch (Exception e) {
             lblError.setText(e.getMessage());
         }
     }//GEN-LAST:event_btnAltaActionPerformed
+
+    private void ComboTipoItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_ComboTipoItemStateChanged
+
+        String tipo = (String) ComboTipo.getSelectedItem();
+        if (tipo.equals("Termino")) {
+            calFin.setVisible(true);
+        } else {
+            calFin.setVisible(false);
+        }
+    }//GEN-LAST:event_ComboTipoItemStateChanged
 
     /**
      * @param args the command line arguments

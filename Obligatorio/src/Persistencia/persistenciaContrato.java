@@ -44,8 +44,12 @@ public class persistenciaContrato {
             java.sql.Date sqlDate2 = new java.sql.Date(c.getFechaInicio().getTime());
             ps.setDate(3, sqlDate2);
             ps.setString(4, c.getTipoContrato());
-            java.sql.Date sqlDate = new java.sql.Date(c.getFechaCaducidad().getTime());
-            ps.setDate(5, sqlDate);
+            if (c.getTipoContrato().equals("Termino")) {
+                java.sql.Date sqlDate = new java.sql.Date(c.getFechaCaducidad().getTime());
+                ps.setDate(5, sqlDate);
+            } else {
+                ps.setDate(5, null);
+            }
             ps.execute();
         } catch (Exception ex) {
             throw ex;
