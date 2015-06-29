@@ -110,6 +110,7 @@ public class persistenciaContrato {
             DataContrato cont = null;
 
             if (rs.first()) {
+                cont = new DataContrato();
                 cont.setEntrev(persistenciaEntrevista.getInstance().buscarEntrevistaId(rs.getInt(2)));
                 cont.setFechaCaducidad(rs.getDate(6));
                 cont.setFechaInicio(rs.getDate(4));

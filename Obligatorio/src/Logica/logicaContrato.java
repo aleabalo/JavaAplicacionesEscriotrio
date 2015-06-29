@@ -48,7 +48,7 @@ public class logicaContrato {
     }
 
     public Contrato convertirDatatypeEnContrato(DataContrato c) {
-        if (c.getTipoContrato() == "Termino") {
+        if (c.getTipoContrato().equals("Termino")) {
             Contrato cn = new ContratoTermino();
             cn.setEntrev(logicaEntrevista.getInstance().convertirDatatypeEnEntrevista(c.getEntrev()));
             cn.setFechaCaducidad(c.getFechaCaducidad());
@@ -86,7 +86,7 @@ public class logicaContrato {
                 persistenciaContrato.getInstance().altaContrato(c);
             } else {
                 Contrato co = this.convertirDatatypeEnContrato(dc);
-                if (co.getClass().getName() == "Contrato") {
+                if (co.getClass().getName().equals("Contrato")) {
                     //Si es un contrato efectivo entonces no puede tener otro
                     throw new Exception("El Aspirante ya tiene un contrato para la Oferta");
                 } else {
@@ -101,9 +101,10 @@ public class logicaContrato {
                         persistenciaContrato.getInstance().altaContrato(c);
                     }
                 }
+                //Luego de dar de alta el contrato en la base verifico si quedan cupos disponibles y en caso de no ser asi desactivo la oferta
+                logicaOferta.getInstance().contratosOferta(dc.getEntrev().getOferta());
             }
-            //Luego de dar de alta el contrato en la base verifico si quedan cupos disponibles y en caso de no ser asi desactivo la oferta
-            logicaOferta.getInstance().contratosOferta(dc.getEntrev().getOferta());
+
         } catch (Exception ex) {
             throw ex;
         }
@@ -128,7 +129,7 @@ public class logicaContrato {
             cal.set(Calendar.MONTH, mes);
             cal.set(Calendar.YEAR, anio);
             Date fechaParaCalc = cal.getTime();
-                  
+
             ArrayList<DataComision> comisiones = new ArrayList<DataComision>();
             //traigo toda la lista de los contratos existentes
             List<DataContrato> contratos = this.listaContrato();
@@ -150,10 +151,10 @@ public class logicaContrato {
                 DataComision comision = new DataComision();
                 comision.setNombreAspirante(con.getEntrev().getAspirante().toString());
                 comision.setMontoComision(con.comisionSegunFecha(fechaParaCalc));
-                if (comision.getMontoComision() != 0){
+                if (comision.getMontoComision() != 0) {
                     comisiones.add(comision);
                 }
-                
+
             }
             return comisiones;
         } catch (Exception ex) {

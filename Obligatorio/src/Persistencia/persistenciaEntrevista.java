@@ -135,7 +135,8 @@ public class persistenciaEntrevista {
 
             if (rs.first()) {
                 do {
-                    DataEntrevista entrev = null;
+                    listaEntrev = new ArrayList<>();
+                    DataEntrevista entrev = new DataEntrevista();
                     entrev.setIdEntrevista(rs.getInt(1));
                     DataOferta of = PersistenciaOferta.getInstance().buscarOferta(rs.getInt(2));
                     entrev.setOferta(of);
@@ -198,7 +199,7 @@ public class persistenciaEntrevista {
             ps.setInt(1, e.getRut());
             ResultSet rs;
             rs = ps.executeQuery();
-            ArrayList<DataEntrevista> entrevistas = new ArrayList<DataEntrevista>();
+            ArrayList<DataEntrevista> entrevistas = new ArrayList<>();
             if (rs.first()) {
                 do {
                     DataEntrevista en = new DataEntrevista();
@@ -210,9 +211,9 @@ public class persistenciaEntrevista {
                     en.setFechaEntrevista(rs.getDate(4));
                     //Solo traigo las entrevistas que ya hayan pasado
                     Calendar cal = Calendar.getInstance();
-                    if (rs.getDate(4).before(cal.getTime())) {
+//                    if (rs.getDate(4).before(cal.getTime())) {
                         entrevistas.add(en);
-                    }
+//                    }
                 } while (rs.next());
             }
             rs.close();
